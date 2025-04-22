@@ -1,0 +1,2081 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:base="http://dom.gosuslugi.ru/schema/integration/base/" xmlns:tns="http://dom.gosuslugi.ru/schema/integration/tariff/" xmlns:nsi-base="http://dom.gosuslugi.ru/schema/integration/nsi-base/" xmlns:organizations-registry-base="http://dom.gosuslugi.ru/schema/integration/organizations-registry-base/" targetNamespace="http://dom.gosuslugi.ru/schema/integration/tariff/" elementFormDefault="qualified" attributeFormDefault="unqualified" version="13.2.0.1">
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/base/" schemaLocation="../lib/hcs-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/nsi-base/" schemaLocation="../lib/hcs-nsi-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/organizations-registry-base/" schemaLocation="../lib/hcs-organizations-registry-base.xsd"/>
+	<xs:simpleType name="String255Type">
+		<xs:annotation>
+			<xs:documentation>Строка от 1 до 255 символов, содержащая по крайней мере один символ, отличный от пробельного</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="255"/>
+			<xs:pattern value="(\s*\S+\s*)+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="String500Type">
+		<xs:annotation>
+			<xs:documentation>Строка от 1 до 500 символов, содержащая по крайней мере один символ, отличный от пробельного</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="500"/>
+			<xs:pattern value="(\s*\S+\s*)+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="String1000Type">
+		<xs:annotation>
+			<xs:documentation>Строка от 1 до 1000 символов, содержащая по крайней мере один символ, отличный от пробельного</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="1000"/>
+			<xs:pattern value="(\s*\S+\s*)+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="String2000Type">
+		<xs:annotation>
+			<xs:documentation>Строка от 1 до 2000 символов, содержащая по крайней мере один символ, отличный от пробельного</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="2000"/>
+			<xs:pattern value="(\s*\S+\s*)+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="String4000Type">
+		<xs:annotation>
+			<xs:documentation>Строка от 1 до 4000 символов, содержащая по крайней мере один символ, отличный от пробельного</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="4000"/>
+			<xs:pattern value="(\s*\S+\s*)+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="StatusType">
+		<xs:annotation>
+			<xs:documentation>Статус объекта. Published - размещено в ГИС ЖКХ, Canceled - аннулированная информация</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Published">
+				<xs:annotation>
+					<xs:documentation>Размещено в ГИС ЖКХ</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Canceled">
+				<xs:annotation>
+					<xs:documentation>Аннулированная информация</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Date1900-3000Type">
+		<xs:annotation>
+			<xs:documentation>Дата в диапазоне от 01.01.1901 до 01.01.3000</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:date">
+			<xs:minInclusive value="1901-01-01"/>
+			<xs:maxInclusive value="3000-01-01"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--Сведения о типах критериев дифференциации тарифов-->
+	<xs:complexType name="ValueEnumerationType">
+		<xs:annotation>
+			<xs:documentation>Критерий дифференциации перечислимого типа (значение из справочника)</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="nsi-base:nsiRef"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="ValueFIASType">
+		<xs:annotation>
+			<xs:documentation>Критерий дифференциации перечислимого типа (выбор из справочника ФИАС)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="base:GUIDType"/>
+	</xs:simpleType>
+	<xs:complexType name="ValueOKTMOType">
+		<xs:annotation>
+			<xs:documentation>Критерий дифференциации перечислимого типа (выбор из справочника ОКТМО)</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:OKTMORefType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="ValueDateType">
+		<xs:annotation>
+			<xs:documentation>Критерий дифференциации типа даты</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="ValueYearType">
+		<xs:annotation>
+			<xs:documentation>Критерий дифференциации типа год</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:gYear"/>
+	</xs:simpleType>
+	<xs:simpleType name="ValueRealType">
+		<xs:annotation>
+			<xs:documentation>Критерий дифференциации типа вещественное число</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="13"/>
+			<xs:fractionDigits value="3"/>
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="9999999999.999"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ValueIntegerType">
+		<xs:annotation>
+			<xs:documentation>Критерий дифференциации типа целое число</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:nonNegativeInteger">
+			<xs:totalDigits value="13"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ValueBooleanType">
+		<xs:annotation>
+			<xs:documentation>Критерий дифференциации логического типа</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:boolean"/>
+	</xs:simpleType>
+	<xs:simpleType name="ValueStringType">
+		<xs:annotation>
+			<xs:documentation>Критерий дифференциации строкового типа</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="tns:String4000Type"/>
+	</xs:simpleType>
+	<xs:complexType name="ValueMultilineType">
+		<xs:annotation>
+			<xs:documentation>Критерий дифференциации многострокового типа</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Name" type="tns:String500Type">
+				<xs:annotation>
+					<xs:documentation>Наименование критерия</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Value" type="tns:String2000Type">
+				<xs:annotation>
+					<xs:documentation>Значение</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DifferentiationType">
+		<xs:annotation>
+			<xs:documentation>Критерии дифференциации тарифов</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DifferentiationCode" type="xs:integer">
+				<xs:annotation>
+					<xs:documentation>Код критерия дифференциации (см. метод exportTariffDifferentiation) </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice>
+				<xs:sequence>
+					<xs:element name="Operator3">
+						<xs:annotation>
+							<xs:documentation>Range-диапазон значений, ExcludingRange-исключая диапазон значений</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:enumeration value="Range"/>
+								<xs:enumeration value="ExcludingRange"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="ValueEnumeration" type="tns:ValueEnumerationType" maxOccurs="1000">
+						<xs:annotation>
+							<xs:documentation>Значение критерия дифференциации перечислимого типа</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:choice>
+					<xs:annotation>
+						<xs:documentation>Значение критерия дифференциации типа даты, целое число, вещественное число</xs:documentation>
+					</xs:annotation>
+					<xs:sequence>
+						<xs:annotation>
+							<xs:documentation>С операторами равно/больше/не более/меньше/не менее</xs:documentation>
+						</xs:annotation>
+						<xs:element name="Operator1">
+							<xs:annotation>
+								<xs:documentation>Equal-равно, More-больше, NotMore-не более, Less-меньше, NotLess-не меньше</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="Equal"/>
+									<xs:enumeration value="More"/>
+									<xs:enumeration value="NotMore"/>
+									<xs:enumeration value="Less"/>
+									<xs:enumeration value="NotLess"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:choice>
+							<xs:element name="ValueDate" type="tns:ValueDateType">
+								<xs:annotation>
+									<xs:documentation>Значение критерия дифференциации типа даты</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="ValueYear" type="tns:ValueYearType">
+								<xs:annotation>
+									<xs:documentation>Значение критерия дифференциации типа год</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="ValueInteger" type="tns:ValueIntegerType">
+								<xs:annotation>
+									<xs:documentation>Значение критерия дифференциации типа целое число</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="ValueReal" type="tns:ValueRealType">
+								<xs:annotation>
+									<xs:documentation>Значение критерия дифференциации типа вещественное число</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:choice>
+					</xs:sequence>
+					<xs:sequence>
+						<xs:annotation>
+							<xs:documentation>С операторами диапазон значений/исключая диапазон значений</xs:documentation>
+						</xs:annotation>
+						<xs:element name="Operator2">
+							<xs:annotation>
+								<xs:documentation>Range-диапазон значений, ExcludingRange-исключая диапазон значений</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="Range"/>
+									<xs:enumeration value="ExcludingRange"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:choice>
+							<xs:sequence>
+								<xs:element name="ValueDate1" type="tns:ValueDateType">
+									<xs:annotation>
+										<xs:documentation>Значение критерия дифференциации типа даты C</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="ValueDate2" type="tns:ValueDateType">
+									<xs:annotation>
+										<xs:documentation>Значение критерия дифференциации типа даты ПО</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+							<xs:sequence>
+								<xs:element name="ValueYear1" type="tns:ValueYearType">
+									<xs:annotation>
+										<xs:documentation>Значение критерия дифференциации типа год C</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="ValueYear2" type="tns:ValueYearType">
+									<xs:annotation>
+										<xs:documentation>Значение критерия дифференциации типа год ПО</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+							<xs:sequence>
+								<xs:element name="ValueInteger1" type="tns:ValueIntegerType">
+									<xs:annotation>
+										<xs:documentation>Значение критерия дифференциации типа целое число С</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="ValueInteger2" type="tns:ValueIntegerType">
+									<xs:annotation>
+										<xs:documentation>Значение критерия дифференциации типа целое число ПО</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+							<xs:sequence>
+								<xs:element name="ValueReal1" type="tns:ValueRealType">
+									<xs:annotation>
+										<xs:documentation>Значение критерия дифференциации типа вещественное число С</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="ValueReal2" type="tns:ValueRealType">
+									<xs:annotation>
+										<xs:documentation>Значение критерия дифференциации типа вещественное число ПО</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:choice>
+					</xs:sequence>
+				</xs:choice>
+				<xs:element name="ValueString" type="tns:ValueStringType">
+					<xs:annotation>
+						<xs:documentation>Значение критерия дифференциации строкового типа</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ValueBoolean" type="tns:ValueBooleanType">
+					<xs:annotation>
+						<xs:documentation>Значение критерия дифференциации логического типа</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ValueMultiline" type="tns:ValueMultilineType">
+					<xs:annotation>
+						<xs:documentation>Значение критерия дифференциации многострочного типа</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ValueFIAS" type="tns:ValueFIASType" maxOccurs="1000">
+					<xs:annotation>
+						<xs:documentation>Значение критерия дифференциации перечислимого типа (выбор из справочника ФИАС)</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ValueOKTMO" type="tns:ValueOKTMOType" maxOccurs="1000">
+					<xs:annotation>
+						<xs:documentation>Значение критерия дифференциации перечислимого типа (выбор из справочника ОКТМО)</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<!--Тарифы (общая часть)-->
+	<xs:simpleType name="PriceType">
+		<xs:annotation>
+			<xs:documentation>Величина тарифа</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="10"/>
+			<xs:fractionDigits value="3"/>
+			<xs:maxInclusive value="9999999.999"/>
+			<xs:minInclusive value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CoefficientValueType">
+		<xs:annotation>
+			<xs:documentation>Значение коэффициента</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="9"/>
+			<xs:fractionDigits value="6"/>
+			<xs:maxInclusive value="999.999999"/>
+			<xs:minInclusive value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ElectricalEnergyUnitType">
+		<xs:annotation>
+			<xs:documentation>Код единицы измерения электрической энергии</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="243">
+				<xs:annotation>
+					<xs:documentation>Ватт-час</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="245">
+				<xs:annotation>
+					<xs:documentation>Киловатт-час</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="CoefficientType">
+		<xs:annotation>
+			<xs:documentation>Коэффициент тарифа</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CoefficientValue" type="tns:CoefficientValueType">
+				<xs:annotation>
+					<xs:documentation>Значение коэффициента</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CoefficientDescription" type="tns:String4000Type">
+				<xs:annotation>
+					<xs:documentation>Описание коэффициента</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ActType">
+		<xs:annotation>
+			<xs:documentation>Нормативный правовой акт</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DocNumber" type="tns:String255Type">
+				<xs:annotation>
+					<xs:documentation>Номер документа</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AcceptanceDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation>Дата принятия документа органом власти</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TariffCommonType">
+		<xs:annotation>
+			<xs:documentation>Тариф (общий тип)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Name" type="tns:String4000Type">
+				<xs:annotation>
+					<xs:documentation>Наименование</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ActGUID" type="base:GUIDType" maxOccurs="1000">
+				<xs:annotation>
+					<xs:documentation>Идентификатор утверждающего нормативного правового акта в ГИС ЖКХ</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OKTMO" type="base:OKTMORefType" maxOccurs="1000">
+				<xs:annotation>
+					<xs:documentation>Территория, на которой применяется</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DateFrom" type="tns:Date1900-3000Type">
+				<xs:annotation>
+					<xs:documentation>Дата начала действия</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DateTo" type="tns:Date1900-3000Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Дата окончания действия</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="exportTariffType">
+		<xs:annotation>
+			<xs:documentation>Экспортируемые сведения о тарифе</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="TariffGUID" type="base:GUIDType">
+				<xs:annotation>
+					<xs:documentation>Идентификатор тарифа</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Status" type="tns:StatusType">
+				<xs:annotation>
+					<xs:documentation>Статус информации о тарифе</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CancelReason" type="tns:String4000Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Причина аннулирования</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice>
+				<xs:element name="MunicipalResourceTariff" type="tns:MunicipalResourceTariffType">
+					<xs:annotation>
+						<xs:documentation>Тариф на оплату коммунальных ресурсов</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ResidentialPremisesMaintenance" type="tns:ResidentialPremisesMaintenanceType">
+					<xs:annotation>
+						<xs:documentation>Размер платы за содержание жилого помещения</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="CapitalRepairTariff" type="tns:CapitalRepairTariffType">
+					<xs:annotation>
+						<xs:documentation>Минимальный размер взноса на капитальный ремонт</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="SocialNorm" type="tns:SocialNormType">
+					<xs:annotation>
+						<xs:documentation>Социальная норма потребления электрической энергии</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ResidentialPremisesUsage" type="tns:ResidentialPremisesUsageType">
+					<xs:annotation>
+						<xs:documentation>Размер платы за пользование жилым помещением</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<!--Тариф на оплату коммунальных ресурсов-->
+	<xs:complexType name="MunicipalResourceTariffType">
+		<xs:annotation>
+			<xs:documentation>Тариф на оплату коммунальных ресурсов</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:TariffCommonType">
+				<xs:sequence>
+					<xs:element name="TariffType" type="nsi-base:nsiRef">
+						<xs:annotation>
+							<xs:documentation>НСИ 268 (Вид тарифа)</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Price" type="tns:MunicipalResourceTariffPriceType" maxOccurs="1000">
+						<xs:annotation>
+							<xs:documentation>Описание дифференцированной цены тарифа. При импорте необходимо присылать все цены тарифа в их актуальном состоянии</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:choice>
+						<xs:annotation>
+							<xs:documentation>Организации, осуществляющие регулируемые виды деятельности в соответствующей сфере</xs:documentation>
+						</xs:annotation>
+						<xs:element name="AllOrganization" type="xs:boolean" fixed="true">
+							<xs:annotation>
+								<xs:documentation>Для всех организаций, осуществляющих деятельность на указанной территории</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="RegulatedOrganization" type="organizations-registry-base:RegOrgType">
+							<xs:annotation>
+								<xs:documentation>Регулируемая организация</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
+					<xs:element name="CompaundTariffComponent" type="base:GUIDType" minOccurs="0" maxOccurs="1000">
+						<xs:annotation>
+							<xs:documentation>Идентификаторы тарифов - компонентов составного тарифа</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="MunicipalResourceTariffPriceType">
+		<xs:annotation>
+			<xs:documentation>Дифференцированная цена тарифа на оплату коммунальных ресурсов</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="PriceGUID" type="base:GUIDType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Идентификатор дифференцированной цены тарифа (заполняется только при изменении ранее добавленной цены)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TariffStructure" type="nsi-base:nsiRef">
+				<xs:annotation>
+					<xs:documentation>НСИ 262 (Состав тарифа) - компонент/ставка</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Description" type="tns:String4000Type">
+				<xs:annotation>
+					<xs:documentation>Описание</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Price" type="tns:PriceType">
+				<xs:annotation>
+					<xs:documentation>Величина тарифа (ставки тарифа)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Unit" type="base:OKEIType">
+				<xs:annotation>
+					<xs:documentation>Единицы измерения (руб./единицу измерения)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice>
+				<xs:annotation>
+					<xs:documentation>Критерии дифференциации цены тарифа</xs:documentation>
+				</xs:annotation>
+				<xs:element name="DifferentiationNotSet" type="xs:boolean" fixed="true">
+					<xs:annotation>
+						<xs:documentation>Критерии дифференциации не установлены</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Differentiation" type="tns:DifferentiationType" maxOccurs="1000">
+					<xs:annotation>
+						<xs:documentation>Критерии дифференциации</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<!--Размер платы за содержание жилого помещения-->
+	<xs:complexType name="ResidentialPremisesMaintenanceType">
+		<xs:annotation>
+			<xs:documentation>Размер платы за содержание жилого помещения</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:TariffCommonType">
+				<xs:sequence>
+					<xs:element name="Usage" type="nsi-base:nsiRef" maxOccurs="100">
+						<xs:annotation>
+							<xs:documentation>НСИ 307 (Установленный размер применяется)</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Price" type="tns:PriceType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Величина (руб./кв.метр). Если не заполнено, то размер платы установлен в разрезе работ (услуг)</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:choice>
+						<xs:annotation>
+							<xs:documentation>Критерии дифференциации размера платы</xs:documentation>
+						</xs:annotation>
+						<xs:element name="DifferentiationNotSet" type="xs:boolean" fixed="true">
+							<xs:annotation>
+								<xs:documentation>Критерии дифференциации не установлены</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Differentiation" type="tns:DifferentiationType" maxOccurs="1000">
+							<xs:annotation>
+								<xs:documentation>Критерии дифференциации</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
+					<xs:choice>
+						<xs:annotation>
+							<xs:documentation>Коэффициенты тарифа</xs:documentation>
+						</xs:annotation>
+						<xs:element name="CoefficientsNotSet" type="xs:boolean" fixed="true">
+							<xs:annotation>
+								<xs:documentation>Коэффициенты тарифа не установлены</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Coefficient" type="tns:CoefficientType" maxOccurs="1000">
+							<xs:annotation>
+								<xs:documentation>Коэффициент тарифа</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
+					<xs:choice>
+						<xs:annotation>
+							<xs:documentation>Работы (услуги) по содержанию жилого помещения</xs:documentation>
+						</xs:annotation>
+						<xs:element name="WithoutJobs" type="xs:boolean" fixed="true">
+							<xs:annotation>
+								<xs:documentation>Без детализации по видам работ (услуг)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Job" maxOccurs="100">
+							<xs:annotation>
+								<xs:documentation>НСИ 13 (Классификатор видов работ (услуг))</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="nsi-base:nsiRef">
+										<xs:sequence>
+											<xs:element name="Price" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation>Величина, руб.</xs:documentation>
+												</xs:annotation>
+												<xs:simpleType>
+													<xs:restriction base="xs:decimal">
+														<xs:totalDigits value="18"/>
+														<xs:fractionDigits value="6"/>
+														<xs:minExclusive value="0"/>
+													</xs:restriction>
+												</xs:simpleType>
+											</xs:element>
+										</xs:sequence>
+									</xs:extension>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:choice>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!--Минимальный размер взноса на капитальный ремонт-->
+	<xs:complexType name="CapitalRepairTariffType">
+		<xs:annotation>
+			<xs:documentation>Минимальный размер взноса на капитальный ремонт</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:TariffCommonType">
+				<xs:sequence>
+					<xs:element name="Price" type="tns:PriceType">
+						<xs:annotation>
+							<xs:documentation>Величина (руб./кв.метр)</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:choice>
+						<xs:annotation>
+							<xs:documentation>Критерии дифференциации минимального размера взноса на капитальный ремонт</xs:documentation>
+						</xs:annotation>
+						<xs:element name="DifferentiationNotSet" type="xs:boolean" fixed="true">
+							<xs:annotation>
+								<xs:documentation>Критерии дифференциации не установлены</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Differentiation" type="tns:DifferentiationType" maxOccurs="1000">
+							<xs:annotation>
+								<xs:documentation>Критерии дифференциации</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
+					<xs:choice>
+						<xs:annotation>
+							<xs:documentation>Коэффициенты тарифа</xs:documentation>
+						</xs:annotation>
+						<xs:element name="CoefficientsNotSet" type="xs:boolean" fixed="true">
+							<xs:annotation>
+								<xs:documentation>Коэффициенты тарифа не установлены</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Coefficient" type="tns:CoefficientType" maxOccurs="1000">
+							<xs:annotation>
+								<xs:documentation>Коэффициент тарифа</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!--Социальная норма потребления электрической энергии-->
+	<xs:complexType name="SocialNormType">
+		<xs:annotation>
+			<xs:documentation>Социальная норма потребления электрической энергии</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:TariffCommonType">
+				<xs:sequence>
+					<xs:element name="Price" type="tns:PriceType">
+						<xs:annotation>
+							<xs:documentation>Величина</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Unit" type="tns:ElectricalEnergyUnitType">
+						<xs:annotation>
+							<xs:documentation>Код единицы измерения.  Доступные значения 245 – Киловатт-час, 243 Ватт-час</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:choice>
+						<xs:annotation>
+							<xs:documentation>Критерии дифференциации социальной нормы потребления электрической энергии</xs:documentation>
+						</xs:annotation>
+						<xs:element name="Differentiation" type="tns:DifferentiationType" maxOccurs="1000">
+							<xs:annotation>
+								<xs:documentation>Критерии дифференциации социальной нормы потребления электрической энергии</xs:documentation>
+							</xs:annotation>
+							<xs:unique name="SNE_ValueEnumeration_Unique">
+								<xs:selector xpath="tns:ValueEnumeration"/>
+								<xs:field xpath="nsi-base:Code"/>
+								<xs:field xpath="nsi-base:GUID"/>
+							</xs:unique>
+							<xs:unique name="SNE_ValueFIAS_Unique">
+								<xs:selector xpath="tns:ValueFIAS"/>
+								<xs:field xpath="."/>
+							</xs:unique>
+							<xs:unique name="SNE_ValueOKTMO_Unique">
+								<xs:selector xpath="tns:ValueOKTMO"/>
+								<xs:field xpath="base:code"/>
+							</xs:unique>
+						</xs:element>
+						<xs:element name="DifferentiationNotSet" type="xs:boolean" fixed="true">
+							<xs:annotation>
+								<xs:documentation>Критерии дифференциации социальной нормы потребления электрической энергии не установлены</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
+					<xs:choice>
+						<xs:annotation>
+							<xs:documentation>Коэффициенты тарифа</xs:documentation>
+						</xs:annotation>
+						<xs:element name="Coefficient" type="tns:CoefficientType" maxOccurs="1000">
+							<xs:annotation>
+								<xs:documentation>Коэффициент тарифа</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="CoefficientsNotSet" type="xs:boolean" fixed="true">
+							<xs:annotation>
+								<xs:documentation>Коэффициенты тарифа не установлены</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!--Размер платы за пользование жилым помещением-->
+	<xs:complexType name="ResidentialPremisesUsageType">
+		<xs:annotation>
+			<xs:documentation>Размер платы за пользование жилым помещением</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:TariffCommonType">
+				<xs:sequence>
+					<xs:element name="Price" type="tns:PriceType">
+						<xs:annotation>
+							<xs:documentation>Величина (руб./кв.метр)</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:choice>
+						<xs:annotation>
+							<xs:documentation>Критерии дифференциации размера платы</xs:documentation>
+						</xs:annotation>
+						<xs:element name="Differentiation" type="tns:DifferentiationType" maxOccurs="1000">
+							<xs:annotation>
+								<xs:documentation>Критерии дифференциации</xs:documentation>
+							</xs:annotation>
+							<xs:unique name="RPU_ValueEnumeration_Unique">
+								<xs:selector xpath="tns:ValueEnumeration"/>
+								<xs:field xpath="nsi-base:Code"/>
+								<xs:field xpath="nsi-base:GUID"/>
+							</xs:unique>
+							<xs:unique name="RPU_ValueFIAS_Unique">
+								<xs:selector xpath="tns:ValueFIAS"/>
+								<xs:field xpath="."/>
+							</xs:unique>
+							<xs:unique name="RPU_ValueOKTMO_Unique">
+								<xs:selector xpath="tns:ValueOKTMO"/>
+								<xs:field xpath="base:code"/>
+							</xs:unique>
+						</xs:element>
+						<xs:element name="DifferentiationNotSet" type="xs:boolean" fixed="true">
+							<xs:annotation>
+								<xs:documentation>Критерии дифференциации не установлены</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
+					<xs:choice>
+						<xs:annotation>
+							<xs:documentation>Коэффициенты тарифа</xs:documentation>
+						</xs:annotation>
+						<xs:element name="Coefficient" type="tns:CoefficientType" maxOccurs="1000">
+							<xs:annotation>
+								<xs:documentation>Коэффициент тарифа</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="CoefficientsNotSet" type="xs:boolean" fixed="true">
+							<xs:annotation>
+								<xs:documentation>Коэффициенты тарифа не установлены</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!--Экспортируемые сведения о критерии дифференциации-->
+	<xs:simpleType name="DifferentiationValueKindType">
+		<xs:annotation>
+			<xs:documentation>Тип значения критерия дифференциации</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Enumeration">
+				<xs:annotation>
+					<xs:documentation>Перечислимый</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="FIAS">
+				<xs:annotation>
+					<xs:documentation>FIAS-перечислимый (выбор из справочника ФИАС)</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Date">
+				<xs:annotation>
+					<xs:documentation>Дата</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Year">
+				<xs:annotation>
+					<xs:documentation>Год</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Real">
+				<xs:annotation>
+					<xs:documentation>Вещественное число</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Integer">
+				<xs:annotation>
+					<xs:documentation>Целое число</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Boolean">
+				<xs:annotation>
+					<xs:documentation>Логическое значение</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="String">
+				<xs:annotation>
+					<xs:documentation>Строка</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Multiline">
+				<xs:annotation>
+					<xs:documentation>Многострочный</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="OKTMO">
+				<xs:annotation>
+					<xs:documentation>OKTMO-перечислимый (выбор из справочника ОКТМО)</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TariffCaseType">
+		<xs:annotation>
+			<xs:documentation>Тип тарифа</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="MunicipalResourceTariff">
+				<xs:annotation>
+					<xs:documentation>Тариф на оплату коммунальных ресурсов</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ResidentialPremisesMaintenance">
+				<xs:annotation>
+					<xs:documentation>Размер платы за содержание жилого помещения</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="CapitalRepairTariff">
+				<xs:annotation>
+					<xs:documentation>Минимальный размер взноса на капитальный ремонт</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SocialNorm">
+				<xs:annotation>
+					<xs:documentation>Социальная норма потребления электрической энергии</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ResidentialPremisesUsage">
+				<xs:annotation>
+					<xs:documentation>Размер платы за пользование жилым помещением</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="exportDifferentiationType">
+		<xs:annotation>
+			<xs:documentation>Экспортируемые сведения о критерии дифференциации</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DifferentiationCode" type="xs:integer">
+				<xs:annotation>
+					<xs:documentation>Код критерия дифференциации.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DifferentiationName" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Наименование критерия дифференциации.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DifferentiationValueKind" type="tns:DifferentiationValueKindType">
+				<xs:annotation>
+					<xs:documentation>Тип значения критерия дифференциации.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="UsedFor" type="tns:TariffCaseType" maxOccurs="5">
+				<xs:annotation>
+					<xs:documentation>Тип тарифа, для которого применяется критерий дифференциации (MunicipalResourceTariff - тариф на оплату коммунальных ресурсов, ResidentialPremisesMaintenance - размер платы за содержание жилого помещения, CapitalRepairTariff - минимальный размер взноса на капитальный ремонт, SocialNorm - социальная норма потребления электрической энергии, ResidentialPremisesUsage - размер платы за пользование жилым помещением.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TariffKind" type="nsi-base:nsiRef" minOccurs="0" maxOccurs="100">
+				<xs:annotation>
+					<xs:documentation>Сведения о виде тарифа из справочника НСИ 125 (Вид тарифа). Заполняется только для тарифов на коммунальные ресурсы. Содержит сведения о виде тарифа на коммунальные ресурсы, для которого может быть применен критерий дифференциации.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="NsiItem" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Информация о справочнике для критерия перечислимого типа.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="nsi-base:NsiItemInfoType">
+							<xs:sequence>
+								<xs:element ref="nsi-base:ListGroup"/>
+							</xs:sequence>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="IsPlural" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>true - справочником предусмотрено несколько значений; false - справочником предусмотрено одно значение (при формировании запросов на импорт сведений о тарифах, для критериев перечислимого типа предоставляется возможность указать несколько значений).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!--Импорт и экспорт информации о социальных нормах потребления электрической энергии-->
+	<xs:element name="importSocialNormsRequest">
+		<xs:annotation>
+			<xs:documentation>Запрос на импорт информации о социальных нормах потребления электрической энергии</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:sequence>
+						<xs:element name="importSocialNorm" maxOccurs="1000">
+							<xs:annotation>
+								<xs:documentation>Импортируемая информации о социальной норме потребления электрической энергии</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="TransportGUID" type="base:GUIDType">
+										<xs:annotation>
+											<xs:documentation>Транспортный идентификатор  для выполнения операции с социальной норме потребления электрической энергии</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="TariffGUID" type="base:GUIDType" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Идентификатор социальной нормы потребления электрической энергии, заполняется при изменении и аннулировании информации о социальной норме потребления электрической энергии</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:choice>
+										<xs:element name="LoadSocialNorm" type="tns:SocialNormType">
+											<xs:annotation>
+												<xs:documentation>Создать/изменить информацию о социальной норме потребления электрической энергии. При изменении информации о социальной норме потребления электрической энергии необходимо указывать все  актуальные сведения.</xs:documentation>
+											</xs:annotation>
+											<xs:unique name="SNE_ActGUID_Unique">
+												<xs:selector xpath="tns:ActGUID"/>
+												<xs:field xpath="."/>
+											</xs:unique>
+											<xs:unique name="SNE_OKTMO_Unique">
+												<xs:selector xpath="tns:OKTMO"/>
+												<xs:field xpath="base:code"/>
+											</xs:unique>
+											<xs:unique name="SNE_Differentiation_ValueDate_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:Operator1"/>
+												<xs:field xpath="tns:ValueDate"/>
+											</xs:unique>
+											<xs:unique name="SNE_Differentiation_ValueYear_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:Operator1"/>
+												<xs:field xpath="tns:ValueYear"/>
+											</xs:unique>
+											<xs:unique name="SNE_Differentiation_ValueInteger_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:Operator1"/>
+												<xs:field xpath="tns:ValueInteger"/>
+											</xs:unique>
+											<xs:unique name="SNE_Differentiation_ValueReal_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:Operator1"/>
+												<xs:field xpath="tns:ValueReal"/>
+											</xs:unique>
+											<xs:unique name="SNE_Differentiation_ValueDate2_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:Operator2"/>
+												<xs:field xpath="tns:ValueDate1"/>
+												<xs:field xpath="tns:ValueDate2"/>
+											</xs:unique>
+											<xs:unique name="SNE_Differentiation_ValueYear2_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:Operator2"/>
+												<xs:field xpath="tns:ValueYear1"/>
+												<xs:field xpath="tns:ValueYear2"/>
+											</xs:unique>
+											<xs:unique name="SNE_Differentiation_ValueInteger2_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:Operator2"/>
+												<xs:field xpath="tns:ValueInteger1"/>
+												<xs:field xpath="tns:ValueInteger2"/>
+											</xs:unique>
+											<xs:unique name="SNE_Differentiation_ValueReal2_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:Operator2"/>
+												<xs:field xpath="tns:ValueReal1"/>
+												<xs:field xpath="tns:ValueReal2"/>
+											</xs:unique>
+											<xs:unique name="SNE_Differentiation_ValueString_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:ValueString"/>
+											</xs:unique>
+											<xs:unique name="SNE_Differentiation_ValueBoolean_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:ValueBoolean"/>
+											</xs:unique>
+											<xs:unique name="SNE_Differentiation_ValueMultiline_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:ValueMultiline/tns:Name"/>
+												<xs:field xpath="tns:ValueMultiline/tns:Value"/>
+											</xs:unique>
+											<xs:unique name="SNE_Coefficient_Unique">
+												<xs:selector xpath="tns:Coefficient"/>
+												<xs:field xpath="tns:CoefficientValue"/>
+												<xs:field xpath="tns:CoefficientDescription"/>
+											</xs:unique>
+										</xs:element>
+										<xs:element name="CancelSocialNorm">
+											<xs:annotation>
+												<xs:documentation>Аннулировать информацию о социальной норме потребления электрической энергии</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="CancelReason" type="tns:String4000Type">
+														<xs:annotation>
+															<xs:documentation>Причина аннулирования</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:choice>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute ref="base:version" use="required" fixed="11.14.0.5"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+		<xs:key name="TransportGUID_SocialNorm_Key">
+			<xs:selector xpath="tns:importSocialNorm"/>
+			<xs:field xpath="tns:TransportGUID"/>
+		</xs:key>
+		<xs:unique name="TariffGUID_SocialNorm_Unique">
+			<xs:selector xpath="tns:importSocialNorm"/>
+			<xs:field xpath="tns:TariffGUID"/>
+		</xs:unique>
+	</xs:element>
+	<xs:element name="exportSocialNormsRequest">
+		<xs:annotation>
+			<xs:documentation>Запрос на экспорт информации о социальных нормах потребления электрической энергии</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:choice>
+						<xs:element name="TariffGUID" type="base:GUIDType" maxOccurs="1000">
+							<xs:annotation>
+								<xs:documentation>Идентификатор тарифа</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:sequence>
+							<xs:element name="OKTMO" type="base:OKTMORefType" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Территория, на которой применяется</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:sequence minOccurs="0">
+								<xs:element name="DateEffectiveFrom" type="xs:date">
+									<xs:annotation>
+										<xs:documentation>Дата вступления в силу С</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="DateEffectiveTo" type="xs:date" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Дата вступления в силу ПО</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+							<xs:element name="PublishedOnly" type="xs:boolean" fixed="true" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Экспортировать только размещенную информацию</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:choice>
+					<xs:attribute ref="base:version" use="required" fixed="13.2.0.1"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<!--Импорт и экспорт информации о размерах платы за содержание жилого помещения-->
+	<xs:element name="importResidentialPremisesMaintenanceRequest">
+		<xs:annotation>
+			<xs:documentation>Запрос на импорт информации о размерах платы за содержание жилого помещения</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:sequence>
+						<xs:element name="importResidentialPremisesMaintenance" maxOccurs="1000">
+							<xs:annotation>
+								<xs:documentation>Импортируемая информация о размерах платы за содержание жилого помещения</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="TransportGUID" type="base:GUIDType">
+										<xs:annotation>
+											<xs:documentation>Транспортный идентификатор  для выполнения операции с информацией о размерах платы за содержание жилого помещения</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="TariffGUID" type="base:GUIDType" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Идентификатор тарифа, заполняется при изменении и аннулировании информации о размерах платы за содержание жилого помещения</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:choice>
+										<xs:element name="LoadResidentialPremisesMaintenance" type="tns:ResidentialPremisesMaintenanceType">
+											<xs:annotation>
+												<xs:documentation>Создать/изменить информацию о размерах платы за содержание жилого помещения. При изменении информации о размерах платы за содержание жилого помещения необходимо указать все  актуальные сведения.</xs:documentation>
+											</xs:annotation>
+											<xs:unique name="RPU_ActGUIDforResidentialPremisesMaintenance_Unique">
+												<xs:selector xpath="tns:ActGUID"/>
+												<xs:field xpath="."/>
+											</xs:unique>
+											<xs:unique name="RPU_OKTMOforResidentialPremisesMaintenance_Unique">
+												<xs:selector xpath="tns:OKTMO"/>
+												<xs:field xpath="base:code"/>
+											</xs:unique>
+											<xs:unique name="RPU_DifferentiationForResidentialPremisesMaintenance_ValueDate_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:Operator1"/>
+												<xs:field xpath="tns:ValueDate"/>
+											</xs:unique>
+											<xs:unique name="RPU_DifferentiationForResidentialPremisesMaintenance_ValueYear_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:Operator1"/>
+												<xs:field xpath="tns:ValueYear"/>
+											</xs:unique>
+											<xs:unique name="RPU_DifferentiationForResidentialPremisesMaintenance_ValueInteger_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:Operator1"/>
+												<xs:field xpath="tns:ValueInteger"/>
+											</xs:unique>
+											<xs:unique name="RPU_DifferentiationForResidentialPremisesMaintenance_ValueReal_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:Operator1"/>
+												<xs:field xpath="tns:ValueReal"/>
+											</xs:unique>
+											<xs:unique name="RPU_DifferentiationForResidentialPremisesMaintenance_ValueDate2_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:Operator2"/>
+												<xs:field xpath="tns:ValueDate1"/>
+												<xs:field xpath="tns:ValueDate2"/>
+											</xs:unique>
+											<xs:unique name="RPU_DifferentiationForResidentialPremisesMaintenance_ValueYear2_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:Operator2"/>
+												<xs:field xpath="tns:ValueYear1"/>
+												<xs:field xpath="tns:ValueYear2"/>
+											</xs:unique>
+											<xs:unique name="RPU_DifferentiationForResidentialPremisesMaintenance_ValueInteger2_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:Operator2"/>
+												<xs:field xpath="tns:ValueInteger1"/>
+												<xs:field xpath="tns:ValueInteger2"/>
+											</xs:unique>
+											<xs:unique name="RPU_DifferentiationForResidentialPremisesMaintenance_ValueReal2_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:Operator2"/>
+												<xs:field xpath="tns:ValueReal1"/>
+												<xs:field xpath="tns:ValueReal2"/>
+											</xs:unique>
+											<xs:unique name="RPU_DifferentiationForResidentialPremisesMaintenance_ValueString_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:ValueString"/>
+											</xs:unique>
+											<xs:unique name="RPU_DifferentiationForResidentialPremisesMaintenance_ValueBoolean_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:ValueBoolean"/>
+											</xs:unique>
+											<xs:unique name="RPU_DifferentiationForResidentialPremisesMaintenance_ValueMultiline_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:ValueMultiline/tns:Name"/>
+												<xs:field xpath="tns:ValueMultiline/tns:Value"/>
+											</xs:unique>
+											<xs:unique name="RPU_Usage_Unique">
+												<xs:selector xpath="tns:Usage"/>
+												<xs:field xpath="tns:Code"/>
+												<xs:field xpath="tns:GUID"/>
+												<xs:field xpath="tns:Name"/>
+											</xs:unique>
+											<xs:unique name="RPU_CoefficientForResidentialPremisesMaintenance_Unique">
+												<xs:selector xpath="tns:Coefficient"/>
+												<xs:field xpath="tns:CoefficientValue"/>
+												<xs:field xpath="tns:CoefficientDescription"/>
+											</xs:unique>
+											<xs:unique name="RPU_Job_Unique">
+												<xs:selector xpath="tns:Job"/>
+												<xs:field xpath="tns:Code"/>
+												<xs:field xpath="tns:GUID"/>
+												<xs:field xpath="tns:Name"/>
+											</xs:unique>
+										</xs:element>
+										<xs:element name="CancelResidentialPremisesMaintenance">
+											<xs:annotation>
+												<xs:documentation>Аннулировать информацию о размерах платы за содержание жилого помещения</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="CancelReason" type="tns:String4000Type">
+														<xs:annotation>
+															<xs:documentation>Причина аннулирования</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:choice>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute ref="base:version" use="required" fixed="13.2.0.1"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+		<xs:key name="TransportGUID_ResidentialPremisesMaintenance_Key">
+			<xs:selector xpath="tns:importResidentialPremisesMaintenance"/>
+			<xs:field xpath="tns:TransportGUID"/>
+		</xs:key>
+		<xs:unique name="TariffGUID_ResidentialPremisesMaintenance_Unique">
+			<xs:selector xpath="tns:importResidentialPremisesMaintenance"/>
+			<xs:field xpath="tns:TariffGUID"/>
+		</xs:unique>
+	</xs:element>
+	<xs:element name="exportResidentialPremisesMaintenanceRequest">
+		<xs:annotation>
+			<xs:documentation>Запрос на экспорт информации о размерах платы за содержание жилого помещения</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:choice>
+						<xs:element name="TariffGUID" type="base:GUIDType" maxOccurs="1000">
+							<xs:annotation>
+								<xs:documentation>Идентификатор тарифа</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:sequence>
+							<xs:element name="OKTMO" type="base:OKTMORefType" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Территория, на которой применяется</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:sequence minOccurs="0">
+								<xs:element name="DateEffectiveFrom" type="xs:date">
+									<xs:annotation>
+										<xs:documentation>Дата вступления в силу С</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="DateEffectiveTo" type="xs:date" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Дата вступления в силу ПО</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+							<xs:element name="PublishedOnly" type="xs:boolean" fixed="true" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Экспортировать только размещенную информацию</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:choice>
+					<xs:attribute ref="base:version" use="required" fixed="13.2.0.1"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<!--Импорт и экспорт информации о тарифах на оплату коммунальных ресурсов-->
+	<xs:element name="importMunicipalResourceTariffRequest">
+		<xs:annotation>
+			<xs:documentation>Запрос на импорт информации о тарифах на оплату коммунальных ресурсов</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:sequence>
+						<xs:element name="importMunicipalResourceTariff" maxOccurs="1000">
+							<xs:annotation>
+								<xs:documentation>Импортируемая информация о тарифах на оплату коммунальных ресурсов</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="TransportGUID" type="base:GUIDType">
+										<xs:annotation>
+											<xs:documentation>Транспортный идентификатор  для выполнения операции с информацией о тарифах на оплату коммунальных ресурсов</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="TariffGUID" type="base:GUIDType" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Идентификатор тарифа, заполняется при изменении и аннулировании информации о тарифах на оплату коммунальных ресурсов</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:choice>
+										<xs:element name="LoadMunicipalResourceTariff" type="tns:MunicipalResourceTariffType">
+											<xs:annotation>
+												<xs:documentation>Создать/изменить информацию о тарифах на оплату коммунальных ресурсов. При изменении информации о тарифах на оплату коммунальных ресурсов необходимо указать все  актуальные сведения.</xs:documentation>
+											</xs:annotation>
+											<xs:unique name="RPU_ActGUIDforMunicipalResourceTariff_Unique">
+												<xs:selector xpath="tns:ActGUID"/>
+												<xs:field xpath="."/>
+											</xs:unique>
+											<xs:unique name="RPU_OKTMOforMunicipalResourceTariff_Unique">
+												<xs:selector xpath="tns:OKTMO"/>
+												<xs:field xpath="base:code"/>
+											</xs:unique>
+											<xs:unique name="RPU_RegulatedOrganizationForMunicipalResourceTariff_ValueInteger_Unique">
+												<xs:selector xpath="tns:RegulatedOrganization"/>
+												<xs:field xpath="organizations-registry-base:orgRootEntityGUID"/>
+											</xs:unique>
+										</xs:element>
+										<xs:element name="CancelMunicipalResourceTariff">
+											<xs:annotation>
+												<xs:documentation>Аннулировать информацию о тарифах на оплату коммунальных ресурсов</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="CancelReason" type="tns:String4000Type">
+														<xs:annotation>
+															<xs:documentation>Причина аннулирования</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:choice>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute ref="base:version" use="required" fixed="13.2.0.1"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+		<xs:key name="TransportGUID_MunicipalResourceTariff_Key">
+			<xs:selector xpath="tns:importMunicipalResourceTariff"/>
+			<xs:field xpath="tns:TransportGUID"/>
+		</xs:key>
+		<xs:unique name="TariffGUID_MunicipalResourceTariff_Unique">
+			<xs:selector xpath="tns:importMunicipalResourceTariff"/>
+			<xs:field xpath="tns:TariffGUID"/>
+		</xs:unique>
+	</xs:element>
+	<xs:element name="exportMunicipalResourceTariffRequest">
+		<xs:annotation>
+			<xs:documentation>Запрос на экспорт информации о тарифах на оплату коммунальных ресурсов</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:choice>
+						<xs:element name="TariffGUID" type="base:GUIDType" maxOccurs="1000">
+							<xs:annotation>
+								<xs:documentation>Идентификатор тарифа</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:sequence>
+							<xs:element name="OKTMO" type="base:OKTMORefType" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Территория, на которой применяется</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="RegulatedOrganization" type="organizations-registry-base:RegOrgType" minOccurs="0" maxOccurs="1000">
+								<xs:annotation>
+									<xs:documentation>Регулируемая организация</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:sequence minOccurs="0">
+								<xs:element name="DateEffectiveFrom" type="xs:date">
+									<xs:annotation>
+										<xs:documentation>Дата вступления в силу С</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="DateEffectiveTo" type="xs:date" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Дата вступления в силу ПО</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+							<xs:element name="PublishedOnly" type="xs:boolean" fixed="true" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Экспортировать только размещенную информацию</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:choice>
+					<xs:attribute ref="base:version" use="required" fixed="13.2.0.1"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<!--Импорт и экспорт информации о минимальных размерах взносов на капитальный ремонт-->
+	<xs:element name="importCapitalRepairTariffRequest">
+		<xs:annotation>
+			<xs:documentation>Запрос на импорт информации о минимальных размерах взносов на капитальный ремонт</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:sequence>
+						<xs:element name="importCapitalRepairTariff" maxOccurs="1000">
+							<xs:annotation>
+								<xs:documentation>Импортируемая информация о минимальных размерах взносов на капитальный ремонт</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="TransportGUID" type="base:GUIDType">
+										<xs:annotation>
+											<xs:documentation>Транспортный идентификатор  для выполнения операции с информацией о минимальных размерах взносов на капитальный ремонт</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="TariffGUID" type="base:GUIDType" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Идентификатор тарифа, заполняется при изменении и аннулировании информации о минимальных размерах взносов на капитальный ремонт</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:choice>
+										<xs:element name="LoadCapitalRepairTariff" type="tns:CapitalRepairTariffType">
+											<xs:annotation>
+												<xs:documentation>Создать/изменить информацию о минимальных размерах взносов на капитальный ремонт. При изменении информации о минимальных размерах взносов на капитальный ремонт необходимо указать все  актуальные сведения.</xs:documentation>
+											</xs:annotation>
+											<xs:unique name="RPU_ActGUIDforCapitalRepairTariff_Unique">
+												<xs:selector xpath="tns:ActGUID"/>
+												<xs:field xpath="."/>
+											</xs:unique>
+											<xs:unique name="RPU_OKTMOforCapitalRepairTariff_Unique">
+												<xs:selector xpath="tns:OKTMO"/>
+												<xs:field xpath="base:code"/>
+											</xs:unique>
+											<xs:unique name="RPU_DifferentiationForCapitalRepairTariff_ValueDate_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:Operator1"/>
+												<xs:field xpath="tns:ValueDate"/>
+											</xs:unique>
+											<xs:unique name="RPU_DifferentiationForCapitalRepairTariff_ValueYear_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:Operator1"/>
+												<xs:field xpath="tns:ValueYear"/>
+											</xs:unique>
+											<xs:unique name="RPU_DifferentiationForCapitalRepairTariff_ValueInteger_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:Operator1"/>
+												<xs:field xpath="tns:ValueInteger"/>
+											</xs:unique>
+											<xs:unique name="RPU_DifferentiationForCapitalRepairTariff_ValueReal_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:Operator1"/>
+												<xs:field xpath="tns:ValueReal"/>
+											</xs:unique>
+											<xs:unique name="RPU_DifferentiationForCapitalRepairTariff_ValueDate2_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:Operator2"/>
+												<xs:field xpath="tns:ValueDate1"/>
+												<xs:field xpath="tns:ValueDate2"/>
+											</xs:unique>
+											<xs:unique name="RPU_DifferentiationForCapitalRepairTariff_ValueYear2_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:Operator2"/>
+												<xs:field xpath="tns:ValueYear1"/>
+												<xs:field xpath="tns:ValueYear2"/>
+											</xs:unique>
+											<xs:unique name="RPU_DifferentiationForCapitalRepairTariff_ValueInteger2_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:Operator2"/>
+												<xs:field xpath="tns:ValueInteger1"/>
+												<xs:field xpath="tns:ValueInteger2"/>
+											</xs:unique>
+											<xs:unique name="RPU_DifferentiationForCapitalRepairTariff_ValueReal2_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:Operator2"/>
+												<xs:field xpath="tns:ValueReal1"/>
+												<xs:field xpath="tns:ValueReal2"/>
+											</xs:unique>
+											<xs:unique name="RPU_DifferentiationForCapitalRepairTariff_ValueString_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:ValueString"/>
+											</xs:unique>
+											<xs:unique name="RPU_DifferentiationForCapitalRepairTariff_ValueBoolean_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:ValueBoolean"/>
+											</xs:unique>
+											<xs:unique name="RPU_DifferentiationForCapitalRepairTariff_ValueMultiline_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:ValueMultiline/tns:Name"/>
+												<xs:field xpath="tns:ValueMultiline/tns:Value"/>
+											</xs:unique>
+											<xs:unique name="RPU_CoefficientForCapitalRepairTariff_Unique">
+												<xs:selector xpath="tns:Coefficient"/>
+												<xs:field xpath="tns:CoefficientValue"/>
+												<xs:field xpath="tns:CoefficientDescription"/>
+											</xs:unique>
+										</xs:element>
+										<xs:element name="CancelCapitalRepairTariff">
+											<xs:annotation>
+												<xs:documentation>Аннулировать информацию о минимальных размерах взносов на капитальный ремонт</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="CancelReason" type="tns:String4000Type">
+														<xs:annotation>
+															<xs:documentation>Причина аннулирования</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:choice>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute ref="base:version" use="required" fixed="13.2.0.1"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+		<xs:key name="TransportGUID_CapitalRepairTariff_Key">
+			<xs:selector xpath="tns:importCapitalRepairTariff"/>
+			<xs:field xpath="tns:TransportGUID"/>
+		</xs:key>
+		<xs:unique name="TariffGUID_CapitalRepairTariff_Unique">
+			<xs:selector xpath="tns:importCapitalRepairTariff"/>
+			<xs:field xpath="tns:TariffGUID"/>
+		</xs:unique>
+	</xs:element>
+	<xs:element name="exportCapitalRepairTariffRequest">
+		<xs:annotation>
+			<xs:documentation>Запрос на экспорт информации о минимальных размерах взносов на капитальный ремонт</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:choice>
+						<xs:element name="TariffGUID" type="base:GUIDType" maxOccurs="1000">
+							<xs:annotation>
+								<xs:documentation>Идентификатор тарифа</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:sequence>
+							<xs:element name="OKTMO" type="base:OKTMORefType" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Территория, на которой применяется</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:sequence minOccurs="0">
+								<xs:element name="DateEffectiveFrom" type="xs:date">
+									<xs:annotation>
+										<xs:documentation>Дата вступления в силу С</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="DateEffectiveTo" type="xs:date" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Дата вступления в силу ПО</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+							<xs:element name="PublishedOnly" type="xs:boolean" fixed="true" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Экспортировать только размещенную информацию</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:choice>
+					<xs:attribute ref="base:version" use="required" fixed="13.2.0.1"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<!--Импорт и экспорт информации о размерах платы за пользование жилым помещением-->
+	<xs:element name="importResidentialPremisesUsageRequest">
+		<xs:annotation>
+			<xs:documentation>Запрос на импорт информации о размерах платы за пользование жилым помещением</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:sequence>
+						<xs:element name="importResidentialPremisesUsage" maxOccurs="1000">
+							<xs:annotation>
+								<xs:documentation>Импортируемая информация о размерах платы за пользование жилым помещением</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="TransportGUID" type="base:GUIDType">
+										<xs:annotation>
+											<xs:documentation>Транспортный идентификатор  для выполнения операции с информацией о размерах платы за пользование жилым помещением</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="TariffGUID" type="base:GUIDType" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Идентификатор тарифа, заполняется при изменении и аннулировании информации о размерах платы за пользование жилым помещением</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:choice>
+										<xs:element name="LoadResidentialPremisesUsage" type="tns:ResidentialPremisesUsageType">
+											<xs:annotation>
+												<xs:documentation>Создать/изменить информацию о размерах платы за пользование жилым помещением. При изменении информации о размерах платы за пользование жилым помещением необходимо указать все  актуальные сведения.</xs:documentation>
+											</xs:annotation>
+											<xs:unique name="RPU_ActGUID_Unique">
+												<xs:selector xpath="tns:ActGUID"/>
+												<xs:field xpath="."/>
+											</xs:unique>
+											<xs:unique name="RPU_OKTMO_Unique">
+												<xs:selector xpath="tns:OKTMO"/>
+												<xs:field xpath="base:code"/>
+											</xs:unique>
+											<xs:unique name="RPU_Differentiation_ValueDate_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:Operator1"/>
+												<xs:field xpath="tns:ValueDate"/>
+											</xs:unique>
+											<xs:unique name="RPU_Differentiation_ValueYear_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:Operator1"/>
+												<xs:field xpath="tns:ValueYear"/>
+											</xs:unique>
+											<xs:unique name="RPU_Differentiation_ValueInteger_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:Operator1"/>
+												<xs:field xpath="tns:ValueInteger"/>
+											</xs:unique>
+											<xs:unique name="RPU_Differentiation_ValueReal_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:Operator1"/>
+												<xs:field xpath="tns:ValueReal"/>
+											</xs:unique>
+											<xs:unique name="RPU_Differentiation_ValueDate2_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:Operator2"/>
+												<xs:field xpath="tns:ValueDate1"/>
+												<xs:field xpath="tns:ValueDate2"/>
+											</xs:unique>
+											<xs:unique name="RPU_Differentiation_ValueYear2_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:Operator2"/>
+												<xs:field xpath="tns:ValueYear1"/>
+												<xs:field xpath="tns:ValueYear2"/>
+											</xs:unique>
+											<xs:unique name="RPU_Differentiation_ValueInteger2_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:Operator2"/>
+												<xs:field xpath="tns:ValueInteger1"/>
+												<xs:field xpath="tns:ValueInteger2"/>
+											</xs:unique>
+											<xs:unique name="RPU_Differentiation_ValueReal2_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:Operator2"/>
+												<xs:field xpath="tns:ValueReal1"/>
+												<xs:field xpath="tns:ValueReal2"/>
+											</xs:unique>
+											<xs:unique name="RPU_Differentiation_ValueString_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:ValueString"/>
+											</xs:unique>
+											<xs:unique name="RPU_Differentiation_ValueBoolean_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:ValueBoolean"/>
+											</xs:unique>
+											<xs:unique name="RPU_Differentiation_ValueMultiline_Unique">
+												<xs:selector xpath="tns:Differentiation"/>
+												<xs:field xpath="tns:DifferentiationCode"/>
+												<xs:field xpath="tns:ValueMultiline/tns:Name"/>
+												<xs:field xpath="tns:ValueMultiline/tns:Value"/>
+											</xs:unique>
+											<xs:unique name="RPU_Coefficient_Unique">
+												<xs:selector xpath="tns:Coefficient"/>
+												<xs:field xpath="tns:CoefficientValue"/>
+												<xs:field xpath="tns:CoefficientDescription"/>
+											</xs:unique>
+										</xs:element>
+										<xs:element name="CancelResidentialPremisesUsage">
+											<xs:annotation>
+												<xs:documentation>Аннулировать информацию о размерах платы за пользование жилым помещением</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="CancelReason" type="tns:String4000Type">
+														<xs:annotation>
+															<xs:documentation>Причина аннулирования</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:choice>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute ref="base:version" use="required" fixed="11.14.0.5"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+		<xs:key name="TransportGUID_ResidentialPremisesUsage_Key">
+			<xs:selector xpath="tns:importResidentialPremisesUsage"/>
+			<xs:field xpath="tns:TransportGUID"/>
+		</xs:key>
+		<xs:unique name="TariffGUID_ResidentialPremisesUsage_Unique">
+			<xs:selector xpath="tns:importResidentialPremisesUsage"/>
+			<xs:field xpath="tns:TariffGUID"/>
+		</xs:unique>
+	</xs:element>
+	<xs:element name="exportResidentialPremisesUsageRequest">
+		<xs:annotation>
+			<xs:documentation>Запрос на экспорт информации о размерах платы за пользование жилым помещением</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:choice>
+						<xs:element name="TariffGUID" type="base:GUIDType" maxOccurs="1000">
+							<xs:annotation>
+								<xs:documentation>Идентификатор тарифа</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:sequence>
+							<xs:element name="OKTMO" type="base:OKTMORefType" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Территория, на которой применяется</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:sequence minOccurs="0">
+								<xs:element name="DateEffectiveFrom" type="xs:date">
+									<xs:annotation>
+										<xs:documentation>Дата вступления в силу С</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="DateEffectiveTo" type="xs:date" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Дата вступления в силу ПО</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+							<xs:element name="PublishedOnly" type="xs:boolean" fixed="true" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Экспортировать только размещенную информацию</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:choice>
+					<xs:attribute ref="base:version" use="required" fixed="13.2.0.1"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<!--Экспорт списка критериев дифференциации-->
+	<xs:element name="exportTariffDifferentiationRequest">
+		<xs:annotation>
+			<xs:documentation>Запрос на экспорт списка критериев дифференциации</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:sequence>
+						<xs:element name="DifferentiationCode" type="xs:integer" minOccurs="0" maxOccurs="1000">
+							<xs:annotation>
+								<xs:documentation>Код записи</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute ref="base:version" use="required" fixed="11.14.0.5"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="exportTariffDifferentiationResult">
+		<xs:annotation>
+			<xs:documentation>Ответ на запрос экспорта списка критериев дифференциации</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:choice>
+						<xs:element ref="base:ErrorMessage"/>
+						<xs:element name="Differentiation" type="tns:exportDifferentiationType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Экспортируемые сведения о видах критериев дифференциации</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
+					<xs:attribute ref="base:version" use="required" fixed="11.14.0.5"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<!--Асинхронные методы-->
+	<xs:element name="getStateResult">
+		<xs:annotation>
+			<xs:documentation>Возврат статуса отправленного сообщения</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseAsyncResponseType">
+					<xs:choice minOccurs="0">
+						<xs:element ref="base:ErrorMessage"/>
+						<xs:element name="ImportResult" type="base:CommonResultType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Результат импорта</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="exportTariffDifferentiationResult" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Результат экспорта видов критериев дифференциации</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Differentiation" type="tns:exportDifferentiationType" maxOccurs="unbounded">
+										<xs:annotation>
+											<xs:documentation>Экспортируемые сведения о видах критериев дифференциации</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="exportSocialNormsResult" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Результат экспорта информации о социальных нормах потребления электрической энергии</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="TariffGUID" type="base:GUIDType">
+										<xs:annotation>
+											<xs:documentation>Идентификатор тарифа</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="Status" type="tns:StatusType">
+										<xs:annotation>
+											<xs:documentation>Статус информации о тарифе</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="CancelReason" type="tns:String4000Type" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Причина аннулирования</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="SocialNorms" type="tns:SocialNormType">
+										<xs:annotation>
+											<xs:documentation>Экспортируемые сведения о социальных нормах потребления электрической энергии</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="exportResidentialPremisesMaintenanceResult" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Результат экспорта информации о размере платы за содержание жилого помещения</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="TariffGUID" type="base:GUIDType">
+										<xs:annotation>
+											<xs:documentation>Идентификатор тарифа</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="Status" type="tns:StatusType">
+										<xs:annotation>
+											<xs:documentation>Статус информации о тарифе</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="CancelReason" type="tns:String4000Type" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Причина аннулирования</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="ResidentialPremisesMaintenance" type="tns:ResidentialPremisesMaintenanceType">
+										<xs:annotation>
+											<xs:documentation>Экспортируемые сведения о размерах плат за содержание жилого помещения</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="exportMunicipalResourceTariffResult" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Результат экспорта информации о тарифах на оплату коммунальных ресурсов</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="TariffGUID" type="base:GUIDType">
+										<xs:annotation>
+											<xs:documentation>Идентификатор тарифа</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="Status" type="tns:StatusType">
+										<xs:annotation>
+											<xs:documentation>Статус информации о тарифе</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="CancelReason" type="tns:String4000Type" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Причина аннулирования</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="MunicipalResourceTariff" type="tns:MunicipalResourceTariffType">
+										<xs:annotation>
+											<xs:documentation>Экспортируемые сведения о тарифах на оплату коммунальных ресурсов</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="exportCapitalRepairTariffResult" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Результат экспорта информации о размере взноса на капитальный ремонт</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="TariffGUID" type="base:GUIDType">
+										<xs:annotation>
+											<xs:documentation>Идентификатор тарифа</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="Status" type="tns:StatusType">
+										<xs:annotation>
+											<xs:documentation>Статус информации о тарифе</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="CancelReason" type="tns:String4000Type" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Причина аннулирования</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="CapitalRepairTariff" type="tns:CapitalRepairTariffType">
+										<xs:annotation>
+											<xs:documentation>Экспортируемые сведения о минимальных размерах взносов на капитальный ремонт</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="exportResidentialPremisesUsageResult" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Результат экспорта информации о размере платы за пользование жилым помещением</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="TariffGUID" type="base:GUIDType">
+										<xs:annotation>
+											<xs:documentation>Идентификатор тарифа</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="Status" type="tns:StatusType">
+										<xs:annotation>
+											<xs:documentation>Статус информации о тарифе</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="CancelReason" type="tns:String4000Type" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Причина аннулирования</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="ResidentialPremisesUsage" type="tns:ResidentialPremisesUsageType">
+										<xs:annotation>
+											<xs:documentation>Экспортируемые сведения о размерах плат за пользование жилым помещением</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:choice>
+					<xs:attribute ref="base:version" use="required" fixed="11.14.0.5"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

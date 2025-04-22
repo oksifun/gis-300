@@ -1,0 +1,29 @@
+---
+
+- debug: msg="PROC_NUM={{ drf_proc_num }} SETTINGS_FILE={{ SETTINGS_FILE }}"
+  tags: gis_webserver
+
+- name: pull service_gis image from hub.eis24.me
+  docker_image:
+    name: hub.eis24.me/service_gis
+    tag: "{{ TAG }}"
+    state: present
+    force_source: yes
+    source: pull
+  tags: gis_webserver
+
+- name: ensure gis_drf container running
+  docker_container:
+    image: hub.eis24.me/service_gis:{{ TAG }}
+    ports:
+      - "{{ inventory_hostname }}:{{ drf_port }}:8084"
+      - "0.0.0.0:3034:3034"
+    recreate: yes
+    name: gis_drf
+    env:
+      SETTINGS_FILE: "{{ SETTINGS_FILE }}"
+    command: "uwsgi --processes {{ drf_proc_num }} --http :8084 --http-timeout 600 --module config.wsgi --die-on-term --buffer-size 32768 --stats :3034 --stats-http"
+    log_driver: syslog
+    log_options:
+      tag: gis_drf
+  tags: gis_webserver

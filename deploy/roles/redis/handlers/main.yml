@@ -1,0 +1,16 @@
+---
+
+- name: restart redis
+  docker_container:
+    name: redis
+    image: redis:3.2.4
+    volumes:
+      - "/opt/redis:/data:rw"
+    ports:
+      - "{{ inventory_hostname }}:{{ redis_port }}:6379"
+    command: /usr/local/bin/redis-server /data/redis.conf
+    restart_policy: always
+    restart: yes
+    log_driver: syslog
+    log_options:
+      tag: redis

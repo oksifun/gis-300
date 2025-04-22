@@ -1,0 +1,37 @@
+---
+
+- name: pull service_gis image
+  docker_image:
+    name: hub.eis24.me/service_gis
+    tag: "{{ TAG }}"
+    state: present
+    force_source: yes
+    source: pull
+  tags: gis_flower
+
+- name: Check is flower_gis dir exists
+  stat: path=/opt/flower_gis
+  register: flower_gis_dir
+  tags: gis_flower
+
+- name: Create flower_gis dir
+  file: path=/opt/flower_gis state=directory
+  when: not flower_gis_dir.stat.exists
+  tags: gis_flower
+
+- name: ensure gis_flower container is running
+  docker_container:
+    name: gis_flower
+    image: hub.eis24.me/service_gis:{{ TAG }}
+    volumes:
+      - "/opt/flower_gis:/data:rw"
+    env:
+      SETTINGS_FILE: "{{ SETTINGS_FILE }}"
+    ports:
+      - "0.0.0.0:{{ flower_port }}:5556"
+    recreate: yes
+    command: flower -A app.gis.workers.riddler --port=5556 --persistent=True --db=/data/flower.db --basic_auth=flower:flower
+    log_driver: syslog
+    log_options:
+      tag: gis_flower
+  tags: gis_flower

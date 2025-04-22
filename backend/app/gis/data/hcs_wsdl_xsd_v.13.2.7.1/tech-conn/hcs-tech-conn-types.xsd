@@ -1,0 +1,4148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:base="http://dom.gosuslugi.ru/schema/integration/base/" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:tns="http://dom.gosuslugi.ru/schema/integration/tech-conn/" xmlns:organizations-registry-base="http://dom.gosuslugi.ru/schema/integration/organizations-registry-base/" xmlns:nsi-base="http://dom.gosuslugi.ru/schema/integration/nsi-base/" xmlns:organizations-base="http://dom.gosuslugi.ru/schema/integration/organizations-base/" targetNamespace="http://dom.gosuslugi.ru/schema/integration/tech-conn/" elementFormDefault="qualified" attributeFormDefault="unqualified" version="13.2.5.0">
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/base/" schemaLocation="../lib/hcs-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/organizations-registry-base/" schemaLocation="../lib/hcs-organizations-registry-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/nsi-base/" schemaLocation="../lib/hcs-nsi-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/organizations-base/" schemaLocation="../lib/hcs-organizations-base.xsd"/>
+	<!--ЗАПРОСЫ НА ЭКСПОРТ ЗАЯВЛЕНИЙ-->
+	<!--Заявление на оределение организации для технологического присоединения-->
+	<xs:element name="exportOrganizationDeterminationApplicationRequest">
+		<xs:annotation>
+			<xs:documentation>Запрос на экспорт заявлений на определение организации для технологического присоединения</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tns:commonExportApplicationRequest">
+					<xs:attribute ref="base:version" use="required" fixed="13.2.5.0"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="exportOrganizationDeterminationApplicationResult">
+		<xs:annotation>
+			<xs:documentation>Результат экспорта заявлений на определение организации для технологического присоединения</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:choice>
+						<xs:element name="exportOrganizationDeterminationApplicationResult" type="tns:exportOrganizationDeterminationApplicationType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Результат запроса на экспорт заявлений на определение организации для технологического присоединения</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element ref="base:ErrorMessage"/>
+					</xs:choice>
+					<xs:attribute ref="base:version" use="required" fixed="13.2.5.0"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<!--Заявление на предоставление технических условий подключения-->
+	<xs:element name="exportTechnicalSpecificationApplicationRequest">
+		<xs:annotation>
+			<xs:documentation>Запрос на экспорт заявлений на предоставление технических условий подключения</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tns:commonExportApplicationRequest">
+					<xs:attribute ref="base:version" fixed="13.2.5.0"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="exportTechnicalSpecificationApplicationResult">
+		<xs:annotation>
+			<xs:documentation>Результат экспорта заявлений на предоставление технических условий подключения</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:choice>
+						<xs:element name="exportTechnicalSpecificationApplicationResult" type="tns:exportTechnicalSpecificationApplicationType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Результат запроса на экспорт заявлений на предоставление технических условий подключения</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element ref="base:ErrorMessage"/>
+					</xs:choice>
+					<xs:attribute ref="base:version" use="required" fixed="13.2.5.0"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<!--Заявление на предоставление информации о возможности подключения-->
+	<xs:element name="exportConnectionPossibilityApplicationRequest">
+		<xs:annotation>
+			<xs:documentation>Запрос на экспорт заявлений на предоставление информации о возможности подключения к сетям теплоснабжения</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tns:commonExportApplicationRequest">
+					<xs:attribute ref="base:version" fixed="13.2.5.0"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="exportConnectionPossibilityApplicationResult">
+		<xs:annotation>
+			<xs:documentation>Результат экспорта заявлений на предоставление информации о возможности подключения к сетям теплоснабжения</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:choice>
+						<xs:element name="exportConnectionPossibilityApplicationResult" type="tns:exportConnectionPossibilityApplicationType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Результат запроса на экспорт заявлений на предоставление информации о возможности подключения к сетям теплоснабжения</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element ref="base:ErrorMessage"/>
+					</xs:choice>
+					<xs:attribute ref="base:version" use="required" fixed="13.2.5.0"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<!--Заявление на заключение договора о подключении-->
+	<xs:element name="exportAgreementApplicationRequest">
+		<xs:annotation>
+			<xs:documentation>Запрос на экспорт заявлений на заключение договоров о подключении</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:choice>
+						<xs:element name="ApplicationGuid" type="base:GUIDType">
+							<xs:annotation>
+								<xs:documentation>Идентификатор заявления в ГИС ЖКХ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="GISHCSNumber" type="tns:String20Type">
+							<xs:annotation>
+								<xs:documentation>Номер заявления в ГИС ЖКХ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:sequence>
+							<xs:annotation>
+								<xs:documentation>Дата регистрации заявления в ГИС ЖКХ</xs:documentation>
+							</xs:annotation>
+							<xs:element name="From" type="xs:date">
+								<xs:annotation>
+									<xs:documentation>Дата регистрации заявления - с (включительно)</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="To" type="xs:date" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Дата регистрации заявления - по (включительно) </xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+						<xs:element name="LastActivityDate" type="xs:date">
+							<xs:annotation>
+								<xs:documentation>Дата последней активности заявителя</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
+					<xs:attribute ref="base:version" use="required" fixed="13.2.5.0"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="exportAgreementApplicationResult">
+		<xs:annotation>
+			<xs:documentation>Результат экспорта заявлений на заключение договоров о подключении</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:choice>
+						<xs:element name="exportAgreementApplicationResult" type="tns:exportAgreementApplicationType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Результат запроса на экспорт заявлений на заключение договоров о подключении</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element ref="base:ErrorMessage"/>
+					</xs:choice>
+					<xs:attribute ref="base:version" use="required" fixed="13.2.5.0"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<!--Заявление на получение акта по договору о подключении-->
+	<xs:element name="exportActApplicationRequest">
+		<xs:annotation>
+			<xs:documentation>Запрос на экспорт заявлений на получение актов по договорам</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:choice>
+						<xs:element name="ApplicationGuid" type="base:GUIDType">
+							<xs:annotation>
+								<xs:documentation>Идентификатор заявления в ГИС ЖКХ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="GISHCSNumber" type="tns:String20Type">
+							<xs:annotation>
+								<xs:documentation>Номер заявления в ГИС ЖКХ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:sequence>
+							<xs:annotation>
+								<xs:documentation>Дата регистрации заявления в ГИС ЖКХ</xs:documentation>
+							</xs:annotation>
+							<xs:element name="From" type="xs:date">
+								<xs:annotation>
+									<xs:documentation>Дата регистрации заявления - с (включительно)</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="To" type="xs:date" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Дата регистрации заявления - по (включительно) </xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+						<xs:element name="LastActivityDate" type="xs:date">
+							<xs:annotation>
+								<xs:documentation>Дата последней активности заявителя</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
+					<xs:attribute ref="base:version" use="required" fixed="13.2.5.0"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="exportActApplicationResult">
+		<xs:annotation>
+			<xs:documentation>Результат экспорта заявлений на получение актов по договорам</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:choice>
+						<xs:element name="exportActApplicationResult" type="tns:exportActApplicationType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Результат запроса на экспорт заявлений на получение актов по договорам</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element ref="base:ErrorMessage"/>
+					</xs:choice>
+					<xs:attribute ref="base:version" use="required" fixed="13.2.5.0"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<!--ЗАПРОСЫ НА ИМПОРТ ИНФОРМАЦИИ ПО РАБОТЕ С ЗАЯВЛЕНИЯМИ-->
+	<!--Заявление на оределение организации для технологического присоединения-->
+	<xs:element name="importOrganizationDeterminationApplicationStatusRequest">
+		<xs:annotation>
+			<xs:documentation>Импорт информации об изменении статуса заявления на определение организации для технологического присоединения</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:sequence>
+						<xs:element name="ImportOrganizationDeterminationApplicationStatus" maxOccurs="100">
+							<xs:annotation>
+								<xs:documentation>Импорт сведений о работе с заявлением</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:sequence>
+										<xs:element ref="base:TransportGUID"/>
+										<xs:element name="ApplicationGUID" type="base:GUIDType">
+											<xs:annotation>
+												<xs:documentation>Уникальный идентификатор заявления в ГИС ЖКХ</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+									<xs:choice>
+										<xs:element name="AssignExecutor">
+											<xs:annotation>
+												<xs:documentation>Сведения о назначенном исполнителе</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="FIO" type="tns:String255Type">
+														<xs:annotation>
+															<xs:documentation>Фамилия И.О. назначенного исполнителя</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="TakeToWork" type="xs:boolean" fixed="true">
+											<xs:annotation>
+												<xs:documentation>Сведения о взятии заявления в работу исполнителем</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="SendAnswer" type="tns:OrganizationDeterminationApplicationAnswerType">
+											<xs:annotation>
+												<xs:documentation>Ответ по заявлению на определение организации для технологического присоединения</xs:documentation>
+											</xs:annotation>
+											<xs:key name="SendAnswer_NetworkType_CodeKey">
+												<xs:selector xpath="tns:AnswerByNetworkType/tns:NetworkType/nsi-base:Code"/>
+												<xs:field xpath="."/>
+											</xs:key>
+										</xs:element>
+									</xs:choice>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute ref="base:version" fixed="13.2.5.0"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+		<xs:key name="importOrganizationDeterminationApplicationStatusRequest_TransportGUIDKey">
+			<xs:annotation>
+				<xs:documentation>Проверка уникальности транспортного идентификатора в рамках запроса</xs:documentation>
+			</xs:annotation>
+			<xs:selector xpath=".//base:TransportGUID"/>
+			<xs:field xpath="."/>
+		</xs:key>
+		<xs:key name="importOrganizationDeterminationApplicationStatusRequest_ApplicationGUIDKey">
+			<xs:annotation>
+				<xs:documentation>Проверка уникальности идентификатора заявления в рамках запроса</xs:documentation>
+			</xs:annotation>
+			<xs:selector xpath=".//tns:ApplicationGUID"/>
+			<xs:field xpath="."/>
+		</xs:key>
+	</xs:element>
+	<!--Заявление на предоставление технических условий подключения-->
+	<xs:element name="importTechnicalSpecificationApplicationStatusRequest">
+		<xs:annotation>
+			<xs:documentation>Импорт информации об изменении статуса заявления на предоставление технических условий подключения</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:sequence>
+						<xs:element name="importTechnicalSpecificationApplicationStatus" maxOccurs="100">
+							<xs:annotation>
+								<xs:documentation>Импорт сведений о работе с заявлением</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:sequence>
+										<xs:element ref="base:TransportGUID"/>
+										<xs:element name="ApplicationGUID" type="base:GUIDType">
+											<xs:annotation>
+												<xs:documentation>Уникальный идентификатор заявления в ГИС ЖКХ</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+									<xs:choice>
+										<xs:element name="AssignExecutor">
+											<xs:annotation>
+												<xs:documentation>Сведения о назначенном исполнителе</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="FIO" type="tns:String255Type">
+														<xs:annotation>
+															<xs:documentation>Фамилия И.О. назначенного исполнителя</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="TakeToWork" type="xs:boolean" fixed="true">
+											<xs:annotation>
+												<xs:documentation>Сведения о взятии заявления в работу исполнителем</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="SendAnswer" type="tns:TechnicalSpecificationApplicationAnswerType">
+											<xs:annotation>
+												<xs:documentation>Ответ по заявлению на предоставление технических условий подключения</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:choice>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute ref="base:version" fixed="13.2.5.0"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+		<xs:key name="importTechnicalSpecificationApplicationStatus_TransportGUIDKey">
+			<xs:selector xpath=".//base:TransportGUID"/>
+			<xs:field xpath="."/>
+		</xs:key>
+		<xs:key name="importTechnicalSpecificationApplicationStatus_ApplicationGUIDKey">
+			<xs:annotation>
+				<xs:documentation>Проверка уникальности идентификатора заявления в рамках запроса</xs:documentation>
+			</xs:annotation>
+			<xs:selector xpath=".//tns:ApplicationGUID"/>
+			<xs:field xpath="."/>
+		</xs:key>
+	</xs:element>
+	<!--Заявление на предоставление информации о возможности подключения-->
+	<xs:element name="importConnectionPossibilityApplicationStatusRequest">
+		<xs:annotation>
+			<xs:documentation>Импорт информации об изменении статуса заявления на предоставление технических условий подключения</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:sequence>
+						<xs:element name="importConnectionPossibilityApplicationStatus" maxOccurs="100">
+							<xs:annotation>
+								<xs:documentation>Импорт сведений о работе с заявлением</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:sequence>
+										<xs:element ref="base:TransportGUID"/>
+										<xs:element name="ApplicationGUID" type="base:GUIDType">
+											<xs:annotation>
+												<xs:documentation>Уникальный идентификатор заявления в ГИС ЖКХ</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+									<xs:choice>
+										<xs:element name="AssignExecutor">
+											<xs:annotation>
+												<xs:documentation>Сведения о назначенном исполнителе</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="FIO" type="tns:String255Type">
+														<xs:annotation>
+															<xs:documentation>Фамилия И.О. назначенного исполнителя</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="TakeToWork" type="xs:boolean" fixed="true">
+											<xs:annotation>
+												<xs:documentation>Сведения о взятии заявления в работу исполнителем</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="SendAnswer" type="tns:ConnectionPossibilityApplicationAnswerType">
+											<xs:annotation>
+												<xs:documentation>Ответ по заявлению на предоставление технических условий подключения</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:choice>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute ref="base:version" fixed="13.2.5.0"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+		<xs:key name="importConnectionPossibilityApplicationStatus_TransportGUIDKey">
+			<xs:selector xpath=".//base:TransportGUID"/>
+			<xs:field xpath="."/>
+		</xs:key>
+		<xs:key name="importConnectionPossibilityApplicationStatus_ApplicationGUIDKey">
+			<xs:annotation>
+				<xs:documentation>Проверка уникальности идентификатора заявления в рамках запроса</xs:documentation>
+			</xs:annotation>
+			<xs:selector xpath=".//tns:ApplicationGUID"/>
+			<xs:field xpath="."/>
+		</xs:key>
+	</xs:element>
+	<!--Заявление на заключение договора о подключении-->
+	<xs:element name="importAgreementApplicationStatusRequest">
+		<xs:annotation>
+			<xs:documentation>Импорт информации об изменении статуса заявления на заключение договора о подключении</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:sequence>
+						<xs:element name="importAgreementApplicationStatus" maxOccurs="100">
+							<xs:annotation>
+								<xs:documentation>Импорт сведений о работе с заявлением</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:sequence>
+										<xs:element ref="base:TransportGUID"/>
+										<xs:element name="ApplicationGUID" type="base:GUIDType">
+											<xs:annotation>
+												<xs:documentation>Уникальный корневой идентификатор заявления в ГИС ЖКХ</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+									<xs:choice>
+										<xs:element name="AssignExecutor">
+											<xs:annotation>
+												<xs:documentation>Сведения о назначенном исполнителе</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="FIO" type="tns:String255Type">
+														<xs:annotation>
+															<xs:documentation>Фамилия И.О. назначенного исполнителя</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="TakeToWork" type="xs:boolean" fixed="true">
+											<xs:annotation>
+												<xs:documentation>Сведения о взятии заявления в работу исполнителем</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="ConfirmCompleteness" type="xs:boolean" fixed="true">
+											<xs:annotation>
+												<xs:documentation>Комплектность подтверждена</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="NeedSupplementation" type="tns:CommonAnswerType">
+											<xs:annotation>
+												<xs:documentation>Заявка некомплектна</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="DenyToConnect" type="tns:CommonAnswerType">
+											<xs:annotation>
+												<xs:documentation>Отказать в подключении</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="NoPossibilityToConnect" type="tns:CommonAnswerType">
+											<xs:annotation>
+												<xs:documentation>Отсутствует возможность подключения</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="NeedCoordinationWithRelatedOrganization" type="tns:CommonAnswerType">
+											<xs:annotation>
+												<xs:documentation>Необходимо согласование со смежной организацией</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="SettingIndividualPaymentValue" type="tns:CommonAnswerType">
+											<xs:annotation>
+												<xs:documentation>Установление размера платы в индивидуальном порядке</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="IncludingToInvestmentProgram" type="tns:CommonAnswerType">
+											<xs:annotation>
+												<xs:documentation>Включение в инвестиционную программу</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="ConfirmRefusalOfConnection" type="tns:CommonAnswerType">
+											<xs:annotation>
+												<xs:documentation>Подтвердить отказ от подключения</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="CancelApplication" type="tns:CommonAnswerType">
+											<xs:annotation>
+												<xs:documentation>Аннулировать заявление</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="SendRefusalOfIncludingToInvestmentProgram" type="tns:CommonAnswerType">
+											<xs:annotation>
+												<xs:documentation>Сообщить об отказе включения в инвестпрограмму</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="SendAgreement" type="tns:CreateAgreementType">
+											<xs:annotation>
+												<xs:documentation>Отправить договор заявителю</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="ConfirmAgreementSignment" type="tns:CommonAnswerType">
+											<xs:annotation>
+												<xs:documentation>Подтвердить подписание договора</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="AcceptanceOperationsStarted" type="tns:CommonAnswerType">
+											<xs:annotation>
+												<xs:documentation>Сообщить о проведении приемочных работ по договору</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="SendActOfCompleteness" type="tns:CreateActType">
+											<xs:annotation>
+												<xs:documentation>Отправить акт о готовности заявителю</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="ConfirmActOfCompletenessSignment" type="tns:CommonAnswerType">
+											<xs:annotation>
+												<xs:documentation>Подтвердить подписание акта о готовности</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="DenyToIssueActOfCompleteness" type="tns:CommonAnswerType">
+											<xs:annotation>
+												<xs:documentation>Отказать в выдаче акта о готовности</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="SendActOfConnection">
+											<xs:annotation>
+												<xs:documentation>Отправить акт о подключении заявителю</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:complexContent>
+													<xs:extension base="tns:CreateActType">
+														<xs:sequence>
+															<xs:element name="IsSigned" type="xs:boolean" fixed="true" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>Акт о подключении ранее был подписан вне системы</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+														</xs:sequence>
+													</xs:extension>
+												</xs:complexContent>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="ConfirmActOfConnectionSignment" type="tns:CommonAnswerType">
+											<xs:annotation>
+												<xs:documentation>Подтвердить подписание акта о подключении</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="DenyToIssueActOfConnection" type="tns:CommonAnswerType">
+											<xs:annotation>
+												<xs:documentation>Отказать в выдаче акта о подключении</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="ExtendExecutionDeadline" type="tns:CommonAnswerType">
+											<xs:annotation>
+												<xs:documentation>Продлить срок рассмотрения заявления</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="FinishWorkWithApplication" type="tns:CommonAnswerType">
+											<xs:annotation>
+												<xs:documentation>Завершить оказание услуги</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="SendAgreementForReSigning" type="tns:CreateAgreementType">
+											<xs:annotation>
+												<xs:documentation>Отправить договор на повторное подписание заявителю</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="SendActOfCompletenessForReSigning" type="tns:CreateActType">
+											<xs:annotation>
+												<xs:documentation>Отправить акт о готовности на повторное подписание заявителю</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="SendActOfConnectionForReSigning" type="tns:CreateActType">
+											<xs:annotation>
+												<xs:documentation>Отправить акт о подключении на повторное подписание заявителю</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:choice>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute ref="base:version" fixed="13.2.5.0"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+		<xs:key name="importAgreementApplicationStatus_TransportGUIDKey">
+			<xs:selector xpath=".//base:TransportGUID"/>
+			<xs:field xpath="."/>
+		</xs:key>
+		<xs:key name="importAgremeentApplicationStatus_ApplicationGUIDKey">
+			<xs:annotation>
+				<xs:documentation>Проверка уникальности идентификатора заявления в рамках запроса</xs:documentation>
+			</xs:annotation>
+			<xs:selector xpath=".//tns:ApplicationGUID"/>
+			<xs:field xpath="."/>
+		</xs:key>
+	</xs:element>
+	<!--Заявление на получение акта по договору о подключении-->
+	<xs:element name="importActApplicationStatusRequest">
+		<xs:annotation>
+			<xs:documentation>Импорт информации об изменении статуса заявления на получение акта по договору о подключении</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:sequence>
+						<xs:element name="importActApplicationStatus" maxOccurs="100">
+							<xs:annotation>
+								<xs:documentation>Импорт сведений о работе с заявлением</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:sequence>
+										<xs:element ref="base:TransportGUID"/>
+										<xs:element name="ApplicationGUID" type="base:GUIDType">
+											<xs:annotation>
+												<xs:documentation>Уникальный идентификатор заявления в ГИС ЖКХ</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+									<xs:choice>
+										<xs:element name="AssignExecutor">
+											<xs:annotation>
+												<xs:documentation>Сведения о назначенном исполнителе</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="FIO" type="tns:String255Type">
+														<xs:annotation>
+															<xs:documentation>Фамилия И.О. назначенного исполнителя</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="TakeToWork" type="xs:boolean" fixed="true">
+											<xs:annotation>
+												<xs:documentation>Сведения о взятии заявления в работу исполнителем</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="DenyToIssueAct" type="tns:CommonAnswerType">
+											<xs:annotation>
+												<xs:documentation>Отказать в выдаче акта</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="AgreementNotFound" type="tns:CommonAnswerType">
+											<xs:annotation>
+												<xs:documentation>Договор не найден</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="AcceptanceOperationsStarted" type="tns:CommonAnswerType">
+											<xs:annotation>
+												<xs:documentation>Сообщить о проведении приемочных работ</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="SendAct" type="tns:CreateActType">
+											<xs:annotation>
+												<xs:documentation>Отправить акт заявителю</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="ConfirmActSignment" type="tns:CommonAnswerType">
+											<xs:annotation>
+												<xs:documentation>Подтвердить подписание акта </xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="SendActForReSigning" type="tns:CreateActType">
+											<xs:annotation>
+												<xs:documentation>Отправить акт на повторное подписание заявителю</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:choice>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute ref="base:version" fixed="13.2.5.0"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+		<xs:key name="importActApplicationStatus_TransportGUIDKey">
+			<xs:selector xpath=".//base:TransportGUID"/>
+			<xs:field xpath="."/>
+		</xs:key>
+		<xs:key name="importActApplicationStatus_ApplicationGUIDKey">
+			<xs:annotation>
+				<xs:documentation>Проверка уникальности идентификатора заявления в рамках запроса</xs:documentation>
+			</xs:annotation>
+			<xs:selector xpath=".//tns:ApplicationGUID"/>
+			<xs:field xpath="."/>
+		</xs:key>
+	</xs:element>
+	<!--РЕЗУЛЬТАТ АСИНХРОННОЙ ОБРАБОТКИ ЗАПРОСА-->
+	<xs:element name="getStateResult">
+		<xs:annotation>
+			<xs:documentation>Результат обработки запроса</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseAsyncResponseType">
+					<xs:choice minOccurs="0">
+						<xs:element ref="base:ErrorMessage"/>
+						<xs:element name="CommonResult" type="base:CommonResultType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Резульат запроса на импорт</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="ExportOrganizationDeterminationApplicationResult" type="tns:exportOrganizationDeterminationApplicationType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Результат запроса на экспорт заявлений на определение организации для технологического присоединения</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="ExportTechnicalSpecificationApplicationResult" type="tns:exportTechnicalSpecificationApplicationType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Результат запроса на экспорт заявлений на предоставление технических условий подключения</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="ExportConnectionPossibilityApplicationResult" type="tns:exportConnectionPossibilityApplicationType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Результат запроса на экспорт заявлений на предоставление информации о возможности подключения</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="ExportAgreementApplicationResult" type="tns:exportAgreementApplicationType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Результат запроса на экспорт заявлений заключение договора о подключении</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="ExportActApplicationResult" type="tns:exportActApplicationType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Результат запроса на экспорт заявлений на получение актов по договорам</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
+					<xs:attribute ref="base:version" use="required" fixed="13.2.5.0"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<!--КОМПЛЕКСНЫЕ ТИПЫ-->
+	<!--Типы для экспорта заявлений-->
+	<xs:complexType name="commonExportApplicationRequest">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Запрос на экспорт заявления в рамках технологического присоединения</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="base:BaseType">
+				<xs:choice>
+					<xs:element name="ApplicationGuid" type="base:GUIDType">
+						<xs:annotation>
+							<xs:documentation>Идентификатор заявления в ГИС ЖКХ</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="GISHCSNumber" type="tns:String20Type">
+						<xs:annotation>
+							<xs:documentation>Номер заявления в ГИС ЖКХ</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:sequence>
+						<xs:annotation>
+							<xs:documentation>Дата регистрации заявления в ГИС ЖКХ</xs:documentation>
+						</xs:annotation>
+						<xs:element name="From" type="xs:date">
+							<xs:annotation>
+								<xs:documentation>Дата регистрации заявления - с (включительно)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="To" type="xs:date" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Дата регистрации заявления - по (включительно) </xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:choice>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="exportOrganizationDeterminationApplicationType">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Экспорт заявления на определение организации для технологического присоединения</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ApplicationOverview">
+				<xs:annotation>
+					<xs:documentation>Общие сведения о заявлении</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="tns:ApplicationOverviewType">
+							<xs:sequence>
+								<xs:element name="Status" type="tns:OrganizationDeterminationApplicationStatusType">
+									<xs:annotation>
+										<xs:documentation>Статус заявления</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Network">
+				<xs:annotation>
+					<xs:documentation>Вид сети для технологического присоединения. Значение из справочника "Виды сетей для технологического присоединения"</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="NetworkType" type="nsi-base:nsiRef" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Вид сети для технологического присоединения. Справочник "Виды сетей для технологического присоединения"</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="ConnectedResource" type="tns:EsnsiItemType" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Подключаемый ресурс. Справочник "Вид ресурсов или услуг, доступный для подключения" в ЕСНСИ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Applicant" type="tns:ApplicantType">
+				<xs:annotation>
+					<xs:documentation>Сведения о заявителе</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ApplicantCategory" type="tns:EsnsiItemType">
+				<xs:annotation>
+					<xs:documentation>Категория заявителя. Справочник "Лица, которым доступна возможность отправки заявления по подключению объектов капитального строительства к централизованным системам" ЕСНСИ</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Representative" type="tns:RepresentativeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Сведения о представителе заявителя</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ObjectAddressInfo" type="tns:ObjectAddressInfoType">
+				<xs:annotation>
+					<xs:documentation>Информация об адресе подключаемого объекта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Land" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Сведения о земельном участке</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="tns:LandCommonType">
+							<xs:sequence>
+								<xs:element name="PermittedUse" type="tns:EsnsiItemType" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Вид разрешенного использования земельного участка. Справочник "Вид разрешенного использования земельного участка" ЕСНСИ</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Facility">
+				<xs:annotation>
+					<xs:documentation>Сведения об объекте недвижимости</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="tns:FacilityCommonType">
+							<xs:sequence minOccurs="0">
+								<xs:element name="BuildingRightsDocument" type="base:AttachmentType" minOccurs="0" maxOccurs="unbounded">
+									<xs:annotation>
+										<xs:documentation>Правоустанавливающий или правоудостоверяющий документ на подключаемый объект</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="SignedBuildingRightsDocument" type="base:SignedAttachmentType" minOccurs="0" maxOccurs="unbounded">
+									<xs:annotation>
+										<xs:documentation>Правоустанавливающий или правоудостоверяющий документ на подключаемый объект с открепленной (detached) подписью</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Documents">
+				<xs:annotation>
+					<xs:documentation>Документы, приложенные к заявлению</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:sequence>
+							<xs:element name="LandRightsDocument" type="base:AttachmentType" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Правоустанавливающий или правоудостоверяющий документ на земельный участок</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="SignedLandRightsDocument" type="base:SignedAttachmentType" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Правоустанавливающий или правоудостоверяющий документ на земельный участок с открепленной (detached) подписью</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+						<xs:sequence>
+							<xs:element name="LandBorderDocument" type="base:AttachmentType" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Документ, содеражащий сведения о границах земельного участка</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="SignedLandBorderDocument" type="base:SignedAttachmentType" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Документ, содеражащий сведения о границах земельного участка с открепленной (detached) подписью</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="exportTechnicalSpecificationApplicationType">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Экспорт заявления на предоставление технических условий подключения</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ApplicationOverview">
+				<xs:annotation>
+					<xs:documentation>Общие сведения о заявлении</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="tns:ApplicationOverviewType">
+							<xs:sequence>
+								<xs:element name="Status" type="tns:TechnicalSpecificationApplicationStatusType">
+									<xs:annotation>
+										<xs:documentation>Статус заявления</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ApplicantCategory" type="tns:EsnsiItemType">
+				<xs:annotation>
+					<xs:documentation>Категория заявителя. Справочник "Лица, которым доступна возможность отправки заявления по подключению объектов капитального строительства к централизованным системам" ЕСНСИ</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Network">
+				<xs:annotation>
+					<xs:documentation>Вид сети для технологического присоединения. Значение из справочника "Виды сетей для технологического присоединения"</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="NetworkType" type="nsi-base:nsiRef" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Вид сети для технологического присоединения. Справочник "Виды сетей для технологического присоединения"</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="ConnectedResource" type="tns:EsnsiItemType" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Подключаемый ресурс. Справочник "Вид ресурсов или услуг, доступный для подключения" в ЕСНСИ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="TypeOfWork" type="tns:EsnsiItemType">
+				<xs:annotation>
+					<xs:documentation>Основание обращения. 
+					Для заявлений по теплоснабжению - справочник "Основание обращения за услугой по выдаче технических условий подключения и договора о подключении к системам теплоснабжения" ЕСНСИ
+					Для заявлений по водоснабению и водоотведению - справочник "Основание обращения за услугой по выдаче технических условий подключения к системам водоснабжения и (или) водоотведения" ЕСНСИ</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:sequence minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Заполняется если заявитель = Лицо, с которым заключен договор о комплексном развитии территории</xs:documentation>
+				</xs:annotation>
+				<xs:element name="TerritoryDevelopmentContractNumber" type="tns:String20Type">
+					<xs:annotation>
+						<xs:documentation>Номер договора о комплексном развитии территории</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="TerritoryDevelopmentContractDate" type="xs:date">
+					<xs:annotation>
+						<xs:documentation>Дата заключения договора о комплексном развитии территории</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:sequence minOccurs="0">
+				<xs:element name="DecisionNumber" type="tns:String20Type">
+					<xs:annotation>
+						<xs:documentation>Номер решения о предварительном согласовании предоставления земельного участка</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="DecisionDate" type="xs:date">
+					<xs:annotation>
+						<xs:documentation>Дата решения о предварительном согласовании предоставления земельного участка</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:element name="Applicant" type="tns:ApplicantType">
+				<xs:annotation>
+					<xs:documentation>Сведения о заявителе</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Representative" type="tns:RepresentativeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Сведения о представителе заявителя</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ObjectAddressInfo" type="tns:ObjectAddressInfoType">
+				<xs:annotation>
+					<xs:documentation>Информация об адресе подключаемого объекта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Land" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Сведения о земельном участке</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="tns:LandCommonType">
+							<xs:sequence>
+								<xs:element name="PermittedUse" type="tns:EsnsiItemType" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Вид разрешенного использования земельного участка. Справочник "Вид разрешенного использования земельного участка" ЕСНСИ</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="BuildingFloorLimit" type="tns:FloorCountType" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Предельное количество этажей</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="BuildingHeightLimit" type="tns:BuildingHeightType" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Предельная высота здания/сооружения</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Facility">
+				<xs:annotation>
+					<xs:documentation>Сведения об объекте недвижимости</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="tns:FacilityCommonType">
+							<xs:sequence minOccurs="0">
+								<xs:element name="BuildingRightsDocument" type="base:AttachmentType" minOccurs="0" maxOccurs="unbounded">
+									<xs:annotation>
+										<xs:documentation>Правоустанавливающий или правоудостоверяющий документ на подключаемый объект</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="SignedBuildingRightsDocument" type="base:SignedAttachmentType" minOccurs="0" maxOccurs="unbounded">
+									<xs:annotation>
+										<xs:documentation>Правоустанавливающий или правоудостоверяющий документ на подключаемый объект с открепленной (detached) подписью</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:choice minOccurs="0">
+									<xs:choice minOccurs="0">
+										<xs:element name="ExpectedCommissioningDate" type="xs:date" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Планируемый срок ввода в эксплуатацию объекта</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="ExpectedEndOfConstructionNotificationDate" type="xs:date" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Планируемая дата согласования уведомления об окончании строительства</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:choice>
+									<xs:element name="ExpectedEndOfConstructionDate" type="xs:date" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Планируемый срок завершения строительства объекта</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:choice>
+							</xs:sequence>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ObjectTechnicalParameters">
+				<xs:annotation>
+					<xs:documentation>Технические характеристики подключаемого объекта</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:choice>
+						<xs:sequence>
+							<xs:annotation>
+								<xs:documentation>Для заявлений по водоснабжению и (или) водоотведению</xs:documentation>
+							</xs:annotation>
+							<xs:element name="PluggableWaterLoad" type="tns:WaterSupplyPowerDetailsType">
+								<xs:annotation>
+									<xs:documentation>Подключаемая мощность (нагрузка) по водоснабжени и (или) водоотведению</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="CurrentWaterLoad" type="tns:WaterSupplyPowerDetailsType" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Текущая подключеная мощность (нагрузка) по водоснабжени и (или) водоотведению</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+						<xs:sequence>
+							<xs:annotation>
+								<xs:documentation>Для заявлений по теплоснабжению</xs:documentation>
+							</xs:annotation>
+							<xs:element name="PluggableHeatLoad" type="tns:HeatingPowerDetailsType">
+								<xs:annotation>
+									<xs:documentation>Подключаемая мощность (нагрузка) по теплоснабжению</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="HeatConsumptionInfo" type="tns:HeatingConsumptionInfoType">
+								<xs:annotation>
+									<xs:documentation>Сведения о теплопотреблении</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="HeatTransfer" type="tns:HeatTransferType" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Сведения о теплоносителе</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="ReliabilityCategory" type="tns:EsnsiItemType">
+								<xs:annotation>
+									<xs:documentation>Категория надежности. Справочник "Категория надежности теплоснабжения подключаемого объекта" ЕСНСИ</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Documents">
+				<xs:annotation>
+					<xs:documentation>Документы, приложенные к заявлению</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:sequence>
+							<xs:element name="LandRightsDocument" type="base:AttachmentType" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Правоустанавливающий или правоудостоверяющий документ на земельный участок</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="SignedLandRightsDocument" type="base:SignedAttachmentType" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Правоустанавливающий или правоудостоверяющий документ на земельный участок с открепленной (detached) подписью</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+						<xs:sequence>
+							<xs:element name="LandBorderDocument" type="base:AttachmentType" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Документ, содеражащий сведения о границах земельного участка</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="SignedLandBorderDocument" type="base:SignedAttachmentType" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Документ, содеражащий сведения о границах земельного участка с открепленной (detached) подписью</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+						<xs:sequence>
+							<xs:element name="CopyOfProjectContract" type="base:AttachmentType" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Копия договора на подготовку проектной документации на подключаемый объект</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="SignedCopyOfProjectContract" type="base:SignedAttachmentType" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Копия договора на подготовку проектной документации на подключаемый объект c открепленной (detached) подписью</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+						<xs:sequence>
+							<xs:element name="LandPlan" type="base:AttachmentType" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Градостроительный план земельного участка</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="SignedLandPlan" type="base:SignedAttachmentType" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Градостроительный план земельного участка  c открепленной (detached) подписью</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="exportConnectionPossibilityApplicationType">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Экспорт заявления на предоставление информации о возможности подключения к сетям теплоснабжения</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ApplicationOverview">
+				<xs:annotation>
+					<xs:documentation>Общие сведения о заявлении</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="tns:ApplicationOverviewType">
+							<xs:sequence>
+								<xs:element name="Status" type="tns:TechnicalSpecificationApplicationStatusType">
+									<xs:annotation>
+										<xs:documentation>Статус заявления</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ApplicantCategory" type="tns:EsnsiItemType">
+				<xs:annotation>
+					<xs:documentation>Категория заявителя. Справочник "Лица, которым доступна возможность отправки заявления по подключению объектов капитального строительства к централизованным системам" ЕСНСИ</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Network">
+				<xs:annotation>
+					<xs:documentation>Вид сети для технологического присоединения. Значение из справочника "Виды сетей для технологического присоединения"</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="NetworkType" type="nsi-base:nsiRef">
+							<xs:annotation>
+								<xs:documentation>Вид сети для технологического присоединения. Справочник "Виды сетей для технологического присоединения"</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="TypeOfWork" type="tns:EsnsiItemType">
+				<xs:annotation>
+					<xs:documentation>Основание обращения. Cправочник "Основание обращения за услугой по выдаче технических условий подключения и договора о подключении к системам теплоснабжения" ЕСНСИ</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Applicant" type="tns:ApplicantType">
+				<xs:annotation>
+					<xs:documentation>Сведения о заявителе</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Representative" type="tns:RepresentativeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Сведения о представителе заявителя</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ObjectAddressInfo" type="tns:ObjectAddressInfoType">
+				<xs:annotation>
+					<xs:documentation>Информация об адресе подключаемого объекта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Land" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Сведения о земельном участке</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="tns:LandCommonType">
+							<xs:sequence>
+								<xs:element name="PermittedUse" type="tns:EsnsiItemType" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Вид разрешенного использования земельного участка. Справочник "Вид разрешенного использования земельного участка" ЕСНСИ</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Facility">
+				<xs:annotation>
+					<xs:documentation>Сведения об объекте недвижимости</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="tns:FacilityCommonType">
+							<xs:sequence>
+								<xs:element name="ConnectioAgreementDeadline" type="xs:date">
+									<xs:annotation>
+										<xs:documentation>Срок, в течение которого заявитель обратится в сетевую организацию за заключением договора о подключении</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ObjectTechnicalParameters">
+				<xs:annotation>
+					<xs:documentation>Технические характеристики подключаемого объекта</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="PluggableHeatLoad" type="tns:HeatingPowerDetailsType">
+							<xs:annotation>
+								<xs:documentation>Подключаемая мощность (нагрузка) по теплоснабжению</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="HeatConsumptionInfo" type="tns:HeatingConsumptionInfoType">
+							<xs:annotation>
+								<xs:documentation>Сведения о теплопотреблении</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="HeatTransfer" type="tns:HeatTransferType" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Сведения о теплоносителе</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Documents">
+				<xs:annotation>
+					<xs:documentation>Документы, приложенные к заявлению</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:sequence>
+							<xs:element name="LandRightsDocument" type="base:AttachmentType" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Правоустанавливающий или правоудостоверяющий документ на земельный участок</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="SignedLandRightsDocument" type="base:SignedAttachmentType" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Правоустанавливающий или правоудостоверяющий документ на земельный участок с открепленной (detached) подписью</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+						<xs:sequence>
+							<xs:element name="LandBorderDocument" type="base:AttachmentType" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Документ, содеражащий сведения о границах земельного участка</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="SignedLandBorderDocument" type="base:SignedAttachmentType" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Документ, содеражащий сведения о границах земельного участка с открепленной (detached) подписью</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="exportAgreementApplicationType">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Экспорт заявления на заключение договора о подключении</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Application" type="tns:AgreementApplicationType">
+				<xs:annotation>
+					<xs:documentation>Заявление на заключение договора о подключении</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Agreement" type="tns:AgreementType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Договор о подключении</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Act" type="tns:ActType" minOccurs="0" maxOccurs="2">
+				<xs:annotation>
+					<xs:documentation>Акт по договору</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="InteractionHistory">
+				<xs:annotation>
+					<xs:documentation>История взаимодействия</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="InteractionHistoryMessage" type="tns:InteractionHistoryItemType" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Сообщение в рамках взаимодействия с заявителем</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="exportActApplicationType">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Экспорт заявления на получение акта по договору</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Application" type="tns:ActApplicationType">
+				<xs:annotation>
+					<xs:documentation>Заявление на получение акта по договору</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Act" type="tns:ActType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Акт по договору</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="InteractionHistory">
+				<xs:annotation>
+					<xs:documentation>История взаимодействия</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="InteractionHistoryMessage" type="tns:InteractionHistoryItemType" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Сообщение в рамках взаимодействия с заявителем</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ApplicationOverviewType">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Общие сведения о заявлении</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ApplicationGuid" type="base:GUIDType">
+				<xs:annotation>
+					<xs:documentation>Уникальный идентификатор заявления в ГИС ЖКХ</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="GISHCSNumber" type="tns:String20Type">
+				<xs:annotation>
+					<xs:documentation>Регистрационны номер заявления в ГИС ЖКХ</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="GISHCSRegistrationDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation>Дата регистрации заявления в ГИС ЖКХ</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:sequence minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Заполняется, если заявление было получено из ЕПГУ</xs:documentation>
+				</xs:annotation>
+				<xs:element name="EPGUNumber" type="xs:long">
+					<xs:annotation>
+						<xs:documentation>Номер заявления на ЕПГУ</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="EPGUStatementDate" type="xs:date">
+					<xs:annotation>
+						<xs:documentation>Дата заявления на ЕПГУ</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="AnswerSentInfo">
+					<xs:annotation>
+						<xs:documentation>Сведения о статусе отправки ответа на ЕПГУ</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Status">
+								<xs:annotation>
+									<xs:documentation>Статус отправки ответа</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="NOT_SENT"/>
+										<xs:enumeration value="PROCESSING"/>
+										<xs:enumeration value="SENT"/>
+										<xs:enumeration value="ERROR"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="SentDate" type="xs:date" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Дата отправки </xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:element name="ExecutorPerson" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Информация об исполнителе по заявлению</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="FIO" type="tns:String255Type">
+							<xs:annotation>
+								<xs:documentation>Фамилия И.О. исполнителя по заявлению</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ExecutionDeadline" type="xs:date">
+				<xs:annotation>
+					<xs:documentation>Дата истечения срока отправки ответа по заявлению. В зависимости от статуса заявления ответ может ожидаться как от сетевой организации, так и от заявителя</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ActType">
+		<xs:annotation>
+			<xs:documentation>Составной тип: Экспрот данных акта по договору</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ActGuid" type="base:GUIDType">
+				<xs:annotation>
+					<xs:documentation>Корневой идентификатор акта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ActKind" type="tns:ActKindType">
+				<xs:annotation>
+					<xs:documentation>Вид акта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Status" type="tns:ActStatusType">
+				<xs:annotation>
+					<xs:documentation>Статус акта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ActVersion" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Версия акта</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="VersionGuid" type="base:GUIDType">
+							<xs:annotation>
+								<xs:documentation>Идентификатор версии акта</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="VersionNumber" type="xs:int">
+							<xs:annotation>
+								<xs:documentation>Порядковый номер версии</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="VersionDate" type="xs:date">
+							<xs:annotation>
+								<xs:documentation>Дата версии</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="ActualVersion" type="xs:boolean" fixed="true" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Актуальная версия</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Number" type="tns:String50Type">
+							<xs:annotation>
+								<xs:documentation>Номер акта</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Date" type="xs:date">
+							<xs:annotation>
+								<xs:documentation>Дата акта</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="ActFile" type="base:SignedAttachmentType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Файл акта, подписанный со стороны исполнителя</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="MessageToApplicant" type="tns:String2000Type">
+							<xs:annotation>
+								<xs:documentation>Сообщение заявителю</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:choice minOccurs="0">
+							<xs:sequence>
+								<xs:element name="CommentFile" type="tns:AttachedDocumentType">
+									<xs:annotation>
+										<xs:documentation>Файлы, содержащие замечания к акту</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="MessageFromApplicant" type="tns:String2000Type" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Сообщение от заявителя</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+							<xs:sequence>
+								<xs:element name="ActSignedByApplicant" type="tns:AttachedDocumentType">
+									<xs:annotation>
+										<xs:documentation>Файлы подписанного заявителем акта</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="SignedDate" type="xs:date">
+									<xs:annotation>
+										<xs:documentation>Дата подписания акта</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:choice>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ActApplicationType">
+		<xs:annotation>
+			<xs:documentation>Составной тип: Экспорт данных заявления на получение акта по договору</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ApplicationOverview">
+				<xs:annotation>
+					<xs:documentation>Общие сведения о заявлении</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="tns:ApplicationOverviewType">
+							<xs:sequence>
+								<xs:element name="Status" type="tns:ActApplicationStatusType">
+									<xs:annotation>
+										<xs:documentation>Статус заявления</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="NetworkType" type="nsi-base:nsiRef" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Вид сети для технологического присоединения. Справочник "Виды сетей для технологического присоединения"</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ApplicantCategory" type="tns:EsnsiItemType">
+				<xs:annotation>
+					<xs:documentation>Категория заявителя. Справочник "Лица, которым доступна возможность отправки заявления по подключению объектов капитального строительства к централизованным системам" ЕСНСИ</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Applicant" type="tns:ApplicantType">
+				<xs:annotation>
+					<xs:documentation>Сведения о заявителе</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ObjectAddressInfo" type="tns:ObjectAddressInfoType">
+				<xs:annotation>
+					<xs:documentation>Информация об адресе подключаемого объекта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Representative" type="tns:RepresentativeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Сведения о представителе заявителя</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AgreementNumber" type="tns:String50Type">
+				<xs:annotation>
+					<xs:documentation>Номер договора о подключении</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AgreementDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation>Дата договора о подключении</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ActKind" type="tns:ActKindType">
+				<xs:annotation>
+					<xs:documentation>Вид запрашиваемого акта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Documents">
+				<xs:annotation>
+					<xs:documentation>Документы, приложенные к заявлению</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="PaymentDocument" type="tns:AttachedDocumentType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Документы о полной оплате услуг по договору</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AgreementApplicationVersionGUID" type="base:GUIDType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Версионный идентификатор заявления на заключение договора о подключении. Заполняется, если в текущем заявлении указана ссылка на заявление, в рамках которого был заключен договор</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AgreementApplicationType">
+		<xs:annotation>
+			<xs:documentation>Составной тип: Экспорт данных заявления на заключение договора о подключении</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ApplicationOverview">
+				<xs:annotation>
+					<xs:documentation>Общие сведения о заявлении</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="tns:ApplicationOverviewType">
+							<xs:sequence>
+								<xs:element name="Status" type="tns:AgreementApplicationStatusType">
+									<xs:annotation>
+										<xs:documentation>Статус заявления</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ApplicationVersion" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Версия заявления</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ApplicationVersionGuid" type="base:GUIDType">
+							<xs:annotation>
+								<xs:documentation>Уникальный идентификатор версии заявления в ГИС ЖКХ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="VersionNumber" type="xs:int">
+							<xs:annotation>
+								<xs:documentation>Номер версии</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="VersionDate" type="xs:date">
+							<xs:annotation>
+								<xs:documentation>Дата версии</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="ActualVersion" type="xs:boolean" fixed="true" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Актуальная версия</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Network">
+							<xs:annotation>
+								<xs:documentation>Сведения о видах сетей и подключаемых ресурсах</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="NetworkType" type="nsi-base:nsiRef" maxOccurs="unbounded">
+										<xs:annotation>
+											<xs:documentation>Вид сети для технологического присоединения. Справочник "Виды сетей для технологического присоединения"</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="ConnectedResource" type="tns:EsnsiItemType" minOccurs="0" maxOccurs="unbounded">
+										<xs:annotation>
+											<xs:documentation>Подключаемый ресурс. Справочник "Вид ресурсов или услуг, доступный для подключения" в ЕСНСИ</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="TypeOfWork" type="tns:EsnsiItemType">
+							<xs:annotation>
+								<xs:documentation>Основание обращения (вид работ).     
+
+Для заявлений по водоснабжению и (или) водоотведению - справочник "Основание для заключения договора о подключении к системам водоснабжения и водоотведения" ЕСНСИ
+
+Для заявлений по теплоснабжению - справочник "Основание обращения за услугой по выдаче технических условий подключения и договора о подключении к системам теплоснабжения" ЕСНСИ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="ApplicantCategory" type="tns:EsnsiItemType">
+							<xs:annotation>
+								<xs:documentation>Категория заявителя. Справочник "Лица, которым доступна возможность отправки заявления по подключению объектов капитального строительства к централизованным системам" ЕСНСИ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Applicant">
+							<xs:annotation>
+								<xs:documentation>Сведения о заявителе</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="tns:ApplicantType">
+										<xs:choice minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Сведения о статусе документов, ранеее предоставляемых в сетевую организацию в процессе обращения за услугой в отношении подключаемого объекта, указанного в текущем заявлении</xs:documentation>
+											</xs:annotation>
+											<xs:element name="IsConstituentAppliedDocumentActual" type="xs:boolean" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation>Срок действия ранее предоставляемого учредительного документа не истек, и сведения, содержащиеся в документе, не изменились</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="IsIdentityDocumentActual" type="xs:boolean" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation>Срок действия ранее предоставляемого документа, удостоверяющего личность заявителя, не истек, и сведения, содержащиеся в документе, не изменились</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+										</xs:choice>
+									</xs:extension>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="ObjectAddressInfo" type="tns:ObjectAddressInfoType">
+							<xs:annotation>
+								<xs:documentation>Информация об адресе подключаемого объекта</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:sequence>
+							<xs:sequence minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Сведения о заявлении, с которым ранее обращался заявитель, и заявление было аннулировано.</xs:documentation>
+								</xs:annotation>
+								<xs:element name="ApplicationNumber" type="tns:String200Type">
+									<xs:annotation>
+										<xs:documentation>Номер заявления на заключение договора о подключении</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="ApplicationDate" type="xs:date">
+									<xs:annotation>
+										<xs:documentation>Дата регистрации заявления на заключение договора о подключении</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="AgreementApplicationGUID" type="base:GUIDType" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Идентификатор заявления на заключение договора о подключении в ГИС ЖКХ</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+							<xs:sequence minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Сведения о ранее полученных технических условиях подключения</xs:documentation>
+								</xs:annotation>
+								<xs:element name="TechnicalSpecificationNumber" type="tns:String200Type">
+									<xs:annotation>
+										<xs:documentation>Номер технических условий подключения</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="TechnicalSpecificationDate" type="xs:date">
+									<xs:annotation>
+										<xs:documentation>Дата технических условий подключения</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="TechnicalSpecificationApplicationGUID" type="base:GUIDType" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Идентификатор заявления на предоставление технических условий подключения в ГИС ЖКХ</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+							<xs:sequence minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Сведения о ранее полученной информации о возможности подключения</xs:documentation>
+								</xs:annotation>
+								<xs:element name="ConnectionPossibilityNumber" type="tns:String200Type">
+									<xs:annotation>
+										<xs:documentation>Номер информации о возможности подключения</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="ConnectionPossibilityDate" type="xs:date">
+									<xs:annotation>
+										<xs:documentation>Дата информации о возможности подключения</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="ConnectionPossibilityApplicationGUID" type="base:GUIDType" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Идентификатор заявления на предоставление информации о возможности подключения в ГИС ЖКХ</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:sequence>
+						<xs:element name="Representative" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Сведения о представителе заявителя</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="tns:RepresentativeType">
+										<xs:sequence minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Сведения о статусе документов, ранеее предоставляемых в сетевую организацию в процессе обращения за услугой в отношении подключаемого объекта, указанного в текущем заявлении</xs:documentation>
+											</xs:annotation>
+											<xs:element name="IsPowerOfAttorneyDocumentActual" type="xs:boolean" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation>Срок действия ранее предоставляемого документа, подтверждающего полномочия представителя, не истек, и сведения, содержащиеся в документе, не изменились</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+										</xs:sequence>
+									</xs:extension>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Land" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Сведения о земельном участке</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="tns:LandCommonType">
+										<xs:sequence>
+											<xs:element name="PermittedUse" type="tns:EsnsiItemType" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation>Вид разрешенного использования земельного участка. Справочник "Вид разрешенного использования земельного участка" ЕСНСИ</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="LandSquare" type="tns:SquareType" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation>Площадь земельного участка (кв.м.)</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="BuildingFloorLimit" type="tns:FloorCountType" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation>Предельное количество этажей</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="BuildingHeightLimit" type="tns:BuildingHeightType" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation>Предельная высота здания/сооружения (м.)</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+										</xs:sequence>
+									</xs:extension>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Facility">
+							<xs:annotation>
+								<xs:documentation>Сведения об объекте недвижимости</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="tns:FacilityCommonType">
+										<xs:sequence minOccurs="0">
+											<xs:element name="BuildingRightsDocument" type="tns:AttachedDocumentType" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation>Правоустанавливающий или правоудостоверяющий документ на подключаемый объект</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="IsBuildingRightsDocumentActual" type="xs:boolean" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation>Срок действия ранее предоставляемых правоустанавливающих документов на объект не истек, и сведения, содержащиеся в документах, не изменились</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:choice>
+												<xs:choice minOccurs="0">
+													<xs:annotation>
+														<xs:documentation>Может быть заполнено при подключении к системам водоснабжения и (или) водоотведения</xs:documentation>
+													</xs:annotation>
+													<xs:choice minOccurs="0">
+														<xs:element name="ExpectedCommissioningDate" type="xs:date" minOccurs="0">
+															<xs:annotation>
+																<xs:documentation>Планируемый срок ввода в эксплуатацию объекта</xs:documentation>
+															</xs:annotation>
+														</xs:element>
+														<xs:element name="ExpectedEndOfConstructionNotificationDate" type="xs:date" minOccurs="0">
+															<xs:annotation>
+																<xs:documentation>Планируемая дата согласования уведомления об окончании строительства</xs:documentation>
+															</xs:annotation>
+														</xs:element>
+													</xs:choice>
+													<xs:element name="ExpectedEndOfConstructionDate" type="xs:date" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation>Планируемый срок завершения строительства объекта</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:choice>
+												<xs:element name="PlannedConnectionDate" type="xs:date">
+													<xs:annotation>
+														<xs:documentation>Планируемая дата подключения объекта к системе теплоснабжения</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+											</xs:choice>
+											<xs:element name="FloorCount" type="tns:FloorCountType">
+												<xs:annotation>
+													<xs:documentation>Количество этажей</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="BuildingHeight" type="tns:BuildingHeightType" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation>Высота здания/строение/сооружения (м)</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="BuildingVolume" type="tns:BuildingVolumeType" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation>Строительный объем (куб.м)</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="BuildingSquare" type="tns:SquareType" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation>Площадь (кв.м)</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+										</xs:sequence>
+									</xs:extension>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="ObjectTechnicalParameters">
+							<xs:annotation>
+								<xs:documentation>Технические характеристики подключаемого объекта</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:choice>
+									<xs:sequence>
+										<xs:annotation>
+											<xs:documentation>Для заявлений по водоснабжению и (или) водоотведению</xs:documentation>
+										</xs:annotation>
+										<xs:element name="PluggableWaterLoad" type="tns:WaterSupplyPowerDetailsType">
+											<xs:annotation>
+												<xs:documentation>Подключаемая мощность (нагрузка) по водоснабжени и (или) водоотведению</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="CurrentWaterLoad" type="tns:WaterSupplyPowerDetailsType" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Текущая подключеная мощность (нагрузка) по водоснабжени и (или) водоотведению</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+									<xs:sequence>
+										<xs:annotation>
+											<xs:documentation>Для заявлений по теплоснабжению</xs:documentation>
+										</xs:annotation>
+										<xs:element name="PluggableHeatLoad" type="tns:HeatingPowerDetailsType">
+											<xs:annotation>
+												<xs:documentation>Подключаемая мощность (нагрузка) по теплоснабжению</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="CurrentHeatLoad" type="tns:HeatingPowerDetailsType" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Текущая мощность (нагрузка) по теплоснабжению</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="AdditionalHeatLoad" type="tns:HeatingPowerDetailsType" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Текущая мощность (нагрузка) по теплоснабжению</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="HeatTransfer" type="tns:HeatTransferType" minOccurs="0" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation>Сведения о теплоносителе</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="ReturnHeatTransferInfo" type="tns:String2000Type" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Сведения о параметрах возвращаемого теплоносителя</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="HeatConsumptionInfo" type="tns:HeatingConsumptionInfoType">
+											<xs:annotation>
+												<xs:documentation>Сведения о теплопотреблении</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="MeteringUnitLocation" type="tns:String2000Type">
+											<xs:annotation>
+												<xs:documentation>Сведения о расположения узла учета тепловой энергии и теплоносителей и контроля их качества</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="ReliabilityCategory" type="tns:EsnsiItemType">
+											<xs:annotation>
+												<xs:documentation>Категория надежности. Справочник "Категория надежности теплоснабжения подключаемого объекта" ЕСНСИ</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="AdditionalRequiementToReliability" type="tns:String2000Type">
+											<xs:annotation>
+												<xs:documentation>Дополнительные требования к надежности теплоснабжения</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="OwnSources" type="tns:String2000Type">
+											<xs:annotation>
+												<xs:documentation>Сведения о наличии и возможности использования собственных источников тепловой энергии</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="TemperatureGraph" type="tns:HeatingTemperatureGraphType" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Температурный график (предполагаемый)</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:choice>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Documents">
+							<xs:annotation>
+								<xs:documentation>Документы, приложенные к заявлению</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:sequence>
+										<xs:annotation>
+											<xs:documentation>Правоустанавливающий или правоудостоверяющий документ на земельный участок</xs:documentation>
+										</xs:annotation>
+										<xs:element name="LandRightsDocument" type="tns:AttachedDocumentType" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Правоустанавливающий или правоудостоверяющий документ на земельный участок</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="IsLandRightsDocumentsActual" type="xs:boolean" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Срок действия ранее предоставляемых правоустанавливающих документов на земельный участок не истек, и сведения, содержащиеся в документах, не изменились</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+									<xs:sequence>
+										<xs:annotation>
+											<xs:documentation>Документы о комплексном развитии территории</xs:documentation>
+										</xs:annotation>
+										<xs:element name="TerritoryDevelopmentContract" type="tns:AttachedDocumentType" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Копия договора о комплексном развитии территории</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="TerritoryDevelopmentPlanProject" type="tns:AttachedDocumentType" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Проект планировки территории комплексного развития</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="TerritoryDevelopmentEngineeringSupportScheme" type="tns:AttachedDocumentType" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Комплексная схема инженерного обеспечения территории комплексного развития</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+									<xs:sequence>
+										<xs:annotation>
+											<xs:documentation>Топографическая карта земельного участка</xs:documentation>
+										</xs:annotation>
+										<xs:element name="TopographicMap" type="tns:AttachedDocumentType" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Топографическая карта земельного участка</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="IsTopographicMapActual" type="xs:boolean" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Срок действия ранее предоставляемой топографической карты не истек, и сведения, содержащиеся в документе, не изменились</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+									<xs:element name="SituationPlan" type="tns:AttachedDocumentType">
+										<xs:annotation>
+											<xs:documentation>Ситуационный план расположения объекта с привязкой к территории населенного пункта</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:sequence>
+										<xs:annotation>
+											<xs:documentation>Документы, актуальные только для водоснабжение и (или) водоотведения</xs:documentation>
+										</xs:annotation>
+										<xs:element name="LandBorderScheme" type="tns:AttachedDocumentType" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Схема расположения земельного участка или земельных участков на кадастровом плане территории, градостроительном плане земельного участка</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:sequence>
+											<xs:annotation>
+												<xs:documentation>ГПЗУ</xs:documentation>
+											</xs:annotation>
+											<xs:element name="LandPlan" type="tns:AttachedDocumentType" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation>Градостроительный план земельного участка</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="IsLandPlanActual" type="xs:boolean" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation>Срок действия ранее предоставляемого градостроительного плана земельного участка не истек, и сведения, содержащиеся в документе, не изменились</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+										</xs:sequence>
+										<xs:element name="MeteringDeviceDocument" type="tns:AttachedDocumentType" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Сведения о расположении  средств  измерений  и  приборов  учета горячей воды, холодной воды и сточных вод </xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="LandCharacteristics" type="tns:AttachedDocumentType" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Информация о площади и характеристике покрытия земельного участка, с которого осуществляется (будет осуществляться) сброс поверхностных сточных вод в централизованную ливневую систему водоотведения, в том числе неорганизованный сброс поверхностных сточных вод</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:sequence>
+											<xs:annotation>
+												<xs:documentation>Файлы с информацией об использовании альтернативных источников водоснабжения и способов водоотведения</xs:documentation>
+											</xs:annotation>
+											<xs:element name="UseAnotherWaterSupplySystem" type="tns:AttachedDocumentType" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation>Файлы с информацией о наличии иных источников водоснабжения, кроме централизованных систем горячего и холодного водоснабжения с указанием объемов горячей и холодной воды, получаемой из таких иных источников водоснабжения</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="UseOwnHotWaterSystem" type="tns:AttachedDocumentType" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation>Информация о наличии и возможности использования собственной нецентрализованной системы горячего водоснабжения (с указанием мощности и режима работы)</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="UseAnotherSewageSystem" type="tns:AttachedDocumentType" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation>Информация о наличии и возможности использования иных способов отведения сточных вод</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+										</xs:sequence>
+										<xs:sequence>
+											<xs:annotation>
+												<xs:documentation>Информация о балансах потребления</xs:documentation>
+											</xs:annotation>
+											<xs:element name="ColdAndSewageWaterBalanceDocument" type="tns:AttachedDocumentType" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation>Баланс водопотребления и водоотведения подключаемого объекта в период использования максимальной величины мощности (нагрузки)</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="HotWaterBalanceDocument" type="tns:AttachedDocumentType" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation>Баланс потребления горячей воды подключаемого объекта (с указанием целей использования горячей воды)</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+										</xs:sequence>
+										<xs:sequence>
+											<xs:annotation>
+												<xs:documentation>Документы по территории</xs:documentation>
+											</xs:annotation>
+											<xs:element name="PPTDocument" type="tns:AttachedDocumentType" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation>Проект планировки территории</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="PMTDocument" type="tns:AttachedDocumentType" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation>Проект межевания территории</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+										</xs:sequence>
+										<xs:sequence>
+											<xs:annotation>
+												<xs:documentation>Документы для проведения водоснабжающей организацией работ на земельном участке заявителя</xs:documentation>
+											</xs:annotation>
+											<xs:element name="ReliefPlan" type="tns:AttachedDocumentType" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation>План организации рельефа (вертикальная планировка) земельного участка </xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="WellPosition" type="tns:AttachedDocumentType" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation>Планово-высотное положение проектируемого канализационного колодца</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="RoomPlan" type="tns:AttachedDocumentType" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation>План колодца, подвального помещения (техподполья) или иного помещения (иных помещений)</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+										</xs:sequence>
+										<xs:choice minOccurs="0">
+											<xs:element name="EngineeringSurveyResults" type="tns:AttachedDocumentType">
+												<xs:annotation>
+													<xs:documentation>Результаты инженерных изысканий</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="EngineeringSurveyResultsLink" type="tns:String500Type">
+												<xs:annotation>
+													<xs:documentation>Ссылка на заключение в ЕГРЗ, содержащее результаты инженерных изысканий</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+										</xs:choice>
+									</xs:sequence>
+									<xs:sequence>
+										<xs:annotation>
+											<xs:documentation>Документы, актуальные только для теплоснабжения</xs:documentation>
+										</xs:annotation>
+										<xs:element name="ApplicantBankDetails" type="tns:AttachedDocumentType" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Действующие банковские реквизиты</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="BuildingPermitDocument" type="tns:AttachedDocumentType" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Разрешение на строительство</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AgreementType">
+		<xs:annotation>
+			<xs:documentation>Составной тип: Экспрот данных договора о подключении</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AgreementGuid" type="base:GUIDType">
+				<xs:annotation>
+					<xs:documentation>Корневой идентификатор договора</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Status" type="tns:AgreementStatusType">
+				<xs:annotation>
+					<xs:documentation>Статус договора</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AgreementVersion" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Версия договора</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="VersionGuid" type="base:GUIDType">
+							<xs:annotation>
+								<xs:documentation>Идентификатор версии договора</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="VersionNumber" type="xs:int">
+							<xs:annotation>
+								<xs:documentation>Порядковый номер версии</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="VersionDate" type="xs:date">
+							<xs:annotation>
+								<xs:documentation>Дата версии</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="ActualVersion" type="xs:boolean" fixed="true" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Актуальная версия</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Number" type="tns:String50Type">
+							<xs:annotation>
+								<xs:documentation>Номер договора</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Date" type="xs:date">
+							<xs:annotation>
+								<xs:documentation>Дата договора</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="AgreementFile" type="base:SignedAttachmentType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Файл договора, подписанный со стороны исполнителя</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="MessageToApplicant" type="tns:String2000Type">
+							<xs:annotation>
+								<xs:documentation>Сообщение заявителю</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:choice minOccurs="0">
+							<xs:sequence>
+								<xs:element name="ProtocolOfDisagreementsFile" type="tns:AttachedDocumentType">
+									<xs:annotation>
+										<xs:documentation>Протокол разногласий к текущей редакции договора</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="MessageFromApplicant" type="tns:String2000Type" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Сообщение от заявителя</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+							<xs:sequence>
+								<xs:element name="AgreementSignedByApplicant" type="tns:AttachedDocumentType">
+									<xs:annotation>
+										<xs:documentation>Файлы подписанного заявителем договора</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="SignedDate" type="xs:date">
+									<xs:annotation>
+										<xs:documentation>Дата подписания договора</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:choice>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="InteractionHistoryItemType">
+		<xs:annotation>
+			<xs:documentation>Составной тип: Сведения о сообщении в рамках взаимодействия с заявителем</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Created" type="xs:dateTime">
+				<xs:annotation>
+					<xs:documentation>Дата и время отправки/получения информации</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice>
+				<xs:annotation>
+					<xs:documentation>Автор сообщения</xs:documentation>
+				</xs:annotation>
+				<xs:element name="AuthorApplicant" type="xs:boolean" fixed="true">
+					<xs:annotation>
+						<xs:documentation>Автор сообщения - заявитель</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="AuthorExecutor" type="xs:boolean" fixed="true">
+					<xs:annotation>
+						<xs:documentation>Автор сообщения - исполнитель</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:element name="MessageTitle" type="tns:String100Type">
+				<xs:annotation>
+					<xs:documentation>Заголовок сообщения</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MessageDescription" type="base:String255Type">
+				<xs:annotation>
+					<xs:documentation>Описание сообщения</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Comment" type="tns:String4000Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Текст сообщения</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Documents" type="tns:AttachedDocumentType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Прикрепленные к сообщению файлы</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!--Типы для работы с заявлениями-->
+	<xs:complexType name="OrganizationDeterminationApplicationAnswerType">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Отправка ответа по заявлению на определение организации для технологического присоединения</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AnswerByNetworkType" maxOccurs="2">
+				<xs:annotation>
+					<xs:documentation>Ответ по виду централизованной сети</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="NetworkType" type="nsi-base:nsiRef">
+							<xs:annotation>
+								<xs:documentation>Вид централизованной сети для подключения. Справочник "Вид сетей для технологического присоедиенения"</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:choice>
+							<xs:sequence>
+								<xs:annotation>
+									<xs:documentation>Подключение возможно</xs:documentation>
+								</xs:annotation>
+								<xs:element name="NetworkOrganization" type="tns:OrganizationInAnswerType" maxOccurs="unbounded">
+									<xs:annotation>
+										<xs:documentation>Сведения о сетевой организации</xs:documentation>
+									</xs:annotation>
+									<xs:key name="NetworkOrganization_ConnectedResources_CodeKey">
+										<xs:selector xpath="tns:ConnectedResources/tns:Code"/>
+										<xs:field xpath="."/>
+									</xs:key>
+								</xs:element>
+								<xs:element name="SupplyOrganization" type="tns:OrganizationInAnswerType" maxOccurs="unbounded">
+									<xs:annotation>
+										<xs:documentation>Сведения о сбытовой (ресурсоснабжающей организации)</xs:documentation>
+									</xs:annotation>
+									<xs:key name="SupplyOrganization_ConnectedResources_CodeKey">
+										<xs:selector xpath="tns:ConnectedResources/tns:Code"/>
+										<xs:field xpath="."/>
+									</xs:key>
+								</xs:element>
+								<xs:element name="AdditionalInfo" type="tns:String500Type" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Дополнительная информация</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="AdditionalDocument" type="base:SignedAttachmentType" minOccurs="0" maxOccurs="unbounded">
+									<xs:annotation>
+										<xs:documentation>Прикладываемый документ</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+							<xs:sequence>
+								<xs:annotation>
+									<xs:documentation>Подключение невозможно </xs:documentation>
+								</xs:annotation>
+								<xs:element name="RejectReason" type="tns:String500Type">
+									<xs:annotation>
+										<xs:documentation>Кратколе описание причины невозможности подключения объекта к централизованной сети</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="RejectReasonDocument" type="base:SignedAttachmentType" maxOccurs="unbounded">
+									<xs:annotation>
+										<xs:documentation>Документ, содержащий описание причины невозможности подключения объекта к централизованной сети</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:choice>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:key name="SupplyOrganization_OrganizationGUIDKey">
+					<xs:selector xpath="tns:SupplyOrganization/tns:OrganizationInfo/organizations-registry-base:orgRootEntityGUID"/>
+					<xs:field xpath="."/>
+				</xs:key>
+				<xs:key name="NetworkOrganization_OrganizationGUIDKey">
+					<xs:selector xpath="tns:NetworkOrganization/tns:OrganizationInfo/organizations-registry-base:orgRootEntityGUID"/>
+					<xs:field xpath="."/>
+				</xs:key>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TechnicalSpecificationApplicationAnswerType">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Отправка ответа по заявлению на предоставление технических условий подключения</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="TechnicalSpecificationDocument" type="base:SignedAttachmentType" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Документы, содержащие технические условия подключения</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ReasonedRefusalDocument" type="base:SignedAttachmentType" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Документы, содержащие мотивированный отказ в выдаче технических условий подключения</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:element name="Description" type="tns:String500Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Текстовое описание ответа (также включается в сообщение для заявителя на ЕПГУ)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ConnectionPossibilityApplicationAnswerType">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Отправка ответа по заявлению на предоставление информации о возможности подключения к сетям теплоснабжения</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="ConnectionPossibilityInformationDocument" type="base:SignedAttachmentType" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Документы, содержащие информацию о возможности подключения</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ReasonedRefusalDocument" type="base:SignedAttachmentType" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Документы, содержащие мотивированный отказ в выдаче информации о возможности подключения</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:element name="Description" type="tns:String500Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Текстовое описание ответа (также включается в сообщение для заявителя на ЕПГУ)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CommonAnswerType">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Ответ заявителю - универсальный набор сведений</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Comment" type="tns:String4000Type">
+				<xs:annotation>
+					<xs:documentation>Сообщение заявителю</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Attachment" type="base:SignedAttachmentType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Прикрепленный файл</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice minOccurs="0">
+				<xs:element name="NewExecutionDeadline" type="xs:date">
+					<xs:annotation>
+						<xs:documentation>Новый срок исполнения</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:sequence>
+					<xs:annotation>
+						<xs:documentation>Срок увеличен на.
+Определяется от текущей даты</xs:documentation>
+					</xs:annotation>
+					<xs:element name="DaysCount">
+						<xs:annotation>
+							<xs:documentation>Количество дней</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:int">
+								<xs:minInclusive value="1"/>
+								<xs:maxInclusive value="30"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="DaysType" type="tns:DaysTypeType">
+						<xs:annotation>
+							<xs:documentation>Тип дней для увеличения срока</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CreateActType">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Сведения о новой версии акта для отправки заявителю</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Number" type="tns:String50Type">
+				<xs:annotation>
+					<xs:documentation>Номер акта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Date" type="xs:date">
+				<xs:annotation>
+					<xs:documentation>Дата акта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ActFile" type="base:SignedAttachmentType" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Файл акта, подписанный со стороны исполнителя</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MessageToApplicant" type="tns:String2000Type">
+				<xs:annotation>
+					<xs:documentation>Сообщение заявителю</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CreateAgreementType">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Сведения о новой версии договора для отправки заявителю</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Number" type="tns:String50Type">
+				<xs:annotation>
+					<xs:documentation>Номер договора</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Date" type="xs:date">
+				<xs:annotation>
+					<xs:documentation>Дата договора</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AgreementFile" type="base:SignedAttachmentType" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Файл договора, подписанный со стороны исполнителя</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MessageToApplicant" type="tns:String2000Type">
+				<xs:annotation>
+					<xs:documentation>Сообщение заявителю</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!--Общие комплексные типы-->
+	<xs:complexType name="AddressType">
+		<xs:annotation>
+			<xs:documentation>Составной тип: Адрес</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="AddressObjectGUID" type="base:GUIDType">
+				<xs:annotation>
+					<xs:documentation>Глобальный идентификатор адресного объекта ФИАС</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:sequence>
+				<xs:element name="HouseGUID" type="base:GUIDType">
+					<xs:annotation>
+						<xs:documentation>Глобальный идентификатор дома ФИАС</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="PremiseNumber" type="tns:String255Type" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Номер квартиры/помещения</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="ApplicantType">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Сведения о заявителе</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:sequence>
+				<xs:choice>
+					<xs:element name="Person">
+						<xs:annotation>
+							<xs:documentation>Физичечское лицо</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:group ref="tns:PhysicalPersonQualifiedName-ModelGroup"/>
+								<xs:element name="BirthDate" type="xs:date">
+									<xs:annotation>
+										<xs:documentation>Дата рождения</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="Gender" type="tns:GenderType">
+									<xs:annotation>
+										<xs:documentation>Пол</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="BirthPlace">
+									<xs:annotation>
+										<xs:documentation>Место рождения</xs:documentation>
+									</xs:annotation>
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:minLength value="1"/>
+											<xs:maxLength value="200"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
+								<xs:element name="INN" type="organizations-base:INNType" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>ИНН</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="SNILS" type="tns:SNILSType" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>СНИЛС</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="RegistrationAddress" type="tns:AddressType">
+									<xs:annotation>
+										<xs:documentation>Адрес регистрации по месту жительства</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="PostAddress" type="tns:AddressType">
+									<xs:annotation>
+										<xs:documentation>Почтовый адрес</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="Phone" type="tns:PhoneNumberRFType" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Контактный телефон</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="Email" type="tns:EmailAddressType">
+									<xs:annotation>
+										<xs:documentation>Контактный адрес электронной почты</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="Businessman">
+						<xs:annotation>
+							<xs:documentation>Индивидуальный предприниматель</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:group ref="tns:PhysicalPersonQualifiedName-ModelGroup"/>
+								<xs:element name="INN" type="organizations-base:INNType">
+									<xs:annotation>
+										<xs:documentation>ИНН</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="OGRNIP" type="organizations-base:OGRNIPType">
+									<xs:annotation>
+										<xs:documentation>ОГРНИП</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="RegistrationAddress" type="tns:AddressType">
+									<xs:annotation>
+										<xs:documentation>Адрес регистрации по месту жительства</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="Phone" type="tns:PhoneNumberRFType">
+									<xs:annotation>
+										<xs:documentation>Контактный телефон</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="Email" type="tns:EmailAddressType">
+									<xs:annotation>
+										<xs:documentation>Контактный адрес электронной почты</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:choice>
+				<xs:element name="Document">
+					<xs:annotation>
+						<xs:documentation>Сведения о документе, удостоверяющем личность заявителя</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:group ref="tns:PrimaryIdentityDocument"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="IdentityDocument" type="base:AttachmentType" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Документ, удостоверяющий личность заявителя</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="SignedIdentityDocument" type="base:SignedAttachmentType" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Документ, удостоверяющий личность заявителя, с открепленной (detached) подписью</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:sequence>
+				<xs:choice>
+					<xs:element name="Employee">
+						<xs:annotation>
+							<xs:documentation>Юридическое лицо</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="FullName" type="tns:String500Type">
+									<xs:annotation>
+										<xs:documentation>Полное наименование</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="ShortName" type="tns:String500Type" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Сокращенное наименование</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="INN" type="organizations-base:INNType">
+									<xs:annotation>
+										<xs:documentation>ИНН</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="OGRN" type="organizations-base:OGRNType">
+									<xs:annotation>
+										<xs:documentation>ОГРН</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="KPP" type="organizations-base:KPPType">
+									<xs:annotation>
+										<xs:documentation>КПП</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="LegalAddress" type="tns:AddressType">
+									<xs:annotation>
+										<xs:documentation>Адрес регистрации</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="PostAddress" type="tns:AddressType">
+									<xs:annotation>
+										<xs:documentation>Почтовый адрес</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="Email" type="tns:EmailAddressType">
+									<xs:annotation>
+										<xs:documentation>Контактный адрес электронной почты</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="Phone" type="tns:PhoneNumberRFType">
+									<xs:annotation>
+										<xs:documentation>Контактный телефон</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="ContactPerson" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Сведения о контактном лице организации</xs:documentation>
+									</xs:annotation>
+									<xs:complexType>
+										<xs:sequence>
+											<xs:group ref="tns:PhysicalPersonQualifiedName-ModelGroup"/>
+											<xs:element name="Phone" type="tns:PhoneNumberRFType">
+												<xs:annotation>
+													<xs:documentation>Контактный телефон</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="Email" type="tns:EmailAddressType" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation>Контактный адрес электронной почты</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="ForeignLegalPerson">
+						<xs:annotation>
+							<xs:documentation>Иностранное юридическое лицо</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="FullName" type="tns:String500Type">
+									<xs:annotation>
+										<xs:documentation>Полное наименование</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="ShortName" type="tns:String500Type" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Сокращенное наименование</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="LegalEntityType" type="tns:EsnsiItemType">
+									<xs:annotation>
+										<xs:documentation>Организационно-правовая форма. Справочник "ОКОПФ" ЕСНСИ</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="NZA" type="organizations-base:NZAType">
+									<xs:annotation>
+										<xs:documentation>Номер записи об аккредитации</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="INN" type="organizations-base:INNType">
+									<xs:annotation>
+										<xs:documentation>ИНН</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="KPP" type="organizations-base:KPPType">
+									<xs:annotation>
+										<xs:documentation>КПП</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="ActualAddress" type="tns:AddressType" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Адрес места нахождения филиала на территории РФ</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:choice>
+				<xs:element name="ConstituentAppliedDocument" type="base:AttachmentType" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Учредительный документ</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="SignedConstituentAppliedDocument" type="base:SignedAttachmentType" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Учредительный документ с открепленной (detached) подписью</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="AttachedDocumentType">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Прикрепленный к заявлению документ</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Document" type="base:AttachmentType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Документ без открепленной (detached) подписи</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SignedDocument" type="base:SignedAttachmentType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Документ c открепленной (detached) подписью</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EsnsiItemType">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Элемент справочника в ЕСНСИ</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Code" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>Код записи справочника</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Name" type="tns:String255Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Наименование записи справочника</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FacilityCommonType">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Общие сведения об объекте недвижимости</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ObjectName" type="tns:String200Type">
+				<xs:annotation>
+					<xs:documentation>Наименование подключаемого объекта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ObjectPurpose" type="tns:EsnsiItemType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Назначение подключаемого объекта. Справочник "Назначение подключаемого объекта" ЕСНСИ</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OtherObjectPurpose" type="tns:String200Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Иное назначение подключаемого объекта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ObjectOfIndividualHousingConstruction" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Объект относится к ИЖС</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ObjectStatus" type="tns:ObjectStatusType">
+				<xs:annotation>
+					<xs:documentation>Статус объекта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice minOccurs="0">
+				<xs:element name="CadastralNumber" type="tns:CadastralNumberType">
+					<xs:annotation>
+						<xs:documentation>Кадастровый номер объекта</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="OtherNumber" type="tns:OtherNumberType">
+					<xs:annotation>
+						<xs:documentation>Условный номер объекта</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:element name="ObjectRightsRegistered" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Права на подключаемый объект зарегистрированы в Росреестре</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="HeatTransferType">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Сведния о теплоносителе</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Name" type="tns:String50Type">
+				<xs:annotation>
+					<xs:documentation>Наименование вида теплоносителя</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Pressure">
+				<xs:annotation>
+					<xs:documentation>Давление вида теплоносителя (МПа)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:totalDigits value="10"/>
+						<xs:fractionDigits value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Temperature" type="tns:String50Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Температура вида теплоносителя</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="HeatingConsumptionInfoType">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Информация о режиме теплопотребления объекта</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="HeatConsumptionType" type="tns:EsnsiItemType">
+				<xs:annotation>
+					<xs:documentation>Режим теплопотребления. Справочник "Режим теплопотребления подключаемого объекта" ЕСНСИ</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CustomHeatConsumptionType" type="tns:String200Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Свой вариант режима теплопотребления</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="LandCommonType">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Общие сведения о земельном участке</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="CadastralNumber" type="tns:CadastralNumberType">
+					<xs:annotation>
+						<xs:documentation>Кадастровый номер земельного участка</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="OtherNumber" type="tns:OtherNumberType">
+					<xs:annotation>
+						<xs:documentation>Условный номер земельного участка</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:element name="LandRightsRegistered" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Права на земельный участок зарегистрированы в Росреестре</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ObjectAddressInfoType">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Сведения об адресе подключаемого объекта</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="FIASAddress" type="tns:AddressType">
+				<xs:annotation>
+					<xs:documentation>Сведения об адресе из ФИАС</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AdditionalAddressInfo" type="tns:String500Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Дополнительная информация об адресе подключаемого объекта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OrganizationInAnswerType">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Организация в ответе по заявлению на определенеи организации для технологического присоединения</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="OrganizationInfo">
+				<xs:annotation>
+					<xs:documentation>Сведения об организации</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:choice>
+						<xs:element ref="organizations-registry-base:orgRootEntityGUID"/>
+						<xs:sequence>
+							<xs:element name="ShortName" type="tns:String200Type">
+								<xs:annotation>
+									<xs:documentation>Краткое наименование</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="FactualAddress" type="tns:String200Type">
+								<xs:annotation>
+									<xs:documentation>Адрес места нахождения</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ConnectedResources" type="tns:EsnsiItemType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Ресурсы, доступные к подключению. Справочник "Вид ресурсов или услуг, доступный для подключения" ЕСНСИ</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="PhysicalPersonQualifiedName-ModelGroup">
+		<xs:annotation>
+			<xs:documentation>Группа атрибутов. ФИО физического лица</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="LastName" type="tns:String200Type">
+				<xs:annotation>
+					<xs:documentation>Фамилия</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="FirstName" type="tns:String200Type">
+				<xs:annotation>
+					<xs:documentation>Имя</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MiddleName" type="tns:String200Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Отчество</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="HeatingPowerDetailsType">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Сведения о нагрузке по теплоснабжению</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="GvsAverage" type="tns:Digits10Type">
+				<xs:annotation>
+					<xs:documentation>Горячее водоснабжение - средняя, ГКал/час</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="GvsMax" type="tns:Digits10Type">
+				<xs:annotation>
+					<xs:documentation>Горячее водоснабжение - максимальная, ГКал/час</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Heating" type="tns:Digits10Type">
+				<xs:annotation>
+					<xs:documentation>Теплоснабжение, ГКал/час</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Ventilation" type="tns:Digits10Type">
+				<xs:annotation>
+					<xs:documentation>Вентиляция, ГКал/час</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Conditioning" type="tns:Digits10Type">
+				<xs:annotation>
+					<xs:documentation>Кондиционирование, ГКал/час</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Other" type="tns:Digits10Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Прочая, ГКал/час</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="HeatingTemperatureGraphType">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Сведения о температурном графике</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="GvsAverage" type="tns:String50Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Горячее водоснабжение - средняя, ГКал/час</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="GvsMax" type="tns:String50Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Горячее водоснабжение - максимальная, ГКал/час</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Heating" type="tns:String50Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Теплоснабжение, ГКал/час</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Ventilation" type="tns:String50Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Вентиляция, ГКал/час</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Conditioning" type="tns:String50Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Кондиционирование, ГКал/час</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Other" type="tns:String50Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Прочая, ГКал/час</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="PrimaryIdentityDocument">
+		<xs:annotation>
+			<xs:documentation>Группа атрибутов. Основной документ, удостоверяющие личность. Подходит для любых юр. действий</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DocumentType" type="tns:EsnsiItemType">
+				<xs:annotation>
+					<xs:documentation>Вид документа. Справочник "Вид документа, удостоверяющего личность" ЕСНСИ</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Series" type="tns:String20Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Серия документ</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Number" type="tns:String25Type">
+				<xs:annotation>
+					<xs:documentation>Номер документа</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="IssueDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation>Дата выдачи документа</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Issuer" type="tns:String200Type">
+				<xs:annotation>
+					<xs:documentation>Кем выдан</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="IssuerCode" type="tns:String7Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Код подразделения</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="RepresentativeType">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Сведения о представителе заявителя</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:sequence>
+					<xs:choice>
+						<xs:element name="Person">
+							<xs:annotation>
+								<xs:documentation>Физичечское лицо</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:group ref="tns:PhysicalPersonQualifiedName-ModelGroup"/>
+									<xs:element name="BirthDate" type="xs:date">
+										<xs:annotation>
+											<xs:documentation>Дата рождения</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="Gender" type="tns:GenderType">
+										<xs:annotation>
+											<xs:documentation>Пол</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="RegistrationAddress" type="tns:AddressType">
+										<xs:annotation>
+											<xs:documentation>Адрес регистрации по месту жительства</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="Phone" type="tns:PhoneNumberRFType">
+										<xs:annotation>
+											<xs:documentation>Контактный телефон</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="Email" type="tns:EmailAddressType" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Контактный адрес электронной почты</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Businessman">
+							<xs:annotation>
+								<xs:documentation>Индивидуальный предприниматель</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:group ref="tns:PhysicalPersonQualifiedName-ModelGroup"/>
+									<xs:element name="BirthDate" type="xs:date">
+										<xs:annotation>
+											<xs:documentation>Дата рождения</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="Gender" type="tns:GenderType">
+										<xs:annotation>
+											<xs:documentation>Пол</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="RegistrationAddress" type="tns:AddressType">
+										<xs:annotation>
+											<xs:documentation>Адрес регистрации по месту жительства</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="PostAddress" type="tns:AddressType" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Почтовый адрес</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="Phone" type="tns:PhoneNumberRFType">
+										<xs:annotation>
+											<xs:documentation>Контактный телефон</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="Email" type="tns:EmailAddressType" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Контактный адрес электронной почты</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:choice>
+					<xs:element name="Document">
+						<xs:annotation>
+							<xs:documentation>Сведения о документе, удостоверяющем личность заявителя</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:group ref="tns:PrimaryIdentityDocument"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+				<xs:element name="Employee">
+					<xs:annotation>
+						<xs:documentation>Юридическое лицо</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="FullName" type="tns:String500Type">
+								<xs:annotation>
+									<xs:documentation>Полное наименование</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="ShortName" type="tns:String500Type" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Сокращенное наименование</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="INN" type="organizations-base:INNType">
+								<xs:annotation>
+									<xs:documentation>ИНН</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="OGRN" type="organizations-base:OGRNType">
+								<xs:annotation>
+									<xs:documentation>ОГРН</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="KPP" type="organizations-base:KPPType">
+								<xs:annotation>
+									<xs:documentation>КПП</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="LegalEntityType" type="tns:EsnsiItemType">
+								<xs:annotation>
+									<xs:documentation>Организационно правовая форма. Справочник "ОКОПФ" ЕСНСИ</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="LegalAddress" type="tns:AddressType">
+								<xs:annotation>
+									<xs:documentation>Адрес регистрации</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="PostAddress" type="tns:AddressType">
+								<xs:annotation>
+									<xs:documentation>Почтовый адрес</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="ContactPerson" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Сведения о контактном лице организации</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:group ref="tns:PhysicalPersonQualifiedName-ModelGroup"/>
+										<xs:element name="Phone" type="tns:PhoneNumberRFType">
+											<xs:annotation>
+												<xs:documentation>Контактный телефон</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="Email" type="tns:EmailAddressType" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Контактный адрес электронной почты</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+			<xs:element name="PowerOfAttorneyDocument" type="base:AttachmentType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Документ, подтверждающий полномочия представителя</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SignedPowerOfAttorneyDocument" type="base:SignedAttachmentType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Документ, подтверждающий полномочия представителя, с открепленной (detached) подписью</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="WaterSupplyPowerDetailsType">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Сведения о нагрузке по водоснабжению и водоотведению</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="HotWaterSupply" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Нагрузка по горячему водоснабжению</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="GCalPerHour" type="tns:VolumeType">
+							<xs:annotation>
+								<xs:documentation>Потребление - ГКал/час</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="LitrePerSecond" type="tns:VolumeType">
+							<xs:annotation>
+								<xs:documentation>Потребление - л/с</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="CbmPerHour" type="tns:VolumeType">
+							<xs:annotation>
+								<xs:documentation>Потребление - куб.м/час</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ColdWaterSupply" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Нагрузка по холодному водоснабжению</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="LitrePerSecond" type="tns:VolumeType">
+							<xs:annotation>
+								<xs:documentation>Потребление - л/с</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="CbmPerHour" type="tns:VolumeType">
+							<xs:annotation>
+								<xs:documentation>Потребление - куб.м/час</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="CbmPerDay" type="tns:VolumeType">
+							<xs:annotation>
+								<xs:documentation>Потребление - куб.м/сутки</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:sequence minOccurs="0">
+							<xs:element name="InternalFirefightingCapacity" type="tns:VolumeType" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Потребление холодной воды на нужды внутреннего пожаротушения - л/с</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="OutdoorFirefightingCapacity" type="tns:VolumeType" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Потребление холодной воды на нужды наружного пожаротушения - л/с</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="AutomaticFirefightingCapacity" type="tns:VolumeType" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Потребление холодной воды на нужды автоматического пожаротушения - л/с</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="FireHydrantsNumber" type="xs:int" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Количество пожарных кранов - шт.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Sewage" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Нагрузка по водоотведению</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="LitrePerSecond" type="tns:VolumeType">
+							<xs:annotation>
+								<xs:documentation>Потребление - л/с</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="CbmPerHour" type="tns:VolumeType">
+							<xs:annotation>
+								<xs:documentation>Потребление - куб.м/час</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="CbmPerDay" type="tns:VolumeType">
+							<xs:annotation>
+								<xs:documentation>Потребление - куб.м/сутки</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!--СКАЛЯРНЫЕ ТИПЫ-->
+	<xs:simpleType name="ActApplicationStatusType">
+		<xs:annotation>
+			<xs:documentation>Скалярный тип. Статус заявления на получение акта по договору</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="REJECTED">
+				<xs:annotation>
+					<xs:documentation>Отклонено</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="REGISTERED">
+				<xs:annotation>
+					<xs:documentation>Зарегистрировано</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="IN_PROGRESS">
+				<xs:annotation>
+					<xs:documentation>В работе</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="DENIED">
+				<xs:annotation>
+					<xs:documentation>Отказ в выдаче акта</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AGREEMENT_NOT_FOUND">
+				<xs:annotation>
+					<xs:documentation>Договор отсутствует</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ACCEPTANCE_OPERATIONS_IN_PROGRESS">
+				<xs:annotation>
+					<xs:documentation>Проведение приемочных работ</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ACT_SIGNING">
+				<xs:annotation>
+					<xs:documentation>Подписание акта о готовности</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SERVICE_COMPLETED">
+				<xs:annotation>
+					<xs:documentation>Услуга завершена</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ActKindType">
+		<xs:annotation>
+			<xs:documentation>Скалярный тип. Вид акта по договору о подключении</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="IntermediateCertificate">
+				<xs:annotation>
+					<xs:documentation>Акт о готовности</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="FinalCertificate">
+				<xs:annotation>
+					<xs:documentation>Акт о подключении</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ActStatusType">
+		<xs:annotation>
+			<xs:documentation>Скалярный тип. Статус акта по договору</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="PROJECT">
+				<xs:annotation>
+					<xs:documentation>Проект</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ON_APPROVAL">
+				<xs:annotation>
+					<xs:documentation>Согласование с заявителем</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SIGNED_OUTSIDE">
+				<xs:annotation>
+					<xs:documentation>Акт подписан вне системы</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="COMPLAINTS_RECEIVED">
+				<xs:annotation>
+					<xs:documentation>Получены замечания</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="REJECTED">
+				<xs:annotation>
+					<xs:documentation>Отказ от подписания</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SIGNED">
+				<xs:annotation>
+					<xs:documentation>Подписан заявителем</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="APPROVED">
+				<xs:annotation>
+					<xs:documentation>Подписание подтверждено</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AgreementApplicationStatusType">
+		<xs:annotation>
+			<xs:documentation>Скалярный тип. Статус заявления на заключение договора о подключении</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="REJECTED">
+				<xs:annotation>
+					<xs:documentation>Отклонено</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="REGISTERED">
+				<xs:annotation>
+					<xs:documentation>Зарегистрировано</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="IN_PROGRESS">
+				<xs:annotation>
+					<xs:documentation>В работе</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SUPPLEMENTATION">
+				<xs:annotation>
+					<xs:documentation>Доукомплектование заявления</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="DENIED_TC">
+				<xs:annotation>
+					<xs:documentation>Отказано в подключении</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="IN_PROGRESS_TC_CAPABILITY_CHECK">
+				<xs:annotation>
+					<xs:documentation>В работе (проверка технической возможности)</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="TC_CAPABILITY_SELECTION">
+				<xs:annotation>
+					<xs:documentation>Выбор способа осуществления технической возможности подключения</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ANSWER_WITH_TC_METHOD_IS_RECEIVED">
+				<xs:annotation>
+					<xs:documentation>Получен ответ о выборе способа подключения</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="FEE_SETTING_INDIVIDUALLY">
+				<xs:annotation>
+					<xs:documentation>Установление платы в индивидуальном порядке</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="INCLUSION_TO_INVESTMENT_PROGRAM">
+				<xs:annotation>
+					<xs:documentation>Включение в инвестиционную программу</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="DENIED_INCLUSION_TO_INVESTMENT_PROGRAM">
+				<xs:annotation>
+					<xs:documentation>Отказано во включении в инвестиционную программу</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="REJECTED_BY_APPLICANT">
+				<xs:annotation>
+					<xs:documentation>Заявитель отказался от подключения</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="COORDINATION_WITH_RELATED_ORG">
+				<xs:annotation>
+					<xs:documentation>Согласование со смежной организацией</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AGREEMENT_CONCLUSION">
+				<xs:annotation>
+					<xs:documentation>Заключение договора</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="REFUSAL_TO_SIGN_AGREEMENT">
+				<xs:annotation>
+					<xs:documentation>Отказ от подписания договора (услуга завершена)</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="WORKS_IN_PROGRESS">
+				<xs:annotation>
+					<xs:documentation>Выполняются работы по договору</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ACT_OF_COMPLETENESS_IS_REQUESTED">
+				<xs:annotation>
+					<xs:documentation>Запрос акта о готовности</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ACCEPTANCE_OPERATIONS_IN_PROGRESS">
+				<xs:annotation>
+					<xs:documentation>Ведутся приемочные работы по договору</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ACT_OF_COMPLETENESS_SIGNING">
+				<xs:annotation>
+					<xs:documentation>Подписание акта о готовности</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ACT_OF_TC_IS_REQUESTED">
+				<xs:annotation>
+					<xs:documentation>Запрос акта о подключении</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ACT_OF_TC_SIGNING">
+				<xs:annotation>
+					<xs:documentation>Подписание акта о подключении</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SERVICE_COMPLETED">
+				<xs:annotation>
+					<xs:documentation>Услуга завершена</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="CANCELLED">
+				<xs:annotation>
+					<xs:documentation>Аннулировано</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AgreementStatusType">
+		<xs:annotation>
+			<xs:documentation>Скалярный тип. Статус договора о подключении</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="PROJECT">
+				<xs:annotation>
+					<xs:documentation>Проект</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="APPROVAL_WITH_APPLICANT">
+				<xs:annotation>
+					<xs:documentation>Согласование с заявителем</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="PROTOCOL_OF_DISAGREEMENT_RECEIVED">
+				<xs:annotation>
+					<xs:documentation>Получен протокол разногласий</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="REFUSAL_TO_SIGN">
+				<xs:annotation>
+					<xs:documentation>Отказ от подписания</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SIGNED_BY_APPLICANT">
+				<xs:annotation>
+					<xs:documentation>Подписан заявителем</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SIGNING_APPROVED">
+				<xs:annotation>
+					<xs:documentation>Подписание подтверждено</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="BuildingHeightType">
+		<xs:annotation>
+			<xs:documentation>Скалярный тип. Высота здания/сооружения в метрах</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="6"/>
+			<xs:fractionDigits value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="BuildingVolumeType">
+		<xs:annotation>
+			<xs:documentation>Скалярный тип. Строительный объем в куб. метрах</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="10"/>
+			<xs:fractionDigits value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CadastralNumberType">
+		<xs:annotation>
+			<xs:documentation>Скалярный тип. Кадастровый номер</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="44"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DaysTypeType">
+		<xs:annotation>
+			<xs:documentation>Скалярный тип. Тип дней</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="CALENDAR">
+				<xs:annotation>
+					<xs:documentation>Календарный</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="WORK">
+				<xs:annotation>
+					<xs:documentation>Рабочий</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Digits10Type">
+		<xs:annotation>
+			<xs:documentation>Скалярный тип. Дробное число 10 символов</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="10"/>
+			<xs:fractionDigits value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="EmailAddressType">
+		<xs:annotation>
+			<xs:documentation>Скалярный тип. Адрес электронной почты</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="255"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="FloorCountType">
+		<xs:annotation>
+			<xs:documentation>Скалярный тип. Предельное количество этажей</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="1"/>
+			<xs:maxInclusive value="999"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="GenderType">
+		<xs:annotation>
+			<xs:documentation>Скалярный тип. Пол</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Male">
+				<xs:annotation>
+					<xs:documentation>Мужской</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Female">
+				<xs:annotation>
+					<xs:documentation>Женский</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ObjectStatusType">
+		<xs:annotation>
+			<xs:documentation>Скалярный тип. Статус объекта</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Built"/>
+			<xs:enumeration value="Established"/>
+			<xs:enumeration value="Planning"/>
+			<xs:enumeration value="Construction"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="OrganizationDeterminationApplicationStatusType">
+		<xs:annotation>
+			<xs:documentation>Скалярный тип. Статус заявления на определение организации для технологического присоединения</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="REGISTERED">
+				<xs:annotation>
+					<xs:documentation>Зарегистрировано</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="IN_PROGRESS">
+				<xs:annotation>
+					<xs:documentation>В работе</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ANSWER_ADDED">
+				<xs:annotation>
+					<xs:documentation>В работе (добавлен ответ)</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ANSWER_SENT">
+				<xs:annotation>
+					<xs:documentation>Отправлен ответ</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="OtherNumberType">
+		<xs:annotation>
+			<xs:documentation>Скалярный тип. Условный номер</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="tns:String50Type"/>
+	</xs:simpleType>
+	<xs:simpleType name="PhoneNumberRFType">
+		<xs:annotation>
+			<xs:documentation>Скалярный тип. Номер телефона в РФ, в десятизначном формате</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="10"/>
+			<xs:pattern value="\d{10}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SNILSType">
+		<xs:annotation>
+			<xs:documentation>Скалярный тип. СНИЛС</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="11"/>
+			<xs:pattern value="\d{11}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SquareType">
+		<xs:annotation>
+			<xs:documentation>Скалярный тип. Площадь в кв. метрах</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="10"/>
+			<xs:fractionDigits value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="String7Type">
+		<xs:annotation>
+			<xs:documentation>Скалярный тип. Строка 7 символов</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="7"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="String10Type">
+		<xs:annotation>
+			<xs:documentation>Скалярный тип. Строка 10 символов</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="10"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="String20Type">
+		<xs:annotation>
+			<xs:documentation>Скалярный тип. Строка 20 символов</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="20"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="String25Type">
+		<xs:annotation>
+			<xs:documentation>Скалярный тип. Строка 25 символов</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="25"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="String50Type">
+		<xs:annotation>
+			<xs:documentation>Скалярный тип. Строка 50 символов</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="50"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="String100Type">
+		<xs:annotation>
+			<xs:documentation>Скалярный тип. Строка 100 символов</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="100"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="String200Type">
+		<xs:annotation>
+			<xs:documentation>Скалярный тип. Строка 200 символов</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="200"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="String255Type">
+		<xs:annotation>
+			<xs:documentation>Скалярный тип. Строка 255 символов</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="255"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="String500Type">
+		<xs:annotation>
+			<xs:documentation>Скалярный тип. Строка 500 символов</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="500"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="String2000Type">
+		<xs:annotation>
+			<xs:documentation>Скалярный тип. Строка 2000 символов</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="2000"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="String4000Type">
+		<xs:annotation>
+			<xs:documentation>Скалярный тип. Строка 4000 символов</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="4000"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="StringRus200type">
+		<xs:annotation>
+			<xs:documentation>Скалярный тип. Русский текст, длиной до 200 символов, цифры не допускаются</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="200"/>
+			<xs:minLength value="1"/>
+			<xs:pattern value="[а-яА-ЯёЁ\-\s,.]{1,200}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TechnicalSpecificationApplicationStatusType">
+		<xs:annotation>
+			<xs:documentation>Скалярный тип. Статус заявления на предоставление технических условий подключения</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="REGISTERED">
+				<xs:annotation>
+					<xs:documentation>Зарегистрировано</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="IN_PROGRESS">
+				<xs:annotation>
+					<xs:documentation>В работе</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ANSWER_ADDED">
+				<xs:annotation>
+					<xs:documentation>В работе (добавлен ответ)</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ANSWER_SENT">
+				<xs:annotation>
+					<xs:documentation>Отправлен ответ</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="VolumeType">
+		<xs:annotation>
+			<xs:documentation>Скалярный тип. Объем потребляемой нагрузки - дробное число, 10 символов</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="10"/>
+			<xs:fractionDigits value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

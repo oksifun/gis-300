@@ -1,0 +1,20 @@
+{% autoescape None %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Справка</title>
+</head>
+
+<body>
+    {% for tab in tabs %}
+        {% if tab.help %}
+            <div class="well">
+                <h3>{{ tab.title }}</h3>
+                <a name="{{ tab._id }}" style="display: none">{{ tab.title_ext }}</a>
+                {{ tab.help }}
+            </div>
+        {% end %}
+    {% end %}
+</body>
+</html>

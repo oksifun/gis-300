@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://dom.gosuslugi.ru/schema/integration/rvuo-service-async/" xmlns:base="http://dom.gosuslugi.ru/schema/integration/base/" xmlns:rvuo="http://dom.gosuslugi.ru/schema/integration/rvuo/" targetNamespace="http://dom.gosuslugi.ru/schema/integration/rvuo-service-async/">
+	<wsdl:types>
+		<xs:schema version="13.1.10.1" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+			<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/rvuo/" schemaLocation="hcs-rvuo-types.xsd"/>
+			<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/base/" schemaLocation="../lib/hcs-base.xsd"/>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="importManagingOrganizationRequest">
+		<wsdl:part name="importManagingOrganizationRequest" element="rvuo:importManagingOrganizationRequest"/>
+	</wsdl:message>
+	<wsdl:message name="AckRequest">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="Fault">
+		<wsdl:part name="Fault" element="base:Fault"/>
+	</wsdl:message>
+	<wsdl:message name="importDecisionRequest">
+		<wsdl:part name="importDecisionRequest" element="rvuo:importDecisionRequest"/>
+	</wsdl:message>
+	<wsdl:message name="getStateRequest">
+		<wsdl:part name="getRequestState" element="base:getStateRequest"/>
+	</wsdl:message>
+	<wsdl:message name="getStateResult">
+		<wsdl:part name="getRequestStateResult" element="rvuo:getStateResult"/>
+	</wsdl:message>
+	<wsdl:message name="RequestHeader">
+		<wsdl:part name="Header" element="base:RequestHeader"/>
+	</wsdl:message>
+	<wsdl:message name="ResultHeader">
+		<wsdl:part name="Header" element="base:ResultHeader"/>
+	</wsdl:message>
+	<wsdl:message name="exportManagingOrganizationRequest">
+		<wsdl:part name="exportManagingOrganizationRequest" element="rvuo:exportManagingOrganizationRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportDecisionRequest">
+		<wsdl:part name="exportDecisionRequest" element="rvuo:exportDecisionRequest"/>
+	</wsdl:message>
+	<wsdl:portType name="RvuoPortsTypeAsync">
+		<wsdl:operation name="importManagingOrganization">
+			<wsdl:documentation>Импорт информации об управляющей организации в реестр управляющих организаций и решений об определении управляющих организаций</wsdl:documentation>
+			<wsdl:input message="tns:importManagingOrganizationRequest"/>
+			<wsdl:output message="tns:AckRequest"/>
+			<wsdl:fault name="FaultName" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="importDecision">
+			<wsdl:documentation>Импорт информации о решении об определении управляющей организации в реестр управляющих организаций и решений об определении управляющих организаций</wsdl:documentation>
+			<wsdl:input message="tns:importDecisionRequest"/>
+			<wsdl:output message="tns:AckRequest"/>
+			<wsdl:fault name="FaultName" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="getState">
+			<wsdl:documentation>Получить статус обработки запроса</wsdl:documentation>
+			<wsdl:input message="tns:getStateRequest"/>
+			<wsdl:output message="tns:getStateResult"/>
+			<wsdl:fault name="FaultName" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="exportManagingOrganization">
+			<wsdl:documentation>Экспорт информации об управляющих организациях из реестра управляющих организаций и решений об определении управляющих организаций</wsdl:documentation>
+			<wsdl:input message="tns:exportManagingOrganizationRequest"/>
+			<wsdl:output message="tns:AckRequest"/>
+			<wsdl:fault name="FaultName" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="exportDecision">
+			<wsdl:documentation>Экспорт информации о решении об определении управляющей организации из реестра управляющих организаций и решений об определении управляющих организаций</wsdl:documentation>
+			<wsdl:input message="tns:exportDecisionRequest"/>
+			<wsdl:output message="tns:AckRequest"/>
+			<wsdl:fault name="FaultName" message="tns:Fault"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="RvuoBindingAsync" type="tns:RvuoPortsTypeAsync">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="importManagingOrganization">
+			<soap:operation soapAction="urn:importManagingOrganization"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="FaultName">
+				<soap:fault name="FaultName" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="importDecision">
+			<soap:operation soapAction="urn:importDecision"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="FaultName">
+				<soap:fault name="FaultName" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="getState">
+			<soap:operation soapAction="urn:getState"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="FaultName">
+				<soap:fault name="FaultName" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="exportManagingOrganization">
+			<soap:operation soapAction="urn:exportManagingOrganization"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="FaultName">
+				<soap:fault name="FaultName" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="exportDecision">
+			<soap:operation soapAction="urn:exportDecision"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="FaultName">
+				<soap:fault name="FaultName" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="RvuoServiceAsync">
+		<wsdl:port name="RvuoPortAsync" binding="tns:RvuoBindingAsync">
+			<soap:address location="https://api.dom.gosuslugi.ru/ext-bus-rvuo-service/services/RvuoAsync"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

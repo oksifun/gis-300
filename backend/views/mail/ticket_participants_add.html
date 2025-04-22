@@ -1,0 +1,20 @@
+{% extends 'notice.html' %}
+
+{% block content %}
+    <p>
+        Вы назначены наблюдателем к обращению {{ ticket_subject }} номер №{{ ticket_number }}
+    </p>
+    <p>
+        Автор: {{ author_name }}, время принятия: {{ datetime }}
+    </p>
+        <p>
+        Создатель: {{ creator_name }}, время создания: {{ incoming_date }}
+    </p>
+    <p>
+        Содержание заявки:<br>
+        <b>{{ body }}</b>
+    </p>
+    <p align="center">
+        <a style="color: #0088cc;" href="http://lk.c300.me/#/tickets/detail/{{ ticket_id }}">Открыть обращение</a>
+    </p>
+{% end %}

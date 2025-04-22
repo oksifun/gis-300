@@ -1,0 +1,17 @@
+{% extends 'base_old.html' %}
+
+{% block body %}
+    <h1>Запрос реестра</h1>
+    <h2>Запрос отсутствующего реестра</h2><br>
+
+    Организация: {{ worker.provider.str_name }}<br>
+    Сотрудник: {{ worker.str_name }}<br><br>
+
+    {{date.strftime('%d.%m.%Y')}} Платежное поручение №{{number}}<br>
+    Плательщик: {{payer}}<br>
+
+    Сумма: {{sum}}<br>
+    Назначение платежа: {{purpose_payment}}<br>
+    <!-- <pre>///</pre> -->
+
+{% end %}

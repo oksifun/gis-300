@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://dom.gosuslugi.ru/schema/integration/appeals-service-async" xmlns:ap="http://dom.gosuslugi.ru/schema/integration/appeals/" xmlns:base="http://dom.gosuslugi.ru/schema/integration/base/" xmlns:ns="http://www.w3.org/2000/09/xmldsig#" xmlns:ns1="http://dom.gosuslugi.ru/schema/integration/nsi-base/" xmlns:ns2="http://dom.gosuslugi.ru/schema/integration/organizations-registry-base/" xmlns:ns3="http://dom.gosuslugi.ru/schema/integration/organizations-base/" xmlns:ns4="http://dom.gosuslugi.ru/schema/integration/premises-base/" xmlns:ns5="http://dom.gosuslugi.ru/schema/integration/individual-registry-base/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://dom.gosuslugi.ru/schema/integration/appeals-service-async">
+	<wsdl:types>
+		<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" elementFormDefault="unqualified" attributeFormDefault="unqualified" version="12.2.0.5">
+			<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/appeals/" schemaLocation="hcs-appeals-types.xsd"/>
+			<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/base/" schemaLocation="../lib/hcs-base.xsd"/>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="RequestHeader">
+		<wsdl:part name="Header" element="base:RequestHeader"/>
+	</wsdl:message>
+	<wsdl:message name="ResultHeader">
+		<wsdl:part name="Header" element="base:ResultHeader"/>
+	</wsdl:message>
+	<wsdl:message name="getStateRequest">
+		<wsdl:part name="getStateRequest" element="base:getStateRequest"/>
+	</wsdl:message>
+	<wsdl:message name="getStateResult">
+		<wsdl:part name="getStateResult" element="ap:getStateResult"/>
+	</wsdl:message>
+	<wsdl:message name="exportAppealRequest">
+		<wsdl:part name="exportAppealRequest" element="ap:exportAppealRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportAppealResult">
+		<wsdl:part name="exportAppealResult" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importAnswerRequest">
+		<wsdl:part name="importAnswerRequest" element="ap:importAnswerRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importAnswerResult">
+		<wsdl:part name="importAnswerResult" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="Fault">
+		<wsdl:part name="Fault" element="base:Fault"/>
+	</wsdl:message>
+	<wsdl:portType name="AppealsAsyncPort">
+		<wsdl:operation name="getState">
+			<wsdl:documentation>Результат обработки асинхронного вызова</wsdl:documentation>
+			<wsdl:input message="tns:getStateRequest"/>
+			<wsdl:output message="tns:getStateResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="exportAppeal">
+			<wsdl:documentation>Экспорт обращений и ответов на обращения</wsdl:documentation>
+			<wsdl:input message="tns:exportAppealRequest"/>
+			<wsdl:output message="tns:exportAppealResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="importAnswer">
+			<wsdl:documentation>Импорт ответов на обращения</wsdl:documentation>
+			<wsdl:input message="tns:importAnswerRequest"/>
+			<wsdl:output message="tns:importAnswerResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="AppealsAsyncBinding" type="tns:AppealsAsyncPort">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="getState">
+			<soap:operation soapAction="urn:getState"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="exportAppeal">
+			<wsdl:documentation>Экспорт обращений</wsdl:documentation>
+			<soap:operation soapAction="urn:exportAppeal"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="importAnswer">
+			<wsdl:documentation>Импорт ответов на обращения</wsdl:documentation>
+			<soap:operation soapAction="urn:importAnswer"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="AppealsServiceAsync">
+		<wsdl:documentation>Сервис управления обращениями</wsdl:documentation>
+		<wsdl:port name="AppealsAsyncPort" binding="tns:AppealsAsyncBinding">
+			<soap:address location="https://api.dom.gosuslugi.ru/ext-bus-appeals-service/services/AppealsAsync"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,220 @@
+URL: 'http://localhost:8000'
+
+DEVELOPMENT: True
+TORNADO_DEBUG: False
+USE_SENTRY: False
+FISCALIZATION_SCHEDULE: False
+SBER_SCHEDULE: False
+ACCOUNTING_SCHEDULE: False
+REGISTRIES_SCHEDULE: False
+AUTOPAY_SCHEDULE: False
+SEND_EVENTS_NOTIFICATIONS: False
+TELEPHONY_SCHEDULE: False
+ROSREESTR_SHEDULE: False
+SEND_SETL_HOME: True
+
+DATABASES:
+  default:
+    host: '10.1.1.221'
+    db: 'c300'
+  cache:
+    host: '10.1.1.221'
+    db: 'cached_data'
+  auth:
+    host: '10.1.1.221'
+    db: 'auth'
+  processing:
+    host: '10.1.1.221'
+    db: 'task_queue'
+  logs:
+    host: '10.1.1.221'
+    db: 'logs'
+  fias:
+    host: '10.1.1.220'
+    db: 'fias_31082021'
+  chunks:
+    host: '10.1.1.221'
+    db: 'chunks'
+  files:
+    host: '10.1.1.221'
+    db: 'chunks'
+  gis_data:
+    host: '10.1.1.221'
+    db: 'gis_data'
+
+  test_default:
+    host: '10.1.1.220'
+    db: 'test'
+  test_auth:
+    host: '10.1.1.220'
+    db: 'test_auth'
+  test_legacy:
+    host: '10.1.1.220'
+    db: 'test_legacy'
+  test_processing:
+    host: '10.1.1.220'
+    db: 'test_processing'
+  test_files:
+    host: '10.1.1.220'
+    db: 'test_files'
+  test_fias:
+    host: '10.1.1.220'
+    db: 'test_fias'
+  test_gis_data:
+    host: '10.1.1.220'
+    db: 'test_gis_data'
+  test_cache:
+    host: '10.1.1.220'
+    db: 'test_cache'
+  test_logs:
+    host: '10.1.1.220'
+    db: 'test_logs'
+  test_telephony:
+    host: 'mongodb:27017'
+    db: 'test_telephony'
+
+UNREESTR: 'suka@s-c300.com'
+UNREESTR_PASSWD: 'sukableat'
+UNREESTR_IMAP_SERVER: 'mail.s-c300.com'
+UNREESTR_LIMIT_PER_MINUTE: 20
+
+CELERY_SOFT_TIME_MODIFIER: 10
+
+SBOL_REGISTRY_SEND_LIMIT: 20
+
+PSKB_REGISTRY_MAIL: 'c300_docs@pscb.ru'
+
+SEND_MAIL: True
+SEND_MAIL_INSTANTLY: True
+MAIL_SRV_PORT: 25
+MAIL_SRV_HOST: 'smtp.eis24.me'
+MAIL_SRV_USER: 'no_reply@eis24.me'
+MAIL_SRV_PASS: '1d18b5CTc6Bb67'
+TEST_MAIL: ['chkv@roscluster.ru']
+#IP_SUPERS = ('91.122.60.16', '37.200.64.29', '91.142.93.68', '37.200.64.29', '5.19.144.30')
+cookie_secret: 'OIJP(UHQ#IOJPUQJCIUWjfe[ojwpuihogjwie;ojgjknen33l3oo3o3'
+
+IP_SUPERS: []
+
+JSON_INDENT: ''
+JSON_SORT_KEYS: True
+
+# PERMISSIONS_CACHE = None
+PERMISSIONS_CACHE: '1m'
+
+# SERVICE_BIND_CACHE = None
+SERVICE_BIND_CACHE: '1m'
+
+# SESSION_ACTOR_CACHE = None
+SESSION_ACTOR_CACHE: '5s'
+
+LOG_DB_QUERIES: False  # вывод в лог всех запросов в монгу через модели
+
+LO_DOCKER_HOST: "localhost"
+LO_DOCKER_PORT: 8997
+
+GIS_CELERY_REDIS_DB: 3
+GIS_BROKER_URL: redis://gis_redis:6379/3
+#GIS_BROKER_URL: redis://127.0.0.1:6379 # Подключение к локальному редису из скриптов
+S300_CELERY_REDIS_DB: 1
+S300_BROKER_URL: redis://redis:6379
+
+CACHES:
+  default:
+    BACKEND: 'redis_cache.RedisCache'
+    LOCATION:
+      - 'redis:6379'
+    OPTIONS:
+      DB: 2
+      PARSER_CLASS: 'redis.connection.HiredisParser'
+      CONNECTION_POOL_CLASS: 'redis.BlockingConnectionPool'
+      MAX_CONNECTIONS: 1000
+
+  FileBasedCache:
+    BACKEND: 'django.core.cache.backends.filebased.FileBasedCache'
+    LOCATION: '/var/tmp/django_cache'
+    OPTIONS:
+      MAX_ENTRIES: 1000 # максимальное количество записей
+      SERVER_MAX_VALUE_LENGTH: 1048576 # максимальный объем файла 1 МБ
+      TIMEOUT: 360 # время жизни кэша 3 минуты в секундах
+
+DEBTORS_CALL: False
+SMS_SEND: False
+
+ASTERISK:
+  HOST: 10.100.0.70
+  USER: stageuser
+  SECRET: stagesecret
+OBELIX:
+  HOST: 10.100.0.70
+  PORT: 5038
+  USERNAME: apiuser
+  SECRET: apipass
+
+GPRS:
+  PORT: 59991
+
+GPRS_TUNING:
+  WORK_HOST: '91.122.15.58'
+  WORK_PORT: 59991
+
+SWAMP_THING:
+  EIS: 'the_swamp_will_swallow_you'
+  OTDEL: 'the_swamp_will_swallow_you'
+  KOTOLUP: 'the_swamp_will_swallow_you'
+  SEMENCOVA: 'the_swamp_will_swallow_you'
+
+DREAMKAS:
+  URL: 'http://localhost:8087/'
+  OFD_URL: 'http://localhost:8087/'
+
+DREAMKAS_DEBUG:
+  URL: 'https://kabinet-beta.dreamkas.ru/api/'
+
+BANK_PROCESSING:
+  otkritie:
+    url: 'https://web.rbsuat.com/boplatform-deploy/3.6/c300/'
+    username: '9161111115'
+    password: '12345abc'
+    weight: -70
+  elecsnet:
+    url: 'https://sandbox.elecsnet.ru/paynet/api/elecsnet/v1/4243/'
+    username: '9161111115'
+    password: '12345abc'
+    weight: 30
+
+GIS:
+  debug_mode: True  # выполнять операции в режиме отладки (сохранять лог и XML)
+  synchronous_mode: True  # выполнять операции в последовательном режиме
+  use_prod_server: False  # True - ППАК, False - СИТ
+  export_changes: False  # выгружать данные в ГИС ЖКХ при создании или изменении
+  cipher_proxy: False  # адрес шифрующего прокси, False - без
+  # verify_test_cert: 'CA-SIT_2022.pem'  # проверять сертификат тестового сервера?
+  schema_version: '13.2.7.1'  # версия схем сервиса ~ hcs_wsdl_xsd_v.[xx.x.x.x]
+  # verify_server_cert: 'CA-PPAK_2022.pem'  # проверять сертификат сервера?
+  client_certificate: 'cert_and_key.pem'  # сертификат выгружающей организации
+  export_missing: False  # выгружать в ГИС ЖКХ отсутствующие в загруженных данные
+  load_requirements: True  # загружать требуемые для выполнения операции данные
+  update_existing: False  # обновлять имеющие идентификатор ГИС ЖКХ данные
+  reanimate_exec: False  # пытаться получить результат просроченных операций
+
+TELEGRAM_BOT:
+  BOT_HOST: 'https://10.100.0.177'
+  BOT_PORT: '8443'
+
+FIREBASE_CREDENTIALS_FILENAME: 'only_prod'
+
+QR_CALL_URL: 'only_prod'
+CREATE_CALL_URL: 'only_prod'
+
+SETL_HOME:
+  enabled: False
+  identificator: 'c300'
+  code: '6a7C5tUl'
+  url: 'https://setlhome.setlhome.ru:8081'
+
+ROSREESTR_OPEN_DATA:
+  username: "bedman@mail.ru"
+  password: "LLcoolJ(=8=)"
+
+KAFKA_CONNECTION_URL: '10.1.1.230:9092'

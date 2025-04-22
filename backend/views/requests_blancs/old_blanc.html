@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+</head>
+
+<link href='//fonts.googleapis.com/css?family=Open+Sans:400,600,800&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+<body style="margin: 0;">
+    <table cellspacing="0" cellpadding="5" border="1" style="height: 170mm; width: 138mm; font-size: 3.2mm; font-weight: bold;">
+        <tr>
+            <td style="padding: 0; border-bottom: none;" colspan="2" align="right"><img style="height: 27px; width: 143px;" src="data:image/png;base64,{{barcode}}" /></td>
+        </tr>
+        <tr>
+            <td style="border-top: none;" colspan="2">
+                {{ request['responsible_provider_full_name'] }}<span style="display: inline-block; width: 18mm;"></span> Заявка№ <span>{{ request['number'] }}</span> от {{ request['date_created'].date() }}г.<br>
+                Кто принял: <span>{{ request['applicant']['dispatcher_info']['owner']['last_name'] }} {{ request['applicant']['dispatcher_info']['owner']['first_name'] }} {{ request['applicant']['dispatcher_info']['owner']['patronymic_name'] }}</span>&nbsp&nbspДата и время принятия <span>{{ request['date_start'] }}</span><br>
+                Заказчик Ф.И.О. <span>
+                    {% if request['applicant']['last_name']  %}
+                        {{ request['applicant']['last_name'] }} {{ request['applicant']['first_name'] }} {{ request['applicant']['patronymic_name'] }}
+                    {% else %}
+                        ________________________________________________________
+                    {% end %}
+                </span><br>
+
+                Адрес: <span>{{ request['house_info']['street'] }}, д. {{ request['house_info']['house_number'] }}, {% if request['house_info']['bulk'] %} к. {{ request['house_info']['bulk'] }}{% else %} стр. {{ request['house_info']['structure'] }}{% end %}</span><br>{#
+                тел.дом.: <span>
+                {% for phone in request['phones'] %}
+                    {% if phone['phone_type'] == 'home' %}
+                        +7 ({{ phone['code'] }}) {{ phone['number'] }}
+                    {% end %}
+                {% end %}</span>
+                сот.: <span>
+                {% for phone in request['phones'] %}
+                    {% if phone['phone_type'] == 'cell' %}
+                        +7 ({{ phone['code'] }}) {{ phone['number'] }}
+                    {% end %}
+                {% end %}</span>
+                Email: <span>{{ request['email'] }}</span><br>#}
+                тел.дом.: <span>{% if len(request['phones']['home']) %}
+                +7 ({{ request['phones']['home'][0]['code'] }}) {{ request['phones']['home'][0]['number'] }}
+                {% else %}телефон отсутствует{% end %}</span>
+                сот.: <span>{% if len(request['phones']['cell']) %}
+                +7 ({{ request['phones']['cell'][0]['code'] }}) {{ request['phones']['cell'][0]['number'] }}
+                {% else %}телефон отсутствует{% end %}</span>
+                Содержание заявки: <span>{{ request['application'] }}</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 50%;">
+                Заявка передана исполнителю<br>
+                {% for request_worker in request['executors'] %}
+                    <span>{{ request_worker['position_name'] }} {{ request_worker['first_name'] }} {{ request_worker['last_name'] }} {{ request_worker['patronymic_name'] }}</span>
+                {% end %}
+                {#{% if request_log.definitely_selected_workers and request_log.partially_selected_workers %}
+                    <br/>
+                {% endif %}#}
+                <br/><br/>
+                Дата и время передачи <span>_______________</span><br>
+                Прибыл на объект: <span>___</span> часов <span>___</span> мин<br/>
+                Убыл с объекта: <span>___</span> часов <span>___</span> мин
+            </td>
+            <td style="width: 50%;">
+                При осмотре выявлено:<br>
+                <span>__________________________________</span><br>
+                <span>__________________________________</span><br>
+                <span>__________________________________</span><br><br>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                Выполнение работ (затраченные материалы):<br>
+                {% for material in request['used_materials'] %}
+                    <span>_______________________________________________________________________</span>
+                {% end %}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                Работа выполнена: - да - нет - частично&nbsp&nbsp&nbsp
+                {% if request['area_id'] %}
+                    Вид заявки: - {% if request['type'] == 'commercial' %}платно{% else %}бесплатно{% end %}<br>
+                        Стоимость работ: <span>_____</span> руб. <span>___</span> коп&nbsp&nbsp&nbsp&nbspСтоимость материалов: <span>_____</span> руб. <span>___</span> коп.<br>
+                        Показания приборов учета:<br>
+                        {#
+                        {% for meter in request_log.apartment.meters.all %}
+                            {% if meter.counter_type == meter.COUNTER_WATER_COOL %}
+                                ХВС <span>_______</span> <span>_____</span>&nbsp&nbsp&nbsp&nbsp
+                            {% elif meter.counter_type == meter.COUNTER_WATER_HOT %}
+                                ГВС <span>_______</span> <span>_____</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                            {% elif meter.counter_type == meter.COUNTER_ELECTRIC_ONE or meter.counter_type == meter.COUNTER_ELECTRIC_DUPLE %}
+                                Электроэнергия <span>________</span><br>
+                                День <span>________</span> Ночь <span>________</span><br>
+                                Наличие пломб на приборах учета:<br>
+                                да&nbsp&nbsp&nbsp- нет<br>
+                            {% endif %}
+                        {% endfor %}
+                        #}
+                {% end %}
+                <br/><br/>
+                <span>_____________________</span>/<span>____________</span>/&nbsp&nbsp&nbsp&nbsp<span>_____________________</span>/<span>____________</span>/<br>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<i>(исполнитель)</i>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<i>(заказчик)</i>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                Акт выполненных работ&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"___"_____________20____г.<br>
+                Специалистами {{ request['responsible_provider_full_name'] }} ____________________________________<br>
+                выполнены следующие работы: __________________________________________<br>
+                _______________________________________________________________________<br>
+                _______________________________________________________________________<br>
+                _______________________________________________________________________<br><br>
+                <span>_____________________</span>/<span>____________</span>/&nbsp&nbsp&nbsp&nbsp<span>_____________________</span>/<span>____________</span>/<br>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<i>(исполнитель)</i>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<i>(заказчик)</i><br>
+                <br>На вышеперечисленные работы {{ request['responsible_provider_full_name'] }} предоставляет гарантию один год при условии активации гарантии. Активировать гарантию можно в Личном кабинете.
+            </td>
+        </tr>
+    </table>
+    {#
+    <hr>
+    номер заявки: {{ request['number'] }}
+    <br>
+    текст заявки: {{ request['application'] }}
+    <br>
+    ФИО исполнителя: {{ request['executors'][0]['first_name'] }} {{ request['executors'][0]['last_name'] }} {{ request['executors'][0]['patronymic_name'] }}
+    <br>
+    должность: {{ request['executors'][0]['position_name'] }}
+    <br>
+    Адрес: {{ request['house_info']['street'] }} {{ request['house_info']['structure'] }} {{ request['house_info']['house_number'] }}
+    <br>
+    dates: date created: {{ request['date_created'] }}, date start: {{ request['date_start']}}
+    <br>
+    Обслуживающая компания: {{ request['responsible_provider_full_name'] }}
+    <br>
+    диспетчер: {{ request['applicant']['dispatcher_info']['owner']['last_name'] }}
+    {{ request['applicant']['dispatcher_info']['owner']['first_name'] }}
+    {{ request['applicant']['dispatcher_info']['owner']['patronymic_name'] }}
+    <hr>
+    #}
+    {#
+    {% for i in request %}
+        <b> {{ i }}</b>: {{ request[i] }}
+        <br>
+    {% end %}
+    #}
+    {# {{ request }}  #}
+</body>
+</html>

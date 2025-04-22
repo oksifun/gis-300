@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://dom.gosuslugi.ru/schema/integration/tech-conn-service-async/" xmlns:tc="http://dom.gosuslugi.ru/schema/integration/tech-conn/" xmlns:base="http://dom.gosuslugi.ru/schema/integration/base/" xmlns:nsi-base="http://dom.gosuslugi.ru/schema/integration/nsi-base/" xmlns:org-reg-base="http://dom.gosuslugi.ru/schema/integration/organizations-registry-base/" xmlns:ns1="http://www.w3.org/2000/09/xmldsig#" xmlns:org-base="http://dom.gosuslugi.ru/schema/integration/organizations-base/" xmlns:prem-base="http://dom.gosuslugi.ru/schema/integration/premises-base/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://dom.gosuslugi.ru/schema/integration/tech-conn-service-async/">
+	<wsdl:types>
+		<xs:schema version="13.2.5.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+			<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/base/" schemaLocation="../lib/hcs-base.xsd"/>
+			<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/tech-conn/" schemaLocation="hcs-tech-conn-types.xsd"/>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="Fault">
+		<wsdl:part name="Fault" element="base:Fault"/>
+	</wsdl:message>
+	<wsdl:message name="exportOrganizationDeterminationApplicationRequest">
+		<wsdl:part name="exportOrganizationDeterminationApplicationRequest" element="tc:exportOrganizationDeterminationApplicationRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportOrganizationDeterminationApplicationResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportTechnicalSpecificationApplicationRequest">
+		<wsdl:part name="exportTechnicalSpecificationApplicationRequest" element="tc:exportTechnicalSpecificationApplicationRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportTechnicalSpecificationApplicationResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportConnectionPossibilityApplicationRequest">
+		<wsdl:part name="exportConnectionPossibilityApplicationRequest" element="tc:exportConnectionPossibilityApplicationRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportConnectionPossibilityApplicationResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportAgreementApplicationRequest">
+		<wsdl:part name="exportAgreementApplicationRequest" element="tc:exportAgreementApplicationRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportAgreementApplicationResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportActApplicationRequest">
+		<wsdl:part name="exportActApplicationRequest" element="tc:exportActApplicationRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportActApplicationResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importOrganizationDeterminationApplicationStatusRequest">
+		<wsdl:part name="importOrganizationDeterminationApplicationStatusRequest" element="tc:importOrganizationDeterminationApplicationStatusRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importOrganizationDeterminationApplicationStatusResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importTechnicalSpecificationApplicationStatusRequest">
+		<wsdl:part name="importTechnicalSpecificationApplicationStatusRequest" element="tc:importTechnicalSpecificationApplicationStatusRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importTechnicalSpecificationApplicationStatusResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importConnectionPossibilityApplicationStatusRequest">
+		<wsdl:part name="importConnectionPossibilityApplicationStatusRequest" element="tc:importConnectionPossibilityApplicationStatusRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importConnectionPossibilityApplicationStatusResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importAgreementApplicationStatusRequest">
+		<wsdl:part name="importAgreementApplicationStatusRequest" element="tc:importAgreementApplicationStatusRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importAgreementApplicationStatusResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importActApplicationStatusRequest">
+		<wsdl:part name="importActApplicationStatusRequest" element="tc:importActApplicationStatusRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importActApplicationStatusResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="RequestHeader">
+		<wsdl:part name="Header" element="base:RequestHeader"/>
+	</wsdl:message>
+	<wsdl:message name="ResultHeader">
+		<wsdl:part name="Header" element="base:ResultHeader"/>
+	</wsdl:message>
+	<wsdl:message name="getStateRequest">
+		<wsdl:part name="getStateRequest" element="base:getStateRequest"/>
+	</wsdl:message>
+	<wsdl:message name="getStateResult">
+		<wsdl:part name="getStateResult" element="tc:getStateResult"/>
+	</wsdl:message>
+	<wsdl:portType name="TechConnPortsTypeAsync">
+		<wsdl:operation name="exportOrganizationDeterminationApplication">
+			<wsdl:documentation>Экспорт заявления на определение организации для технологического присоединения</wsdl:documentation>
+			<wsdl:input message="tns:exportOrganizationDeterminationApplicationRequest"/>
+			<wsdl:output message="tns:exportOrganizationDeterminationApplicationResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="exportTechnicalSpecificationApplication">
+			<wsdl:documentation>Экспорт заявления на предоставление технических условий подключения</wsdl:documentation>
+			<wsdl:input message="tns:exportTechnicalSpecificationApplicationRequest"/>
+			<wsdl:output message="tns:exportTechnicalSpecificationApplicationResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="exportConnectionPossibilityApplication">
+			<wsdl:documentation>Экспорт заявления на предоставление информации о возможности подключения</wsdl:documentation>
+			<wsdl:input message="tns:exportConnectionPossibilityApplicationRequest"/>
+			<wsdl:output message="tns:exportConnectionPossibilityApplicationResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="exportAgreementApplication">
+			<wsdl:documentation>Экспорт заявления на заключение договора о подключении</wsdl:documentation>
+			<wsdl:input message="tns:exportAgreementApplicationRequest"/>
+			<wsdl:output message="tns:exportAgreementApplicationResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="exportActApplication">
+			<wsdl:documentation>Экспорт заявления на получение акта по договору о подключении</wsdl:documentation>
+			<wsdl:input message="tns:exportActApplicationRequest"/>
+			<wsdl:output message="tns:exportActApplicationResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="importOrganizationDeterminationApplicationStatus">
+			<wsdl:documentation>Импорт информации об изменении статуса заявления на определение организации для технологического присоединения</wsdl:documentation>
+			<wsdl:input message="tns:importOrganizationDeterminationApplicationStatusRequest"/>
+			<wsdl:output message="tns:importOrganizationDeterminationApplicationStatusResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="importTechnicalSpecificationApplicationStatus">
+			<wsdl:documentation>Импорт информации об изменении статуса заявления на предоставление технических условий подключения</wsdl:documentation>
+			<wsdl:input message="tns:importTechnicalSpecificationApplicationStatusRequest"/>
+			<wsdl:output message="tns:importTechnicalSpecificationApplicationStatusResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="importConnectionPossibilityApplicationStatus">
+			<wsdl:documentation>Импорт информации об изменении статуса заявления на предоставление информации о возможности подключения</wsdl:documentation>
+			<wsdl:input message="tns:importConnectionPossibilityApplicationStatusRequest"/>
+			<wsdl:output message="tns:importConnectionPossibilityApplicationStatusResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="importAgreementApplicationStatus">
+			<wsdl:documentation>Импорт информации об изменении статуса заявления на заключение договора о подключении</wsdl:documentation>
+			<wsdl:input message="tns:importAgreementApplicationStatusRequest"/>
+			<wsdl:output message="tns:importAgreementApplicationStatusResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="importActApplicationStatus">
+			<wsdl:documentation>Импорт информации об изменении статуса заявления на получение акта по договору</wsdl:documentation>
+			<wsdl:input message="tns:importActApplicationStatusRequest"/>
+			<wsdl:output message="tns:importActApplicationStatusResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="getState">
+			<wsdl:input message="tns:getStateRequest"/>
+			<wsdl:output message="tns:getStateResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="TechConnBindingAsync" type="tns:TechConnPortsTypeAsync">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="exportOrganizationDeterminationApplication">
+			<wsdl:documentation>Экспорт заявления на определение организации для технологического присоединения</wsdl:documentation>
+			<soap:operation soapAction="urn:exportOrganizationDeterminationApplication"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="exportTechnicalSpecificationApplication">
+			<wsdl:documentation>Экспорт заявления на предоставление технических условий подключения</wsdl:documentation>
+			<soap:operation soapAction="urn:exportTechnicalSpecificationApplication"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="exportConnectionPossibilityApplication">
+			<wsdl:documentation>Экспорт заявления на предоставление информации о возможности подключения</wsdl:documentation>
+			<soap:operation soapAction="urn:exportConnectionPossibilityApplication"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="exportAgreementApplication">
+			<wsdl:documentation>Экспорт заявления на заключение договора о подключении</wsdl:documentation>
+			<soap:operation soapAction="urn:exportAgreementApplication"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="exportActApplication">
+			<wsdl:documentation>Экспорт заявления на получение акта по договору о подключении</wsdl:documentation>
+			<soap:operation soapAction="urn:exportActApplication"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="importOrganizationDeterminationApplicationStatus">
+			<wsdl:documentation>Импорт информации об изменении статуса заявления на определение организации для технологического присоединения</wsdl:documentation>
+			<soap:operation soapAction="urn:importOrganizationDeterminationApplicationStatus"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="importTechnicalSpecificationApplicationStatus">
+			<wsdl:documentation>Импорт информации об изменении статуса заявления на предоставление технических условий подключения</wsdl:documentation>
+			<soap:operation soapAction="urn:importTechnicalSpecificationApplicationStatus"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="importConnectionPossibilityApplicationStatus">
+			<wsdl:documentation>Импорт информации об изменении статуса заявления на предоставление информации о возможности подключения</wsdl:documentation>
+			<soap:operation soapAction="urn:importConnectionPossibilityApplicationStatus"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="importAgreementApplicationStatus">
+			<wsdl:documentation>Импорт информации об изменении статуса заявления на заключение договора о подключении</wsdl:documentation>
+			<soap:operation soapAction="urn:importAgreementApplicationStatus"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="importActApplicationStatus">
+			<wsdl:documentation>Импорт информации об изменении статуса заявления на получение акта по договору</wsdl:documentation>
+			<soap:operation soapAction="urn:importActApplicationStatus"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="getState">
+			<soap:operation soapAction="urn:getState"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="TechConnServiceAsync">
+		<wsdl:documentation>Асинхронный сервис работы с заявлениями по технологическому присоединению</wsdl:documentation>
+		<wsdl:port name="TechConnPortAsync" binding="tns:TechConnBindingAsync">
+			<soap:address location="https://api.dom.gosuslugi.ru/ext-bus-tech-conn-service/services/TechConnAsync"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

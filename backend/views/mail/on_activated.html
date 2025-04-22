@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block header %}
+    <div style="margin: 0 auto; display: inline-block;">
+        <div style="height: 66px; width: 66px; text-align: left; float: left; margin-right: 10px;">
+            <!--<img style="height: 64px; width: 64px;" src="">-->
+        </div>
+        <div style="float: left; text-align: left;">
+            <div style="font-size: 24px; padding-top: 7px; padding-bottom: 5px;">
+                {% if provider.name %}{{ provider.str_name }}{% else %}&nbsp;{% end %}
+            </div>
+            <div style="font-size: 15px; max-width: 520px;">
+                {% if 'Tenant' in account._type %}
+                    {{ account.area.house.address }}
+                {% end %}
+            </div>
+        </div>
+    </div>
+{% end %}
+
+
+{% block message %}
+    <p>Вы успешно прошли активацию электронной почты и Вам присвоен личный номер <strong>№{{ account.number }}</strong></p>
+
+    {% if password %}
+        <p>
+            <pre>Логин: {{ account.login }}</pre><br/>
+            <pre>Пароль: {{ password }}</pre>
+        </p>
+        <div style="text-align: center;">
+            <a href="{{ base_url }}" style="background: #5cb85c; border-radius: 8px; font-size: 16px; text-decoration: none; color: #ffffff; padding: 10px;">Вход в систему</a>
+        </div>
+    {% end %}
+    <p style="width: 80%; margin: 30px 0 0 10%; background: #FCF8E3; border-radius: 8px; border: 1px solid #FAEBCC; font-size: 12px; text-decoration: none; color: #222; padding: 10px; text-align: center">
+        ВНИМАНИЕ! После получения электронного письма с данными для доступа, <br/><strong>удалите данное письмо</strong> со своего почтового ящика
+    </p>
+{% end %}

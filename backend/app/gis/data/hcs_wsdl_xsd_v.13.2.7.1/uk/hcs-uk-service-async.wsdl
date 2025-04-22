@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://dom.gosuslugi.ru/schema/integration/uk-service-async/" xmlns:uk="http://dom.gosuslugi.ru/schema/integration/uk/" xmlns:base="http://dom.gosuslugi.ru/schema/integration/base/" xmlns:ns="http://dom.gosuslugi.ru/schema/integration/nsi-base/" xmlns:ns1="http://www.w3.org/2000/09/xmldsig#" xmlns:ns2="http://dom.gosuslugi.ru/schema/integration/premises-base/" targetNamespace="http://dom.gosuslugi.ru/schema/integration/uk-service-async/">
+	<wsdl:types>
+		<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" attributeFormDefault="unqualified" version="13.1.2.5">
+			<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/uk/" schemaLocation="hcs-uk-types.xsd"/>
+			<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/base/" schemaLocation="../lib/hcs-base.xsd"/>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="RequestHeader">
+		<wsdl:part name="Header" element="base:RequestHeader"/>
+	</wsdl:message>
+	<wsdl:message name="ResultHeader">
+		<wsdl:part name="Header" element="base:ResultHeader"/>
+	</wsdl:message>
+	<wsdl:message name="getStateRequest">
+		<wsdl:part name="getStateRequest" element="base:getStateRequest"/>
+	</wsdl:message>
+	<wsdl:message name="getStateResult">
+		<wsdl:part name="getStateResult" element="uk:getStateResult"/>
+	</wsdl:message>
+	<wsdl:message name="importDocumentRegionRequest">
+		<wsdl:part name="importDocumentRegionRequest" element="uk:importDocumentRegionRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importDocumentRegionResult">
+		<wsdl:part name="importDocumentRegionResult" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importDocumentMunicipalRequest">
+		<wsdl:part name="importDocumentMunicipalRequest" element="uk:importDocumentMunicipalRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importDocumentMunicipalResult">
+		<wsdl:part name="importDocumentMunicipalResult" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportDocumentRequest">
+		<wsdl:part name="exportDocumentRequest" element="uk:exportDocumentRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportDocumentResult">
+		<wsdl:part name="exportDocumentResult" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="Fault">
+		<wsdl:part name="Fault" element="base:Fault"/>
+	</wsdl:message>
+	<wsdl:portType name="UkAsyncPort">
+		<wsdl:operation name="getState">
+			<wsdl:documentation>Результат обработки асинхронного вызова</wsdl:documentation>
+			<wsdl:input message="tns:getStateRequest"/>
+			<wsdl:output message="tns:getStateResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="importDocumentRegion">
+			<wsdl:documentation>Импорт документов закона/нормативно-правового акта регионального уровня</wsdl:documentation>
+			<wsdl:input message="tns:importDocumentRegionRequest"/>
+			<wsdl:output message="tns:importDocumentRegionResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="importDocumentMunicipal">
+			<wsdl:documentation>Импорт документов закона/нормативно-правового акта уровня муниципальных образований</wsdl:documentation>
+			<wsdl:input message="tns:importDocumentMunicipalRequest"/>
+			<wsdl:output message="tns:importDocumentMunicipalResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="exportDocument">
+			<wsdl:documentation>Экспорт документов</wsdl:documentation>
+			<wsdl:input message="tns:exportDocumentRequest"/>
+			<wsdl:output message="tns:exportDocumentResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="UkAsyncBinding" type="tns:UkAsyncPort">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="getState">
+			<soap:operation soapAction="urn:getState"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="importDocumentRegion">
+			<wsdl:documentation>Импорт документов закона/нормативно-правового акта регионального уровня</wsdl:documentation>
+			<soap:operation soapAction="urn:importDocumentRegion"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="importDocumentMunicipal">
+			<wsdl:documentation>Импорт документов закона/нормативно-правового акта уровня муниципальных образований</wsdl:documentation>
+			<soap:operation soapAction="urn:importDocumentMunicipal"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="exportDocument">
+			<wsdl:documentation>Экспорт документов</wsdl:documentation>
+			<soap:operation soapAction="urn:exportDocument"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="UkAsyncService">
+		<wsdl:documentation>Асинхронный сервис Управление контентом</wsdl:documentation>
+		<wsdl:port name="UkAsyncPort" binding="tns:UkAsyncBinding">
+			<soap:address location="https://api.dom.gosuslugi.ru/ext-bus-uk-service/services/UkAsyncService"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

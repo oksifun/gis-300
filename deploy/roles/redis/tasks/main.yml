@@ -1,0 +1,40 @@
+---
+
+- name: hub.eis24.me/pull gis_redis image
+  docker_image:
+    name: redis
+    source: pull
+    tag: 3.2.4
+    source: pull
+  notify: restart redis
+  tags: gis_redis
+
+- name: Check is redis dir exists
+  stat: path=/opt/redis
+  register: redis_dir
+  tags: redis
+
+- name: Create redis dir
+  file: path=/opt/redis state=directory
+  when: not redis_dir.stat.exists
+  tags: gis_redis
+
+- name: place redis config
+  template: src=redis.conf.j2 dest=/opt/redis/redis.conf
+  notify: restart redis
+  tags: gis_redis
+
+- name: ensure gis_redis running
+  docker_container:
+    name: redis
+    image: hub.eis24.me/redis:3.2.4
+    volumes:
+      - "/opt/redis:/data:rw"
+    ports:
+      - "{{ inventory_hostname }}:{{ redis_port }}:6379"
+    command: /usr/local/bin/redis-server /data/redis.conf
+    log_driver: syslog
+    log_options:
+      tag: gis_redis
+    restart_policy: always
+  tags: gis_redis

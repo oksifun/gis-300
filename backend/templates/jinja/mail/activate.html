@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% set is_tenant = 'Tenant' == actor_type %}
+{% block header %}
+    <div style="margin: 0 auto; display: inline-block;">
+        <div style="height: 66px; width: 66px; text-align: left; float: left; margin-right: 10px;">
+            <!--<img style="height: 64px; width: 64px;" src="">-->
+        </div>
+        <div style="float: left; text-align: left;">
+            <div style="font-size: 24px; padding-top: 7px; padding-bottom: 5px;">
+                {{ provider_name }}
+            </div>
+            <div style="font-size: 15px; max-width: 520px;">
+                {% if is_tenant %}
+                    {{ account.owner.house.address }}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block message %}
+    <p>Вам предоставляется доступ к рабочей области и чтобы завершить процесс регистрации, необходимо подтвердить, что Вы являетесь владельцем электронного адреса, который используется для настройки аккаунта. Подтверждение электронного адреса помогает нам удостовериться, что мы отправляем информацию о Вашем аккаунте в нужное место.</p>
+    <p>Подтвердите свой электронный адрес, открыв ссылку из этого сообщения или нажмите на кнопку «Подтвердить электронный адрес».</p>
+
+    <p style="text-align: center;">
+        <a href="{{ url }}" style="background: #5cb85c; border-radius: 8px; font-size: 16px; text-decoration: none; color: #ffffff; padding: 10px;">Подтвердить электронный адрес</a>
+    </p>
+    <p style="width: 80%; margin: 30px 0 0 10%; background: #FCF8E3; border-radius: 8px; border: 1px solid #FAEBCC; font-size: 12px; text-decoration: none; color: #222; padding: 10px; text-align: center">
+        ВНИМАНИЕ! После успешного подтверждения электронного адреса и получения электронного письма с данными для доступа, удалите данное письмо со своего почтового ящика
+    </p>
+{% endblock %}

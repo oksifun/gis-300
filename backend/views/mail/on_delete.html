@@ -1,0 +1,11 @@
+{% extends 'notice.html' %}
+
+{% block content %}
+    <p>
+        <div style="width: 100%; text-align: center; font-weight: bold;">Уважаемый(ая), {{ name }}!</div>
+    </p>
+	<p>
+		Ваш личный кабинет заблокирован.<br/>
+		Для возобновления его работы обратитесь в вашу управляющую организацию {{ str_company }}.
+	</p>
+{% endblock %}

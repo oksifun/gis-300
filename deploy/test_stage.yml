@@ -1,0 +1,8 @@
+---
+- hosts: main
+  gather_facts: no
+  roles:
+    - web-django
+    - celery
+    - flower
+  serial: 1

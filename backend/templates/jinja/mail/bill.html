@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block greeting %}{% endblock %}
+{% block alert %}{% endblock %}
+{% block header %}
+    <div style="margin: 0 auto; display: inline-block;">
+        <div style="height: 66px; width: 66px; text-align: left; float: left; margin-right: 10px;">
+            <!--<img style="height: 64px; width: 64px;" src="">-->
+        </div>
+        <div style="float: left; text-align: left;">
+            <div style="font-size: 24px; padding-top: 7px; padding-bottom: 5px;">
+                Уважаемый житель!
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block message %}
+    <p> {{ provider_name }} информирует, что Вам выставлен счет-квитанция по адресу {{ address }} за {{ date }} по направлению {{ sector }} на сумму {{ bill }} руб.</p>
+    {% if is_registered %}
+        <p>Скачать и оплатить его можно в личном кабинете жителя по
+            <a href="https://кабинет-жителя.рф/#/login">ссылке</a>.
+        </p>
+    {% else %}
+        <p>Чтобы скачать квитанцию,  зарегистрируйтесь в личном кабинете жителя по
+            <a href="https://кабинет-жителя.рф/#/login">ссылке</a>
+            , установите приложение и оплачивайте квитанции любым удобным для Вас способом.
+        </p>
+    {% endif %}
+
+    <p style="text-align: center;">
+        <a href="{{ url }}" style="background: #5cb85c; border-radius: 8px; font-size: 16px; text-decoration: none; color: #ffffff; padding: 10px;">Оплатить</a>
+    </p>
+{% endblock %}

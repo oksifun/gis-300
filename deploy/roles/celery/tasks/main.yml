@@ -1,0 +1,36 @@
+---
+
+- name: pull service_gis image
+  docker_image:
+    name: hub.eis24.me/service_gis
+    tag: "{{ TAG }}"
+    state: present
+    force_source: yes
+    source: pull
+  tags: gis_celery
+
+- name: ensure gis_celery_worker container is running
+  docker_container:
+    name: gis_celery_worker
+    image: hub.eis24.me/service_gis:{{ TAG }}
+    command: celery -A app.gis.workers.riddler worker -c {{celery_gis_proc_num}} -Q gis -n gis_main@%h
+    recreate: yes
+    env:
+      SETTINGS_FILE: "{{ SETTINGS_FILE }}"
+    log_driver: syslog
+    log_options:
+      tag: gis_celery_worker
+  tags: gis_celery
+
+- name: ensure celery beat container is running
+  docker_container:
+    name: gis_celerybeat
+    image: hub.eis24.me/service_gis:{{ TAG }}
+    recreate: yes
+    env:
+      SETTINGS_FILE: "{{ SETTINGS_FILE }}"
+    command: celery -A app.gis.workers.riddler beat -s /tmp/schedule --pidfile=/run/celerybeat.pid
+    log_driver: syslog
+    log_options:
+      tag: gis_celerybeat
+  tags: gis_celery

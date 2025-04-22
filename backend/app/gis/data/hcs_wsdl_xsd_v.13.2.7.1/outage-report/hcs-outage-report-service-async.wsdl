@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://dom.gosuslugi.ru/schema/integration/outage-report-service-async/" xmlns:base="http://dom.gosuslugi.ru/schema/integration/base/" xmlns:outage="http://dom.gosuslugi.ru/schema/integration/outage-report/" xmlns:ns="http://www.w3.org/2000/09/xmldsig#" targetNamespace="http://dom.gosuslugi.ru/schema/integration/outage-report-service-async/">
+	<wsdl:types>
+		<xs:schema version="13.2.0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+			<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/outage-report/" schemaLocation="hcs-outage-report-types.xsd"/>
+			<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/base/" schemaLocation="../lib/hcs-base.xsd"/>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="importOutageReportRequest">
+		<wsdl:part name="importOutageReportRequest" element="outage:importOutageReportRequest"/>
+	</wsdl:message>
+	<wsdl:message name="AckRequest">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="Fault">
+		<wsdl:part name="Fault" element="base:Fault"/>
+	</wsdl:message>
+	<wsdl:message name="getStateRequest">
+		<wsdl:part name="getRequestState" element="base:getStateRequest"/>
+	</wsdl:message>
+	<wsdl:message name="getStateResult">
+		<wsdl:part name="getRequestStateResult" element="outage:getStateResult"/>
+	</wsdl:message>
+	<wsdl:message name="RequestHeader">
+		<wsdl:part name="Header" element="base:RequestHeader"/>
+	</wsdl:message>
+	<wsdl:message name="ResultHeader">
+		<wsdl:part name="Header" element="base:ResultHeader"/>
+	</wsdl:message>
+	<wsdl:message name="exportOutageReportRequest">
+		<wsdl:part name="exportOutageReportRequest" element="outage:exportOutageReportRequest"/>
+	</wsdl:message>
+	<wsdl:portType name="OutageReportPortsTypeAsync">
+		<wsdl:operation name="importOutageReport">
+			<wsdl:documentation>Импорт о сведений о перерывах в предоставлении коммунальных услуг</wsdl:documentation>
+			<wsdl:input message="tns:importOutageReportRequest"/>
+			<wsdl:output message="tns:AckRequest"/>
+			<wsdl:fault name="FaultName" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="getState">
+			<wsdl:documentation>Получить статус обработки запроса</wsdl:documentation>
+			<wsdl:input message="tns:getStateRequest"/>
+			<wsdl:output message="tns:getStateResult"/>
+			<wsdl:fault name="FaultName" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="exportOutageReport">
+			<wsdl:documentation>Экспорт сведений о перерывах в предоставлении коммунальных услуг</wsdl:documentation>
+			<wsdl:input message="tns:exportOutageReportRequest"/>
+			<wsdl:output message="tns:AckRequest"/>
+			<wsdl:fault name="FaultName" message="tns:Fault"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="OutageReportBindingAsync" type="tns:OutageReportPortsTypeAsync">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="importOutageReport">
+			<soap:operation soapAction="urn:importOutageReport"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="FaultName">
+				<soap:fault name="FaultName" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="getState">
+			<soap:operation soapAction="urn:getState"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="FaultName">
+				<soap:fault name="FaultName" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="exportOutageReport">
+			<soap:operation soapAction="urn:exportOutageReport"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="FaultName"/>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="OutageReportServiceAsync">
+		<wsdl:port name="OutageReportPortAsync" binding="tns:OutageReportBindingAsync">
+			<soap:address location="https://api.dom.gosuslugi.ru/ext-bus-outage-report-service/services/OutageReportAsync"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block body %}
+    {# Если пришло более одной квитанции за раз, размещаем их рядом на одном листе #}
+    <table id="wrapper_table" style="page-break-after: always;" cellspacing='20'>
+        <tr>
+            {% for part in PARTS %}
+                <th class="v_wrapper">
+                    {{ part }}
+                </th>
+            {% endfor %}
+        </tr>
+    </table>
+{% endblock %}

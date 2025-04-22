@@ -1,0 +1,32 @@
+{% extends 'worker.html' %}
+
+{% block message %}
+    <p>{{ title }}</p>
+    <p>Создатель обращения: {{ ticket.created_by.name_secured }}</p>
+    <p>Автор: {{ author.name_secured }}, {% if ticket.incoming_date %} дата принятия: {{ ticket.incoming_date.strftime("%d-%m-%Y")}} {% end %}</p>
+    {% if ticket._type[0] != 'WorkerTicket' %}
+        {% if ticket.area %} Адрес: {{ ticket.area.house.address }} кв. {{ ticket.area.str_number }} {% end %}
+    {% end %}
+    <div>
+    {% if author.phones %}
+        {% for phone in author.phones %}
+            тел.: <span>
+                +7 ({{ phone.code }}) {{ phone.number }}
+            </span><br>
+        {% end %}
+    {% end %}
+    </div>
+    <p>Содержание обращения:</p>
+    <p>{{ticket.initial.body}}</p>
+
+    {% if url %}
+        <div style="text-align: center;">
+            <a href="{{ url }}" style="background: #5cb85c; border-radius: 8px; font-size: 16px; text-decoration: none; color: #ffffff; padding: 10px;">Перейти к обращению</a>
+        </div>
+    {% end %}
+
+{% end %}
+
+{% block footer %}
+    По всем вопросам просим обращаться в службу технической поддержки посредством встроенной системы сообщений
+{% end %}

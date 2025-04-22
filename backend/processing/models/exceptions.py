@@ -1,0 +1,3 @@
+
+class CustomValidationError(Exception):
+    pass

@@ -1,0 +1,73 @@
+<meta charset="utf-8"/>
+
+{% extends "base_notify.html" %}
+
+{% block message %}
+{{ provider_name }} информирует, что Вам выставлен счет-квитанция по адресу {{ address }} за {{ date }} по направлению {{ sector }} на сумму {{ bill }} руб.
+Вы можете открыть квитанцию <a href="{{ download_url }}" target="_blank">здесь.</a>
+{% if overpayment is not none %}
+{% if overpayment >= 0%}
+        На Вашем лицевом счете был аванс, поэтому эта квитанция не требует оплаты.
+        Текущий баланс лицевого счета:{% if overpayment > 0%} переплата{% endif %} {{ overpayment }} рублей.
+        Спасибо, что оплачиваете услуги заранее!
+{% endif %}
+{% endif %}
+{% endblock %}
+
+{% block payment %}
+<p>А знаете ли Вы, что:</p>
+
+<h3>Оплачивая услуги в течение 3 дней, Вы автоматически принимаете участие в розыгрыше денежных призов</h3>
+<br>
+Подробнее о конкурсе, а также результаты за прошлый месяц можно узнать по <a href="https://roscluster.ru/pay-and-win/">ссылке</a>.
+
+<h3>Вы можете оплачивать услуги ЖКХ автоматически с помощью сервиса Автоплатеж</h3>
+<p>
+    Это услуга, которая автоматически погасит задолженность за жилищно-коммунальные услуги сразу после выпуска квитанции
+<ul>
+    <li>Услуга доступна для карт любых банков Российской Федерации</li>
+    <li>Мы гарантируем корректные списания и отсутствие ошибок</li>
+    <li>Денежный перевод осуществляет банк НКО «Элекснет»</li>
+</ul>
+
+</p>
+
+<h3>Как подключить автоплатеж?</h3>
+<ol style="padding-left: 15px;">
+    <li> <h4>В личном кабинете и приложении "кабинет-жителя.рф"</h4>
+        <p>Подключение автоплатежа производится через списание 1 рубля, который будет зачислен на Ваш лицевой счёт, и далее он учитывается при погашении задолженности за ЖКУ.</p>
+    </li>
+    <li> <h4>На сайте <a href="{{domain}}" style="text-decoration: none; color: dodgerblue" target="_blank">www.{{domain_name}}</a></h4>
+        <p>Подключение не требует регистрации и выполняется с главной страницы сайта <a href="{{domain}}" style="text-decoration: none; color: dodgerblue" target="_blank">www.{{domain_name}}</a></p>
+        <p>Отключить автоплатёж можно с помощью сотрудника Вашей управляющей организации.</p>
+    </li>
+</ol>
+
+<h3>Можно оплатить квитанцию с помощью камеры смартфона</h3>
+<p>А Вы знали, что при наведении камеры смартфона на QR-код квитанции, Вы можете произвести оплату без использования приложений банков, личного кабинета и прочего программного обеспечения?</p>
+
+<table class="row" style="border-collapse: collapse; border-spacing: 0; display: table; padding: 0; position: relative; text-align: left; vertical-align: top; width: 100%;"><tbody><tr style="padding: 0; text-align: left; vertical-align: top;">
+    <th class="small-12 large-60 columns first" width="180" height="45" style="Margin: 0 auto; color: #000; font-family: Trebuchet MS,sans-serif; font-size: 16px; font-weight: 400; line-height: 19px; margin: 0 !important; padding: 0 !important; padding-bottom: 0; padding-left: 16px; text-align: left; width: 180px !important;"><table style="border-collapse: collapse; border-spacing: 0; padding: 0; text-align: left; vertical-align: top; width: 100%;"><tr style="padding: 0; text-align: left; vertical-align: top;"><th style="Margin: 0; color: #000; font-family: Trebuchet MS,sans-serif; font-size: 16px; font-weight: 400; line-height: 19px; margin: 0; padding: 0; text-align: left;">
+    </th></tr></table></th>
+
+    <th class="small-12 large-480 columns" width="240" height="45" style="Margin: 0 auto; color: #000; font-family: Trebuchet MS,sans-serif; font-size: 16px; font-weight: 400; line-height: 19px; margin: 0 !important; padding: 0 !important; padding-bottom: 0;  text-align: left; width: 240px !important;height: 45px; background-color: #b8b8b8; border: 1px solid #939393; text-decoration:none !important; text-decoration:none;"><table style="border-collapse: collapse; border-spacing: 0; padding: 0; text-align: center; vertical-align: top; width: 100%;text-decoration: none!important;"><tr style="padding: 0; text-align: left; vertical-align: top;text-decoration: none!important;"><th style="Margin: 0; color: #000; font-family: Trebuchet MS,sans-serif; font-size: 16px; font-weight: 400; line-height: 19px; margin: 0; padding: 0; text-align: center;text-decoration: none!important;">
+
+        <a href="https://www.youtube.com/watch?v=Crg4jzGc9sk" class="blue_btn" target="_blank" style="Margin: 0;  color: #fff; display: inline-block; font-family: Trebuchet MS,sans-serif; font-weight: 400;  line-height: 47px; margin: 0; padding: 0; text-align: center; text-decoration:none !important; text-decoration:none;"><span style="text-decoration:none !important; text-decoration:none;">
+                Смотреть видео</span></a>
+
+    </th></tr></table></th>
+    <th class="small-12 large-60 columns last" width="180" height="45" style="Margin: 0 auto; color: #000; font-family: Trebuchet MS,sans-serif; font-size: 16px; font-weight: 400; line-height: 19px; margin: 0 !important; padding: 0 !important; padding-bottom: 0; padding-left: 16px; padding-right: 16px; text-align: left; width: 180px !important;"><table style="border-collapse: collapse; border-spacing: 0; padding: 0; text-align: left; vertical-align: top; width: 100%;"><tr style="padding: 0; text-align: left; vertical-align: top;"><th style="Margin: 0; color: #000; font-family: Trebuchet MS,sans-serif; font-size: 16px; font-weight: 400; line-height: 19px; margin: 0; padding: 0; text-align: left;">
+    </th></tr></table></th>
+</tr>
+</tbody>
+</table>
+
+<h3><p>Вы можете подключить Телеграм-бот</p></h3>
+<p><a href="https://t.me/arseniy_kabinet_bot" target="_blank" style="text-decoration: none; color: dodgerblue"> @arseniy_kabinet_bot</a></p>
+<p>Он станет Вашим виртуальным помощником в ЖКХ: напомнит о необходимости сдать показания счетчиков, покажет последние новости по Вашему дому, поможет оплатить задолженность.</p>
+
+<h3><p>Показания счетчиков можно сдать по телефону</p></h3>
+<p><a href="tel:+7-999-055-80-00" target="_blank" style="text-decoration: none; color: dodgerblue">+7 (999) 055 80 00</a></p>
+<p>Робот в режиме диалога примет показания Ваших счетчиков и поможет избежать ошибок. Идеальный способ для владельцев кнопочных телефонов и тех, кто не использует мессенджеры.</p>
+
+{% endblock %}

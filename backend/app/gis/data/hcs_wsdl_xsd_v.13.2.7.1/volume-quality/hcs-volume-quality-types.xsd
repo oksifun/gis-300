@@ -1,0 +1,1241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:tns="http://dom.gosuslugi.ru/schema/integration/volume-quality/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:base="http://dom.gosuslugi.ru/schema/integration/base/" xmlns:premises-base="http://dom.gosuslugi.ru/schema/integration/premises-base/" xmlns:bills-base="http://dom.gosuslugi.ru/schema/integration/bills-base/" xmlns:account-base="http://dom.gosuslugi.ru/schema/integration/account-base/" xmlns:nsi-base="http://dom.gosuslugi.ru/schema/integration/nsi-base/" xmlns:organizations-base="http://dom.gosuslugi.ru/schema/integration/organizations-base/" xmlns:organizations-registry-base="http://dom.gosuslugi.ru/schema/integration/organizations-registry-base/" xmlns:metering-device-base="http://dom.gosuslugi.ru/schema/integration/metering-device-base/" xmlns:individual-registry-base="http://dom.gosuslugi.ru/schema/integration/individual-registry-base/" targetNamespace="http://dom.gosuslugi.ru/schema/integration/volume-quality/" elementFormDefault="qualified" attributeFormDefault="unqualified" version="13.1.1.1">
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/base/" schemaLocation="../lib/hcs-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/premises-base/" schemaLocation="../lib/hcs-premises-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/bills-base/" schemaLocation="../lib/hcs-bills-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/account-base/" schemaLocation="../lib/hcs-account-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/nsi-base/" schemaLocation="../lib/hcs-nsi-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/organizations-base/" schemaLocation="../lib/hcs-organizations-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/organizations-registry-base/" schemaLocation="../lib/hcs-organizations-registry-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/metering-device-base/" schemaLocation="../lib/hcs-metering-device-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/individual-registry-base/" schemaLocation="../lib/hcs-individual-registry-base.xsd"/>
+	<!--Простые типы-->
+	<xs:simpleType name="String1000Type">
+		<xs:annotation>
+			<xs:documentation>Простой тип. Строка не более 1000 символов.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="1000"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ContractType">
+		<xs:annotation>
+			<xs:documentation>Простой тип. Вид основания (DRSO - ДРСО, DTKO - Договор ТКО, ManagementContract - Договор управления, Charter - Устав)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="base:String100Type">
+			<xs:enumeration value="DRSO"/>
+			<xs:enumeration value="DTKO"/>
+			<xs:enumeration value="ManagementContract"/>
+			<xs:enumeration value="Charter"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PremisesNumType">
+		<xs:annotation>
+			<xs:documentation>Номер помещения, комнаты (тип)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="255"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="RegistrationPeriodStateType">
+		<xs:annotation>
+			<xs:documentation>Статус периода регистрации (Draft - Проект, Placed - Информация размещена, Annulled - Информация аннулирована)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="base:String100Type">
+			<xs:enumeration value="Draft"/>
+			<xs:enumeration value="Placed"/>
+			<xs:enumeration value="Annulled"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="IndicatorServiceDaysType">
+		<xs:annotation>
+			<xs:documentation>Тип для показателей качества КУ (дни)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:fractionDigits value="1"/>
+			<xs:totalDigits value="3"/>
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="99.9"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="IndicatorServiceNumberType">
+		<xs:annotation>
+			<xs:documentation>Тип для показателя качества КУ (число)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:fractionDigits value="2"/>
+			<xs:totalDigits value="5"/>
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="999.99"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="IndicatorValueNumberType">
+		<xs:annotation>
+			<xs:documentation>Значение показателя качества КР</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:minInclusive value="0"/>
+			<xs:fractionDigits value="6"/>
+			<xs:totalDigits value="14"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="VolumeResourceType">
+		<xs:annotation>
+			<xs:documentation>Значение объема КР</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:fractionDigits value="6"/>
+			<xs:minInclusive value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--Общие типы-->
+	<xs:simpleType name="BaseKindShortType">
+		<xs:annotation>
+			<xs:documentation>Простой тип. Вид основания (DRSO - ДРСО, ManagementContract - Договор управления, Charter - Устав)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="base:String100Type">
+			<xs:enumeration value="DRSO"/>
+			<xs:enumeration value="ManagementContract"/>
+			<xs:enumeration value="Charter"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="BaseShortType">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Основание</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="BaseKind" type="tns:BaseKindShortType">
+				<xs:annotation>
+					<xs:documentation>Вид основания</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ContractRootGUID" type="base:GUIDType">
+				<xs:annotation>
+					<xs:documentation>Идентификатор договора-основания</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AddressObjectType">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Объект жилищного фонда</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="FIASHouseGuid" type="premises-base:FIASHouseGUIDType">
+				<xs:annotation>
+					<xs:documentation>Адрес дома
+Глобальный уникальный идентификатор дома по ФИАС</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ApartmentNumber" type="tns:PremisesNumType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Номер квартиры (помещения)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="BlockNumber" type="tns:PremisesNumType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Номер блока (указывается в случае жилого дома блокированной застройки)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RoomNumber" type="tns:PremisesNumType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Номер комнаты (указывается в случае квартиры коммунального заселения)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="ReasonOfAnnulmentType">
+		<xs:annotation>
+			<xs:documentation>Простой тип. Причина аннулирования</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="tns:String1000Type">
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="Status">
+		<xs:annotation>
+			<xs:documentation>Статус размещения объекта (Published - Размещено в ГИС ЖКХ, Canceled - Аннулировано)</xs:documentation>
+		</xs:annotation>
+		<xs:simpleType>
+			<xs:restriction base="xs:token">
+				<xs:enumeration value="Published"/>
+				<xs:enumeration value="Canceled"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<!--Составные типы-->
+	<xs:complexType name="BaseType">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Основание</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="BaseKind" type="tns:ContractType">
+				<xs:annotation>
+					<xs:documentation>Вид основания</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ContractRootGUID" type="base:GUIDType">
+				<xs:annotation>
+					<xs:documentation>Идентификатор договора-основания</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="IndicatorValueType">
+		<xs:annotation>
+			<xs:documentation>Показатель качества КР</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:sequence>
+				<xs:choice>
+					<xs:element name="Number" type="tns:IndicatorValueNumberType">
+						<xs:annotation>
+							<xs:documentation>Число</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:sequence>
+						<xs:element name="StartRange" type="tns:IndicatorValueNumberType">
+							<xs:annotation>
+								<xs:documentation>Начало диапазона</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="EndRange" type="tns:IndicatorValueNumberType">
+							<xs:annotation>
+								<xs:documentation>Конец диапазона</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:choice>
+				<xs:element ref="base:OKEI"/>
+			</xs:sequence>
+			<xs:element name="Correspond" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Значение соответствует</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="ObjectAddressType">
+		<xs:annotation>
+			<xs:documentation>Объект жилищного фонда в основании</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="FIASHouseGuid" type="premises-base:FIASHouseGUIDType">
+				<xs:annotation>
+					<xs:documentation>Адрес дома
+Глобальный уникальный идентификатор дома по ФИАС</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ApartmentNumber" type="tns:PremisesNumType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Номер квартиры (помещения)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="BlockNumber" type="tns:PremisesNumType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Номер блока (указывается в случае жилого дома блокированной застройки)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RoomNumber" type="tns:PremisesNumType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Номер комнаты (указывается в случае квартиры коммунального заселения)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OtherQualityIndicatorType">
+		<xs:annotation>
+			<xs:documentation>Иной показатель качества КР</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="IndicatorName" type="base:String250Type">
+				<xs:annotation>
+					<xs:documentation>Наименование показателя</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="IndicatorValue" type="tns:IndicatorValueType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Значение показателя качества. Для основания с типом "ДТКО" обязательно для заполнения. Для основания с типом "ДРСО" доступно и обязательно, если присылается tns:IsSignedAct</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RegistrationPeriodType">
+		<xs:annotation>
+			<xs:documentation>Период регистрации</xs:documentation>
+		</xs:annotation>
+	</xs:complexType>
+	<xs:complexType name="VolumeEnergyResourceType">
+		<xs:annotation>
+			<xs:documentation>Объем ресурса "Электрическая энергия"</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="MeteringDeviceType" type="nsi-base:nsiRef">
+				<xs:annotation>
+					<xs:documentation>Вид прибора учета по количеству тарифов. Ссылка на НСИ "Вид прибора учета по количеству тарифов" (реестровый номер 4)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:sequence>
+				<xs:element name="VolumeT1" type="tns:VolumeResourceType"/>
+				<xs:element name="VolumeT2" type="tns:VolumeResourceType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Обязательно для заполнения, если Вид ПУ = "Двухтарифный" или "Трехтарифный"</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="VolumeT3" type="tns:VolumeResourceType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Обязательно для заполнения, если Вид ПУ = "Трехтарифный"</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="base:OKEI"/>
+			</xs:sequence>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="VolumeNotEnergyResourceType">
+		<xs:annotation>
+			<xs:documentation>Объем ресурса </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Volume" type="tns:VolumeResourceType">
+				<xs:annotation>
+					<xs:documentation>Значение объема</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="base:OKEI"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="QualityResourcesType">
+		<xs:annotation>
+			<xs:documentation> Тип для информации о показателях качества КР</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ObjectAddress">
+				<xs:annotation>
+					<xs:documentation>Объект жилищного фонда</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="tns:ObjectAddressType">
+							<xs:sequence>
+								<xs:element name="NotFromContract" type="xs:boolean" fixed="true" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Помещение/блок или комната не из договора (основания).                         Присылается, если импортируется помещение/блок или комната, отсутствующее в указанном основании</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ServiceType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Вид КУ. Ссылка на НСИ "Вид коммунальной услуги" (реестровый номер 3) Заполняется только для основания с типом "ДРСО"</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="nsi-base:nsiRef"/>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="MunicipalResource" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Тарифицируемый  ресурс. Ссылка на НСИ "Тарифицируемый ресурс" (реестровый номер 239). Заполняется только для основания с типом "ДРСО"</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="nsi-base:nsiRef"/>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="IsSignedAct" type="xs:boolean" fixed="true" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Наличие подписанного акта проверки предоставления коммунальных услуг для данного объекта жилищного фонда. Доступно для заполнения только для основания с типом "ДРСО" </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice>
+				<xs:element name="QualityIndicatorResource">
+					<xs:annotation>
+						<xs:documentation>Справочный показатель качества КР. Ссылка на НСИ "Показатели качества коммунальных ресурсов" (реестровый номер 276). Заполняется только основания с типом "ДРСО"</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="nsi-base:nsiRef">
+								<xs:sequence>
+									<xs:element name="IndicatorValue" type="tns:IndicatorValueType" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Значение показателя качества.                           Заполняется, только если присылается tns:IsSignedAct</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="OtherQualityIndicatorResource">
+					<xs:annotation>
+						<xs:documentation>Иной показатель качества КР</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="tns:OtherQualityIndicatorType"/>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="QualityServicesType">
+		<xs:annotation>
+			<xs:documentation>Тип для информации о показателях качества КУ</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ObjectAddress">
+				<xs:annotation>
+					<xs:documentation>Объект жилищного фонда</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="tns:ObjectAddressType">
+							<xs:sequence>
+								<xs:element name="NotFromContract" type="xs:boolean" fixed="true" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Помещение/блок или комната не из договора (основания).                         Присылается, если импортируется помещение/блок или комната, отсутствующее в указанном основании</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:choice>
+				<xs:annotation>
+					<xs:documentation>Показатели качества КУ</xs:documentation>
+				</xs:annotation>
+				<xs:element name="ColdWater">
+					<xs:annotation>
+						<xs:documentation>Показатели качества КУ "Холодное водоснабжение"</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:choice>
+							<xs:element name="IsSignedAct">
+								<xs:annotation>
+									<xs:documentation>Наличие подписанного акта проверки предоставления коммунальных услуг для данного объекта жилищного фонда</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="ColdWaterConformity">
+											<xs:annotation>
+												<xs:documentation>Соответствие (несоответствие) состава и свойств холодной воды требованиям законодательства Российской Федерации о техническом регулировании           </xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:choice>
+													<xs:element name="Conformed" type="xs:boolean" fixed="true">
+														<xs:annotation>
+															<xs:documentation>Соответствует</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:sequence>
+														<xs:element name="NotConformed" type="xs:boolean" fixed="true">
+															<xs:annotation>
+																<xs:documentation>Не соответствует</xs:documentation>
+															</xs:annotation>
+														</xs:element>
+														<xs:element name="NotConformityDays">
+															<xs:annotation>
+																<xs:documentation>Количество дней предоставления услуги холодного водоснабжения при несоответствии состава и свойств холодной воды требованиям законодательства Российской Федерации о техническом регулировании в расчетном периоде суммарно в течение расчетного месяца.                                                 </xs:documentation>
+															</xs:annotation>
+															<xs:simpleType>
+																<xs:restriction base="tns:IndicatorServiceDaysType"/>
+															</xs:simpleType>
+														</xs:element>
+													</xs:sequence>
+												</xs:choice>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="DurationPressure25" type="tns:IndicatorServiceNumberType" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Продолжительность предоставления холодного водоснабжения в часах суммарно в течение расчетного периода при давлении, отличающемся от установленного до 25 процентов.
+
+Не указывается для объекта жилищного фонда, для которого в договоре ресурсоснабжения установлен признак «Отсутствуют присоединения сетей объекта жилищного фонда к централизованной системе водоснабжения». В остальных случаях обязательно</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="DaysPressure25" type="tns:IndicatorServiceDaysType" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Количество дней предоставления холодного водоснабжения суммарно в течение расчетного периода при давлении, отличающемся от установленного более чем на 25 процентов.
+
+Не указывается для объекта жилищного фонда, для которого в договоре ресурсоснабжения установлен признак «Отсутствуют присоединения сетей объекта жилищного фонда к централизованной системе водоснабжения». В остальных случаях обязательно</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="IsNotSignedAct" type="xs:boolean" fixed="true">
+								<xs:annotation>
+									<xs:documentation>Отсутствие подписанного акта проверки предоставления коммунальных услуг для данного объекта жилищного фонда</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:choice>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="HotWater">
+					<xs:annotation>
+						<xs:documentation>Показатели качества КУ "Горячее водоснабжение"</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:choice>
+							<xs:element name="IsSignedAct">
+								<xs:annotation>
+									<xs:documentation>Наличие подписанного акта проверки предоставления коммунальных услуг для данного объекта жилищного фонда</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="TemperatureConformity">
+											<xs:annotation>
+												<xs:documentation>Соответствие (несоответствие) температуры горячей воды требованиям законодательства Российской Федерации о техническом регулировании                                  </xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:choice>
+													<xs:element name="Conformed" type="xs:boolean" fixed="true">
+														<xs:annotation>
+															<xs:documentation>Соответствует</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:sequence>
+														<xs:element name="NotConformed" type="xs:boolean" fixed="true">
+															<xs:annotation>
+																<xs:documentation>Не соответствует</xs:documentation>
+															</xs:annotation>
+														</xs:element>
+														<xs:element name="NotConformityTemperature" type="tns:NotConformityTemperatureHotWaterType">
+															<xs:annotation>
+																<xs:documentation>Информация о продолжительности предоставления услуги горячего водоснабжения при отклонении температуры горячей воды от установленной законодательством Российской Федерации о техническом регулировании (в часах суммарно в течение расчетного периода).                                                                          Необходимо заполнить хотя бы одно из указанных  полей                                                                 </xs:documentation>
+															</xs:annotation>
+														</xs:element>
+													</xs:sequence>
+												</xs:choice>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="DurationDeg40" type="tns:IndicatorServiceNumberType">
+											<xs:annotation>
+												<xs:documentation>Продолжительность предоставления горячего водоснабжения при температуре ниже 40°С в часах суммарно в течение расчетного периода</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="VolumeDeg40" type="tns:IndicatorServiceNumberType">
+											<xs:annotation>
+												<xs:documentation>Объем горячей воды, поставленной при температуре ниже 40°С суммарно в течение расчетного периода</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="HotWaterConformity">
+											<xs:annotation>
+												<xs:documentation>Соответствие (несоответствие) состава и свойств горячей воды требованиям законодательства Российской Федерации о техническом регулировании         </xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:choice>
+													<xs:element name="Conformed" type="xs:boolean" fixed="true">
+														<xs:annotation>
+															<xs:documentation>Соответствует</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:sequence>
+														<xs:element name="NotConformed" type="xs:boolean" fixed="true">
+															<xs:annotation>
+																<xs:documentation>Не соответствует</xs:documentation>
+															</xs:annotation>
+														</xs:element>
+														<xs:element name="NotConformityDays" type="tns:IndicatorServiceDaysType">
+															<xs:annotation>
+																<xs:documentation>Количество дней предоставления услуги горячего водоснабжения при несоответствии состава и свойств горячей воды требованиям законодательства Российской Федерации о техническом регулировании в расчетном периоде суммарно в течение расчетного периода                  </xs:documentation>
+															</xs:annotation>
+														</xs:element>
+													</xs:sequence>
+												</xs:choice>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="DurationPressure25" type="tns:IndicatorServiceNumberType" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Продолжительность предоставления услуги горячего водоснабжения в часах суммарно в течение расчетного периода при давлении, отличающемся от установленного до 25 процентов.
+
+Не указывается для объекта жилищного фонда, для которого в договоре ресурсоснабжения установлен признак «Отсутствуют присоединения сетей объекта жилищного фонда к централизованной системе водоснабжения». В остальных случаях обязательно</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="DaysPressure25" type="tns:IndicatorServiceDaysType" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Количество дней предоставления услуги горячего водоснабжения суммарно в течение расчетного периода при давлении, отличающемся от установленного более чем на 25 процентов.
+
+Не указывается для объекта жилищного фонда, для которого в договоре ресурсоснабжения установлен признак «Отсутствуют присоединения сетей объекта жилищного фонда к централизованной системе водоснабжения». В остальных случаях обязательно</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="IsNotSignedAct" type="xs:boolean" fixed="true">
+								<xs:annotation>
+									<xs:documentation>Отсутствие подписанного акта проверки предоставления коммунальных услуг для данного объекта жилищного фонда</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:choice>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Electricity">
+					<xs:annotation>
+						<xs:documentation>Показатели качества КУ "Электроснабжение"</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:choice>
+							<xs:element name="IsSignedAct">
+								<xs:annotation>
+									<xs:documentation>Наличие подписанного акта проверки предоставления коммунальных услуг для данного объекта жилищного фонда</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="ElectricityConformity">
+											<xs:annotation>
+												<xs:documentation>Соответствие (несоответствие) напряжения и частоты электрического тока требованиям законодательства Российской Федерации о техническом регулировании      </xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:choice>
+													<xs:element name="Conformed" type="xs:boolean" fixed="true">
+														<xs:annotation>
+															<xs:documentation>Соответствует</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:sequence>
+														<xs:element name="NotConformed" type="xs:boolean" fixed="true">
+															<xs:annotation>
+																<xs:documentation>Не соответствует</xs:documentation>
+															</xs:annotation>
+														</xs:element>
+														<xs:element name="NotConformityDays" type="tns:IndicatorServiceDaysType">
+															<xs:annotation>
+																<xs:documentation>Продолжительность снабжения электрической энергией, несоответствующей требованиям законодательства Российской Федерации о техническом регулировании, в часах суммарно в течение расчетного периода                                                                 </xs:documentation>
+															</xs:annotation>
+														</xs:element>
+													</xs:sequence>
+												</xs:choice>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="IsNotSignedAct" type="xs:boolean" fixed="true">
+								<xs:annotation>
+									<xs:documentation>Отсутствие подписанного акта проверки предоставления коммунальных услуг для данного объекта жилищного фонда</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:choice>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Gas">
+					<xs:annotation>
+						<xs:documentation>Показатели качества КУ "Газоснабжение"</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:choice>
+							<xs:element name="IsSignedAct">
+								<xs:annotation>
+									<xs:documentation>Наличие подписанного акта проверки предоставления коммунальных услуг для данного объекта жилищного фонда</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="GasConformity">
+											<xs:annotation>
+												<xs:documentation>Соответствие (несоответствие) свойств подаваемого газа требованиям законодательства Российской Федерации о техническом регулировании                   </xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:choice>
+													<xs:element name="Conformed" type="xs:boolean" fixed="true">
+														<xs:annotation>
+															<xs:documentation>Соответствует</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:sequence>
+														<xs:element name="NotConformed" type="xs:boolean" fixed="true">
+															<xs:annotation>
+																<xs:documentation>Не соответствует</xs:documentation>
+															</xs:annotation>
+														</xs:element>
+														<xs:element name="NotConformityDays" type="tns:IndicatorServiceDaysType">
+															<xs:annotation>
+																<xs:documentation>Количество дней предоставления услуги газоснабжения при несоответствии свойств подаваемого газа требованиям законодательства Российской Федерации о техническом регулировании в расчетном периоде, суммарно в течение расчетного периода                    </xs:documentation>
+															</xs:annotation>
+														</xs:element>
+													</xs:sequence>
+												</xs:choice>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="DurationPressure25" type="tns:IndicatorServiceNumberType">
+											<xs:annotation>
+												<xs:documentation>Продолжительность предоставления услуги газоснабжения в часах суммарно в течение расчетного периода при давлении, отличающемся от установленного до 25 процентов</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="DaysPressure25" type="tns:IndicatorServiceDaysType">
+											<xs:annotation>
+												<xs:documentation>Количество дней предоставления услуги газоснабжения суммарно в течение расчетного периода при давлении, отличающемся от установленного более чем на 25 процентов</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="IsNotSignedAct" type="xs:boolean" fixed="true">
+								<xs:annotation>
+									<xs:documentation>Отсутствие подписанного акта проверки предоставления коммунальных услуг для данного объекта жилищного фонда</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:choice>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Heating">
+					<xs:annotation>
+						<xs:documentation>Показатели качества КУ "Отопление"</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:choice>
+							<xs:element name="IsSignedAct">
+								<xs:annotation>
+									<xs:documentation>Наличие подписанного акта проверки предоставления коммунальных услуг для данного объекта жилищного фонда</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="HeatingConformity">
+											<xs:annotation>
+												<xs:documentation>Соответствие (несоответствие) обеспечения нормативной температуры воздуха в помещениях многоквартирных домов, жилых домов в соответствии с требованиями законодательства Российской Федерации о техническом регулировании                        </xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:choice>
+													<xs:element name="Conformed" type="xs:boolean" fixed="true">
+														<xs:annotation>
+															<xs:documentation>Соответствует</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:sequence>
+														<xs:element name="NotConformed" type="xs:boolean" fixed="true">
+															<xs:annotation>
+																<xs:documentation>Не соответствует</xs:documentation>
+															</xs:annotation>
+														</xs:element>
+														<xs:element name="NotConformityTemperature">
+															<xs:annotation>
+																<xs:documentation>Продолжительность отопления при отклонении температуры воздуха в помещениях многоквартирных домов, жилых домах в часах суммарно за расчетный период.                                                                                                    Необходимо заполнить хотя бы одно из указанных полей: tns:TemperatureExcess, tns:TemperatureDecline.                                     </xs:documentation>
+															</xs:annotation>
+															<xs:complexType>
+																<xs:sequence>
+																	<xs:element name="TemperatureExcess" type="tns:IndicatorServiceNumberType" minOccurs="0">
+																		<xs:annotation>
+																			<xs:documentation>Превышение нормативной температуры воздуха в помещениях многоквартирных домов, жилых домах сверх допустимого уровня</xs:documentation>
+																		</xs:annotation>
+																	</xs:element>
+																	<xs:element name="TemperatureDecline" type="tns:IndicatorServiceNumberType" minOccurs="0">
+																		<xs:annotation>
+																			<xs:documentation>Снижение нормативной температуры воздуха в помещениях многоквартирных домов, жилых домах сверх допустимого уровня</xs:documentation>
+																		</xs:annotation>
+																	</xs:element>
+																</xs:sequence>
+															</xs:complexType>
+														</xs:element>
+														<xs:element name="NotConformityHours" type="tns:IndicatorServiceNumberType">
+															<xs:annotation>
+																<xs:documentation>Количество часов отклонения температуры воздуха в помещениях многоквартирных домов, жилых домах в часах суммарно за расчетный период     </xs:documentation>
+															</xs:annotation>
+														</xs:element>
+													</xs:sequence>
+												</xs:choice>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="DaysPressure25" type="tns:IndicatorServiceDaysType">
+											<xs:annotation>
+												<xs:documentation>Количество дней предоставления услуги отопления суммарно в течение расчетного периода при давлении, отличающемся от установленного более чем на 25 процентов</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="IsNotSignedAct" type="xs:boolean" fixed="true">
+								<xs:annotation>
+									<xs:documentation>Отсутствие подписанного акта проверки предоставления коммунальных услуг для данного объекта жилищного фонда</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:choice>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="VolumeResourcesType">
+		<xs:annotation>
+			<xs:documentation> Тип для информации об объеме КР</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ObjectAddress">
+				<xs:annotation>
+					<xs:documentation>ОЖФ</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="tns:ObjectAddressType"/>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ServiceType">
+				<xs:annotation>
+					<xs:documentation>Вид КУ. Ссылка на НСИ "Вид коммунальной услуги" (реестровый номер 3) </xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="nsi-base:nsiRef"/>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:choice>
+				<xs:element name="MunicipalResource">
+					<xs:annotation>
+						<xs:documentation>Тарифицируемый  ресурс. Ссылка на НСИ "Тарифицируемый ресурс" (реестровый номер 239). Заполняется, если в основании указан ДРСО</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="nsi-base:nsiRef"/>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="CommunalResource" type="nsi-base:nsiRef">
+					<xs:annotation>
+						<xs:documentation>Вид коммунального ресурса. Ссылка на НСИ "Вид коммунального ресурса" (реестровый номер 2). Заполняется, если в основании указан ДУ (устав)</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:choice>
+				<xs:element name="VolumeNotEnergyResource" type="tns:VolumeNotEnergyResourceType">
+					<xs:annotation>
+						<xs:documentation>Объем ресурса. Указывается для всех ресурсов, кроме "Электрическая энергия" </xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="VolumeEnergyResource" type="tns:VolumeEnergyResourceType">
+					<xs:annotation>
+						<xs:documentation>Объем ресурса "Электрическая энергия"</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NotConformityTemperatureHotWaterType">
+		<xs:annotation>
+			<xs:documentation> Продолжительность предоставления  КУ "Горячее водоснабжение" при отклонении температуры воды</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Deviation3" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>При отклонении температуры на 3°С </xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="DeviationDeg3" type="tns:IndicatorServiceNumberType">
+							<xs:annotation>
+								<xs:documentation>Продолжительность предоставления услуги горячей воды при отклонении температуры на 3°С</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Deviation6" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>При отклонении температуры на 6°С</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="DeviationDeg6" type="tns:IndicatorServiceNumberType">
+							<xs:annotation>
+								<xs:documentation>Продолжительность предоставления услуги горячей воды при отклонении температуры на 6°С</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Deviation9" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>При отклонении температуры на 9°С</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="DeviationDeg9" type="tns:IndicatorServiceNumberType">
+							<xs:annotation>
+								<xs:documentation>Продолжительность предоставления услуги горячей воды при отклонении температуры на 9°С</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Deviation12" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>При отклонении температуры на 12°С</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="DeviationDeg12" type="tns:IndicatorServiceNumberType">
+							<xs:annotation>
+								<xs:documentation>Продолжительность предоставления услуги горячей воды при отклонении температуры на 12°С</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Deviation15" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>При отклонении температуры на 15°С</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="DeviationDeg15" type="tns:IndicatorServiceNumberType">
+							<xs:annotation>
+								<xs:documentation>Продолжительность предоставления услуги горячей воды при отклонении температуры на 15°С</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Deviation18" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>При отклонении температуры на 18°С</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="DeviationDeg18" type="tns:IndicatorServiceNumberType">
+							<xs:annotation>
+								<xs:documentation>Продолжительность предоставления услуги горячей воды при отклонении температуры на 18°С</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!--Импорт информации об объеме и качестве КР и КУ-->
+	<xs:element name="importVolumeAndQualityInformationRequest">
+		<xs:annotation>
+			<xs:documentation>Импорт информации об объеме и качестве КР и КУ</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:sequence>
+						<xs:element name="importVolumeAndQualityInformation">
+							<xs:annotation>
+								<xs:documentation>Информация об объеме и качестве КР и КУ</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="base:TransportGUID"/>
+									<xs:element name="Base">
+										<xs:annotation>
+											<xs:documentation>Основание </xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:complexContent>
+												<xs:extension base="tns:BaseType"/>
+											</xs:complexContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="RegistrationPeriod" type="xs:gYearMonth">
+										<xs:annotation>
+											<xs:documentation>Период регистрации (месяц и год)</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:choice>
+										<xs:element name="RegistrationPeriodInformation">
+											<xs:annotation>
+												<xs:documentation>Добавление/изменение периода регистрации</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:complexContent>
+													<xs:extension base="tns:RegistrationPeriodType">
+														<xs:sequence>
+															<xs:element name="QualityResources" minOccurs="0" maxOccurs="1000">
+																<xs:annotation>
+																	<xs:documentation>Показатели качестве КР. Заполняется, только если в основании  указан договор ресурсоснабжения или договор ТКО</xs:documentation>
+																</xs:annotation>
+																<xs:complexType>
+																	<xs:complexContent>
+																		<xs:extension base="tns:QualityResourcesType">
+																			<xs:sequence>
+																				<xs:element ref="base:TransportGUID"/>
+																			</xs:sequence>
+																		</xs:extension>
+																	</xs:complexContent>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="QualityServices" minOccurs="0" maxOccurs="1000">
+																<xs:annotation>
+																	<xs:documentation>Показатели качества КУ. Заполняется только если в основании указан договор ресурсоснабжения или договор управления (устав)</xs:documentation>
+																</xs:annotation>
+																<xs:complexType>
+																	<xs:complexContent>
+																		<xs:extension base="tns:QualityServicesType">
+																			<xs:sequence>
+																				<xs:element ref="base:TransportGUID"/>
+																			</xs:sequence>
+																		</xs:extension>
+																	</xs:complexContent>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="VolumeResources" minOccurs="0" maxOccurs="1000">
+																<xs:annotation>
+																	<xs:documentation>Объем КР. Заполняется только если в основании информации об объеме и качестве КУ указан договор ресурсоснабжения или договор управления (устав)</xs:documentation>
+																</xs:annotation>
+																<xs:complexType>
+																	<xs:complexContent>
+																		<xs:extension base="tns:VolumeResourcesType">
+																			<xs:sequence>
+																				<xs:element ref="base:TransportGUID"/>
+																			</xs:sequence>
+																		</xs:extension>
+																	</xs:complexContent>
+																</xs:complexType>
+															</xs:element>
+														</xs:sequence>
+													</xs:extension>
+												</xs:complexContent>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="PlacingRegistrationPeriod" type="xs:boolean" fixed="true">
+											<xs:annotation>
+												<xs:documentation>Размещение периода регистрации</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="AnnulmentRegistrationPeriod">
+											<xs:annotation>
+												<xs:documentation>Аннулирование периода регистрации</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="ReasonOfAnnulment">
+														<xs:annotation>
+															<xs:documentation>Причина аннулирования</xs:documentation>
+														</xs:annotation>
+														<xs:simpleType>
+															<xs:restriction base="tns:ReasonOfAnnulmentType">
+																<xs:minLength value="1"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="DeleteProjectRegistrationPeriod" type="xs:boolean" fixed="true">
+											<xs:annotation>
+												<xs:documentation>Удаление проекта периода регистрации</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="DeleteAddressObject">
+											<xs:annotation>
+												<xs:documentation>Удаление информации об объекте жилищного фонда из периода регистрации</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="ObjectAddress" maxOccurs="1000">
+														<xs:annotation>
+															<xs:documentation>ОЖФ</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:complexContent>
+																<xs:extension base="tns:ObjectAddressType">
+																	<xs:sequence>
+																		<xs:element name="NotFromContract" type="xs:boolean" fixed="true" minOccurs="0">
+																			<xs:annotation>
+																				<xs:documentation>Помещение/блок или комната не из договора (основания).                         </xs:documentation>
+																			</xs:annotation>
+																		</xs:element>
+																		<xs:element ref="base:TransportGUID"/>
+																	</xs:sequence>
+																</xs:extension>
+															</xs:complexContent>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:choice>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute ref="base:version" use="required" fixed="11.11.0.4"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+		<xs:key name="importVolumeAndQualityInformationRequest_TransportGUIDKey">
+			<xs:annotation>
+				<xs:documentation>Проверка уникальности транспортного идентификатора в рамках запроса</xs:documentation>
+			</xs:annotation>
+			<xs:selector xpath=".//base:TransportGUID"/>
+			<xs:field xpath="."/>
+		</xs:key>
+		<xs:key name="importVolumeAndQualityInformationRequest_ContractRootGUID">
+			<xs:annotation>
+				<xs:documentation>Проверка уникальности корневого идентификатора договора в рамках запроса</xs:documentation>
+			</xs:annotation>
+			<xs:selector xpath=".//tns:ContractRootGUID"/>
+			<xs:field xpath="."/>
+		</xs:key>
+	</xs:element>
+	<!--Информация о перерыве-->
+	<xs:simpleType name="IntervalKindType">
+		<xs:annotation>
+			<xs:documentation>Простой тип. Вид перерыва (IntervalInProviding - Перерыв в предоставлении коммунальной услуги, RestrictionInProviding - Ограничение в предоставлении коммунальной услуги, SuspensionOfProviding - Приостановление предоставления коммунальной услуги)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="base:String100Type">
+			<xs:enumeration value="IntervalInProviding"/>
+			<xs:enumeration value="RestrictionInProviding"/>
+			<xs:enumeration value="SuspensionOfProviding"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="IntervalType">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Информация о перерывах</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="StartDateAndTime" type="xs:dateTime">
+				<xs:annotation>
+					<xs:documentation>Дата и время начала перерыва</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EndDateAndTime" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Дата и время окончания перерыва</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MunicipalService" type="nsi-base:nsiRef">
+				<xs:annotation>
+					<xs:documentation>Вид коммунальной услуги. Код для интеграции 3</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RatedResource" type="nsi-base:nsiRef" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Вид тарифицируемого ресурса. Код для интеграции 239.             Не заполняется только, если  «Вид коммунальной услуги» = «Обращение с твердыми коммунальными отходами». Для остальных видов КУ поле обязательно для заполнения. </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="IntervalReason">
+				<xs:annotation>
+					<xs:documentation>Причина перерыва</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="tns:String1000Type">
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="AddressObject" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Объект жилищного фонда</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="tns:AddressObjectType">
+							<xs:sequence>
+								<xs:element name="NotFromContract" type="xs:boolean" fixed="true" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Помещение/блок или комната не из договора (основания).                         Присылается, если импортируется помещение/блок или комната, отсутствующее в указанном основании</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:annotation>
+		<xs:documentation>Импорт информации о перерыве</xs:documentation>
+	</xs:annotation>
+	<xs:element name="importIntervalRequest">
+		<xs:annotation>
+			<xs:documentation>Запрос импорта информации о перерывах</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:sequence>
+						<xs:element name="importInterval" maxOccurs="1000">
+							<xs:annotation>
+								<xs:documentation>Импорт сведений о перерывах</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Base" type="tns:BaseShortType">
+										<xs:annotation>
+											<xs:documentation>Основание</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="IntervalGuid" type="base:GUIDType" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Идентификатор информации о перерыве в ГИС ЖКХ. Заполняется при изменении ранее загруженных сведений о перерывах</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="TransportGuid" type="base:GUIDType">
+										<xs:annotation>
+											<xs:documentation>Транспортный идентификатор для выполнения операции с информацией о перерывах</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:choice>
+										<xs:element name="LoadInterval" type="tns:IntervalType">
+											<xs:annotation>
+												<xs:documentation>Добавить/Изменить общую информацию о перерывах. При изменении необходимо присылать всю информацию о перерыве в актуальном состоянии.</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="AnnulmentInterval">
+											<xs:annotation>
+												<xs:documentation>Аннулировать информацию о перерыве</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="ReasonOfAnnulment">
+														<xs:annotation>
+															<xs:documentation>Причина аннулирования</xs:documentation>
+														</xs:annotation>
+														<xs:simpleType>
+															<xs:restriction base="tns:ReasonOfAnnulmentType">
+																<xs:minLength value="1"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:choice>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute ref="base:version" use="required" fixed="11.11.0.1"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+		<xs:unique name="importIntervalInfoRequest_TransportGuidUnique">
+			<xs:selector xpath=".//tns:TransportGuid"/>
+			<xs:field xpath="."/>
+		</xs:unique>
+		<xs:unique name="importIntervalInfoRequest_IntervalInfoGuidUnique">
+			<xs:selector xpath=".//tns:IntervalGuid"/>
+			<xs:field xpath="."/>
+		</xs:unique>
+	</xs:element>
+	<!--Асинхронные методы-->
+	<xs:element name="getStateResult">
+		<xs:annotation>
+			<xs:documentation>Возврат статуса отправленного сообщения</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseAsyncResponseType">
+					<xs:choice>
+						<xs:element name="ImportResult" type="base:CommonResultType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Результат импорта</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element ref="base:ErrorMessage"/>
+					</xs:choice>
+					<xs:attribute ref="base:version" use="required" fixed="11.3.0.1"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

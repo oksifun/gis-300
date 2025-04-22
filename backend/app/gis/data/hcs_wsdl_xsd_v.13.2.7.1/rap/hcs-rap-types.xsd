@@ -1,0 +1,978 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:tns="http://dom.gosuslugi.ru/schema/integration/rap/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:base="http://dom.gosuslugi.ru/schema/integration/base/" xmlns:premises-base="http://dom.gosuslugi.ru/schema/integration/premises-base/" xmlns:bills-base="http://dom.gosuslugi.ru/schema/integration/bills-base/" xmlns:account-base="http://dom.gosuslugi.ru/schema/integration/account-base/" xmlns:nsi-base="http://dom.gosuslugi.ru/schema/integration/nsi-base/" xmlns:organizations-base="http://dom.gosuslugi.ru/schema/integration/organizations-base/" xmlns:organizations-registry-base="http://dom.gosuslugi.ru/schema/integration/organizations-registry-base/" xmlns:metering-device-base="http://dom.gosuslugi.ru/schema/integration/metering-device-base/" xmlns:individual-registry-base="http://dom.gosuslugi.ru/schema/integration/individual-registry-base/" targetNamespace="http://dom.gosuslugi.ru/schema/integration/rap/" elementFormDefault="qualified" attributeFormDefault="unqualified" version="13.0.0.10">
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/base/" schemaLocation="../lib/hcs-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/premises-base/" schemaLocation="../lib/hcs-premises-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/nsi-base/" schemaLocation="../lib/hcs-nsi-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/organizations-base/" schemaLocation="../lib/hcs-organizations-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/organizations-registry-base/" schemaLocation="../lib/hcs-organizations-registry-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/individual-registry-base/" schemaLocation="../lib/hcs-individual-registry-base.xsd"/>
+	<!--Простые типы-->
+	<xs:simpleType name="LimitedDateType">
+		<xs:annotation>
+			<xs:documentation>Дата, с ограничениями от 01.01.1992 до 31.12.2030</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:date">
+			<xs:minInclusive value="1992-01-01"/>
+			<xs:maxInclusive value="2030-12-31"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="FineType">
+		<xs:annotation>
+			<xs:documentation>Размер штрафа</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:maxInclusive value="99999999.99"/>
+			<xs:totalDigits value="10"/>
+			<xs:fractionDigits value="2"/>
+			<xs:minInclusive value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DecreeStatusType">
+		<xs:annotation>
+			<xs:documentation>Статус постановления в ГИС ЖКХ</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Published"/>
+			<xs:enumeration value="Cancelled"/>
+			<xs:enumeration value="Annulled"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--Составные типы-->
+	<xs:complexType name="DecreeInfoType">
+		<xs:annotation>
+			<xs:documentation>Данные постановления</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Offender">
+				<xs:annotation>
+					<xs:documentation>Правонарушитель</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:choice>
+						<xs:sequence>
+							<xs:annotation>
+								<xs:documentation>Юридическое лицо / Индивидуальный предприниматель</xs:documentation>
+							</xs:annotation>
+							<xs:element name="Organization" type="organizations-registry-base:RegOrgType">
+								<xs:annotation>
+									<xs:documentation>Организация</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="OfficialName" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Должностное лицо</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:complexContent>
+										<xs:extension base="tns:DecreeIndType">
+											<xs:sequence>
+												<xs:element name="Position">
+													<xs:annotation>
+														<xs:documentation>Должность</xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="base:String300Type">
+															<xs:minLength value="1"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:element>
+											</xs:sequence>
+										</xs:extension>
+									</xs:complexContent>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="ControlRoleCode" type="nsi-base:nsiRef" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Регулируемые виды деятельности по поставке ресурсов (НСИ 270)           (поле доступно и обязательно для заполнения только для организации пользователя с функцией ФСТ или "ОИВ субъекта РФ по регулированию тарифов")</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+						<xs:element name="Person" type="tns:DecreeIndType">
+							<xs:annotation>
+								<xs:documentation>Физическое лицо</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ReviewResult">
+				<xs:annotation>
+					<xs:documentation>Результат рассмотрения дела об административном правонарушении</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ResultKind" type="nsi-base:nsiRef">
+							<xs:annotation>
+								<xs:documentation>Вид результата по делу об административном правонарушении (НСИ-227)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="DecreeDocument" type="tns:ProceduralDocumentType">
+							<xs:annotation>
+								<xs:documentation>Постановление</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="PunishmentKind" type="nsi-base:nsiRef" minOccurs="0" maxOccurs="100">
+							<xs:annotation>
+								<xs:documentation>Вид административного наказания (НСИ-225). Обязательно для заполнения, если в tns:ResultKind указано «Назначение административного наказания».
+
+Для Организаций:
+-Административный штраф;
+-Предупреждение;
+-Административное приостановление деятельности.
+
+Для физических лиц:
+-Административный штраф;
+-Предупреждение;
+-Дисквалификация.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="TakingDecisionAuthority" type="nsi-base:nsiRef">
+							<xs:annotation>
+								<xs:documentation>Орган, которым вынесено решение по делу об административном правонарушении (НСИ 332)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="TakingDecisionAuthorityName" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Название органа, принявшего решение о применении мер административного воздействия. НЕ заполняется, если в tns:TakingDecisionAuthority указано значение "Организация, разместившая постановление"</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="0"/>
+									<xs:maxLength value="2500"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="PositionOfAcceptedPerson">
+							<xs:annotation>
+								<xs:documentation>Должность лица, принявшего документ о применении административного воздействия</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="base:String100Type">
+									<xs:minLength value="1"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="ViolationObject" type="nsi-base:nsiRef" maxOccurs="100">
+							<xs:annotation>
+								<xs:documentation>Предмет нарушения (НСИ-229)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="ProceedingDate" type="tns:LimitedDateType">
+							<xs:annotation>
+								<xs:documentation>Дата привлечения к административной ответственности</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Fine" type="tns:FineType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Размер штрафа (доступно при указании вида административного наказания "Административный штраф"; иначе - не заполняется)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="FinePaymentDate" type="tns:LimitedDateType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Дата уплаты штрафа (может заполняться только, если в поле в tns:Executed указано true (Исполнено)       И в поле PunishmentKind указан "Административный штраф" И поле Fine заполнено)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="DisqualificationPeriod" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Срок дисквалификации (доступен и обязателен, если Вид административного наказания = "Дисквалификация")</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:choice>
+									<xs:element name="Months">
+										<xs:annotation>
+											<xs:documentation>Месяцев</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:int">
+												<xs:minExclusive value="0"/>
+												<xs:maxExclusive value="1000"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="Years">
+										<xs:annotation>
+											<xs:documentation>Лет</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:int">
+												<xs:minExclusive value="0"/>
+												<xs:maxExclusive value="1000"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+								</xs:choice>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="AdministrativeSuspensionPeriod" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Срок приостановления деятельности (доступен и обязателен, если Вид административного наказания = "Административное приостановление деятельности")</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:choice>
+									<xs:element name="Months">
+										<xs:annotation>
+											<xs:documentation>Месяцев</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:int">
+												<xs:minExclusive value="0"/>
+												<xs:maxExclusive value="1000"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="Years">
+										<xs:annotation>
+											<xs:documentation>Лет</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:int">
+												<xs:minExclusive value="0"/>
+												<xs:maxExclusive value="1000"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+								</xs:choice>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="ViolationShortDescription" type="base:String500Type" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Краткое описание нарушения</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="TakenAction" type="base:String1500Type" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Меры, принятые для устранения нарушений</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Executed" type="xs:boolean" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Информация об исполнении (true - Исполнено; false - Не исполнено; при незаполнении устанавливается значение по умолчанию - Не заполнено)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ExportAttachmentType">
+		<xs:annotation>
+			<xs:documentation>Вложение</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Name" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Наименование вложения</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Description" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Описание вложения</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Attachment">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="AttachmentGUID" type="base:GUIDType">
+							<xs:annotation>
+								<xs:documentation>Идентификатор сохраненного вложения</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AttachmentHASH" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Хэш-тег вложения по алгоритму ГОСТ в binhex</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ProceduralDocumentType">
+		<xs:annotation>
+			<xs:documentation>Процессуальный документ</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DocumentKind" type="nsi-base:nsiRef">
+				<xs:annotation>
+					<xs:documentation>Вид процессуального документа (НСИ-226).
+
+Должен соответствовать категории процессуального документа (НСИ-228).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DocumentName">
+				<xs:annotation>
+					<xs:documentation> Имя документа</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="base:String300Type">
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="DocumentNumber">
+				<xs:annotation>
+					<xs:documentation>Номер процессуального документа</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="base:String100Type">
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="DocumentDate" type="tns:LimitedDateType">
+				<xs:annotation>
+					<xs:documentation>Дата процессуального документа</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Executed" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Информация об исполнении (true - Исполнено; false - Не исполнено; при незаполнении устанавливается значение по умолчанию - Не заполнено)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Document" type="base:AttachmentType" maxOccurs="100">
+				<xs:annotation>
+					<xs:documentation>Документ-вложение</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ChangeReasonType">
+		<xs:annotation>
+			<xs:documentation>Причина изменения постановления</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Reason" type="nsi-base:nsiRef">
+				<xs:annotation>
+					<xs:documentation>Основание внесения изменений в информацию (НСИ-271)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ChangeBaseDocument" type="tns:ProceduralDocumentType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Документ-основание для внесения изменений вида: Судебные, Изменение (необязательно, если основание - «В связи с ошибкой ввода» или «По другому основанию»; иначе - обязательно)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ChangeShortDescription" type="base:String2000Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Краткое описание изменений сведений (необязательно только, если основание внесения изменений - «В связи с ошибкой ввода»; иначе - обязательно)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CancelReasonType">
+		<xs:annotation>
+			<xs:documentation>Причина отмены постановления</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Reason" type="nsi-base:nsiRef">
+				<xs:annotation>
+					<xs:documentation>Основание внесения изменений или отмены информации (НСИ-271)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CancelBaseDocument" type="tns:ProceduralDocumentType">
+				<xs:annotation>
+					<xs:documentation>Документ-основание для отмены</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CancelShortDescription">
+				<xs:annotation>
+					<xs:documentation>Краткое описание отмены сведений</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="base:String2000Type">
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DecreeIndType">
+		<xs:annotation>
+			<xs:documentation>Физическое лицо </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Surname">
+				<xs:annotation>
+					<xs:documentation>Фамилия</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="FirstName">
+				<xs:annotation>
+					<xs:documentation>Имя</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Patronymic" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Отчество</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ExportDecreeType">
+		<xs:annotation>
+			<xs:documentation>Экспортируемое постановление и процессуальные документы</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DecreeGUID" type="base:GUIDType">
+				<xs:annotation>
+					<xs:documentation>Идентификатор постановления в ГИС ЖКХ</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RegistryNumber" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Реестровый номер постановления</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ControlOrganization">
+				<xs:annotation>
+					<xs:documentation>Организация, рассмотревшая дело</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="organizations-registry-base:RegOrgType"/>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="DecreeInfo" type="tns:ExportDecreeInfoType">
+				<xs:annotation>
+					<xs:documentation>Данные постановления</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ProceduralDocuments" minOccurs="0" maxOccurs="1000">
+				<xs:annotation>
+					<xs:documentation>Процессуальные документы</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="tns:ExportProceduralDocumentType">
+							<xs:sequence>
+								<xs:element name="ProceduralDocumentGUID" type="base:GUIDType">
+									<xs:annotation>
+										<xs:documentation>Идентификатор процессуального документа</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Status" type="tns:DecreeStatusType">
+				<xs:annotation>
+					<xs:documentation>Статус в ГИС ЖКХ
+Допустимые значения:
+Published- размещено в ГИС ЖКХ.           Cancelled-отменено Annulled-аннулировано</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ChangeReason" type="tns:ExportChangeReasonType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Причина последнего изменнения постановления </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CancelReason" type="tns:ExportCancelReasonType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Причина отмены постановления</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ExportDecreeInfoType">
+		<xs:annotation>
+			<xs:documentation>Экспорт данных постановления</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Offender">
+				<xs:annotation>
+					<xs:documentation>Правонарушитель</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:choice>
+						<xs:sequence>
+							<xs:annotation>
+								<xs:documentation>Юридическое лицо / Индивидуальный предприниматель</xs:documentation>
+							</xs:annotation>
+							<xs:element name="Organization" type="organizations-registry-base:RegOrgType" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Организация</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="OfficialName" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Данные официального лица</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:complexContent>
+										<xs:extension base="tns:DecreeIndType">
+											<xs:sequence>
+												<xs:element name="Position" type="base:String300Type">
+													<xs:annotation>
+														<xs:documentation>Должность</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+											</xs:sequence>
+										</xs:extension>
+									</xs:complexContent>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="ControlRoleCode" type="nsi-base:nsiRef" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Регулируемые виды деятельности по поставке ресурсов (НСИ 270) (заполняется только ФАС или "ОИВ субъекта РФ по регулированию тарифов")</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+						<xs:element name="Person" type="tns:DecreeIndType">
+							<xs:annotation>
+								<xs:documentation>Физическое лицо</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ReviewResult">
+				<xs:annotation>
+					<xs:documentation>Результат рассмотрения дела об административном правонарушении</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ResultKind" type="nsi-base:nsiRef">
+							<xs:annotation>
+								<xs:documentation>Вид результата по делу об административном правонарушении (НСИ-227)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="DecreeDocument" type="tns:ExportProceduralDocumentType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Постановление</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="PunishmentKind" type="nsi-base:nsiRef" minOccurs="0" maxOccurs="1000">
+							<xs:annotation>
+								<xs:documentation>Вид административного наказания (НСИ-225)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="TakingDecisionAuthority" type="nsi-base:nsiRef" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Орган, которым вынесено решение по делу об административном правонарушении</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="TakingDecisionAuthorityName" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Название органа, принявшего решение о применении мер административного воздействия. </xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="0"/>
+									<xs:maxLength value="2500"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="PositionOfAcceptedPerson" type="base:String100Type" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Должность лица, принявшего документ о применении административного воздействия</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Fine" type="tns:FineType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Размер штрафа </xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="FinePaymentDate" type="xs:date" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Дата уплаты штрафа </xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="DisqualificationPeriod" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Срок дисквалификации </xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:choice>
+									<xs:element name="Months">
+										<xs:annotation>
+											<xs:documentation>Месяцев</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:int">
+												<xs:minExclusive value="0"/>
+												<xs:maxExclusive value="1000"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="Years">
+										<xs:annotation>
+											<xs:documentation>Лет</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:int">
+												<xs:minExclusive value="0"/>
+												<xs:maxExclusive value="1000"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+								</xs:choice>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="AdministrativeSuspensionPeriod" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Срок приостановления деятельности</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:choice>
+									<xs:element name="Months">
+										<xs:annotation>
+											<xs:documentation>Месяцев</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:int">
+												<xs:minExclusive value="0"/>
+												<xs:maxExclusive value="1000"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="Years">
+										<xs:annotation>
+											<xs:documentation>Лет</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:int">
+												<xs:minExclusive value="0"/>
+												<xs:maxExclusive value="1000"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+								</xs:choice>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="ViolationObject" type="nsi-base:nsiRef" minOccurs="0" maxOccurs="1000">
+							<xs:annotation>
+								<xs:documentation>Предмет нарушения (НСИ-229)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="ProceedingDate" type="xs:date" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Дата привлечения к административной ответственности</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="ViolationShortDescription" type="base:String500Type" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Краткое описание нарушения</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="TakenAction" type="base:String1500Type" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Меры, принятые для устранения нарушений</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Executed" type="xs:boolean" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Информация об исполнении (true - Исполнено; falce - Не исполнено; при незаполнении устанавливается значение по умолчанию - Не заполнено)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ExportProceduralDocumentType">
+		<xs:annotation>
+			<xs:documentation>Процессуальный документ (экспорт)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DocumentKind" type="nsi-base:nsiRef">
+				<xs:annotation>
+					<xs:documentation>Вид процессуального документа (НСИ-226). </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DocumentName" type="base:String300Type">
+				<xs:annotation>
+					<xs:documentation> Имя документа</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DocumentNumber" type="base:String100Type">
+				<xs:annotation>
+					<xs:documentation>Номер процессуального документа</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DocumentDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation>Дата процессуального документа</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Executed" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Информация об исполнении (true - Исполнено; false - Не исполнено; при незаполнении устанавливается значение по умолчанию - Не заполнено)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Document" type="base:AttachmentType" maxOccurs="100">
+				<xs:annotation>
+					<xs:documentation>Документ-вложение</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ExportChangeReasonType">
+		<xs:annotation>
+			<xs:documentation>Причина изменения постановления (экспорт)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Reason" type="nsi-base:nsiRef">
+				<xs:annotation>
+					<xs:documentation>Основание внесения изменений в информацию (НСИ-271)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ChangeBaseDocument" type="tns:ExportProceduralDocumentType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Документ-основание для внесения изменений </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ChangeShortDescription" type="base:String2000Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Краткое описание изменений сведений </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ExportCancelReasonType">
+		<xs:annotation>
+			<xs:documentation>Причина отмены постановления (экспорт)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Reason" type="nsi-base:nsiRef">
+				<xs:annotation>
+					<xs:documentation>Основание внесения изменений или отмены информации (НСИ-271)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CancelBaseDocument" type="tns:ExportProceduralDocumentType">
+				<xs:annotation>
+					<xs:documentation>Документ-основание для отмены</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CancelShortDescription" type="base:String2000Type">
+				<xs:annotation>
+					<xs:documentation>Краткое описание отмены сведений</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!--Импорт постановлений и процессуальных документов-->
+	<xs:element name="ImportDecreesAndDocumentsRequest">
+		<xs:annotation>
+			<xs:documentation>Импорт постановлений и процессуальных документов</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:sequence>
+						<xs:element name="importDecreesAndDocuments" maxOccurs="1000">
+							<xs:annotation>
+								<xs:documentation>Постановления и процессуальные документы</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:sequence>
+										<xs:element name="TransportGuid" type="base:GUIDType">
+											<xs:annotation>
+												<xs:documentation>Транспортный идентификатор для выполнения операций с постановлением</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="DecreeGuid" type="base:GUIDType" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Идентификатор постановления в ГИС ЖКХ</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+									<xs:choice>
+										<xs:sequence>
+											<xs:element name="Decree" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation>Создание, изменение постановления</xs:documentation>
+												</xs:annotation>
+												<xs:complexType>
+													<xs:sequence>
+														<xs:element name="DecreeInfo">
+															<xs:annotation>
+																<xs:documentation>Данные постановления</xs:documentation>
+															</xs:annotation>
+															<xs:complexType>
+																<xs:complexContent>
+																	<xs:extension base="tns:DecreeInfoType"/>
+																</xs:complexContent>
+															</xs:complexType>
+														</xs:element>
+													</xs:sequence>
+												</xs:complexType>
+											</xs:element>
+											<xs:element name="ChangeReason" type="tns:ChangeReasonType" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation>Причина изменения сведений (не заполняется для операций "добавление постановления" и "добавление процессуального документа")</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="ImportProceduralDocuments" minOccurs="0" maxOccurs="100">
+												<xs:annotation>
+													<xs:documentation>Другие процессуальные документы.    Доступны для указания виды документов: Постановление, Протокол, Подтверждение принятых мер, Другой документ</xs:documentation>
+												</xs:annotation>
+												<xs:complexType>
+													<xs:sequence>
+														<xs:sequence>
+															<xs:element name="TransportGuid" type="base:GUIDType">
+																<xs:annotation>
+																	<xs:documentation>Транспортный идентификатор для выполнения операции с процессуальным документом</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="ProceduralDocumentGUID" type="base:GUIDType" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>Идентификатор процессуального документа в ГИС ЖКХ (обязателен при изменении/удалении  существующего документа)</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+														</xs:sequence>
+														<xs:choice>
+															<xs:element name="ProceduralDocument" type="tns:ProceduralDocumentType">
+																<xs:annotation>
+																	<xs:documentation>Добавление / изменение процессуального документа</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="DeleteProceduralDocument" type="xs:boolean" fixed="true">
+																<xs:annotation>
+																	<xs:documentation>Удаление процессуального документа</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+														</xs:choice>
+													</xs:sequence>
+												</xs:complexType>
+												<xs:key name="ProceduralDocumentGUID_Key">
+													<xs:annotation>
+														<xs:documentation>Проверка уникальности идентификатора документа в рамках запроса</xs:documentation>
+													</xs:annotation>
+													<xs:selector xpath=".//tns:ProceduralDocumentGUID"/>
+													<xs:field xpath="."/>
+												</xs:key>
+											</xs:element>
+										</xs:sequence>
+										<xs:element name="CancelDecree">
+											<xs:annotation>
+												<xs:documentation>Отмена постановления</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="CancelReason" type="tns:CancelReasonType">
+														<xs:annotation>
+															<xs:documentation>Причина отмены сведений</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="AnnulDecree" type="xs:boolean" fixed="true">
+											<xs:annotation>
+												<xs:documentation>Аннулирование постановления</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:choice>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute ref="base:version" use="required" fixed="11.10.0.5"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+		<xs:unique name="importDecreeRequest_TransportGUIDUnique">
+			<xs:annotation>
+				<xs:documentation>Проверка уникальности транспортного идентификатора в рамках запроса</xs:documentation>
+			</xs:annotation>
+			<xs:selector xpath=".//tns:TransportGuid"/>
+			<xs:field xpath="."/>
+		</xs:unique>
+		<xs:unique name="importDecreeRequest_DecreeGUID">
+			<xs:annotation>
+				<xs:documentation>Проверка уникальности корневого идентификатора постановления в рамках запроса</xs:documentation>
+			</xs:annotation>
+			<xs:selector xpath=".//tns:DecreeGuid"/>
+			<xs:field xpath="."/>
+		</xs:unique>
+	</xs:element>
+	<!--Экспорт постановлений и процессуальных документов-->
+	<xs:element name="ExportDecreesAndDocumentsRequest">
+		<xs:annotation>
+			<xs:documentation>Запрос экспорта постановлений и процессуальных документов.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:choice>
+						<xs:element name="DecreeGUID" type="base:GUIDType" maxOccurs="1000">
+							<xs:annotation>
+								<xs:documentation>Идентификатор постановления в ГИС ЖКХ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:sequence>
+							<xs:element name="ProceedingDateFrom" type="xs:date">
+								<xs:annotation>
+									<xs:documentation>Дата привлечения к административной ответственности С</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="ProceedingDateTo" type="xs:date" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Дата привлечения к административной ответственности ПО</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:choice>
+					<xs:attribute ref="base:version" use="required" fixed="11.10.0.2"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<!--Асинхронные методы-->
+	<xs:element name="getStateResult">
+		<xs:annotation>
+			<xs:documentation>Возврат статуса отправленного сообщения</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseAsyncResponseType">
+					<xs:choice minOccurs="0">
+						<xs:element ref="base:ErrorMessage"/>
+						<xs:element name="CommonResult" type="base:CommonResultType" maxOccurs="unbounded"/>
+						<xs:element name="ExportDecreesAndDocuments" type="tns:ExportDecreeType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Экспортируемые постановления и процессуальные документы</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
+					<xs:attribute ref="base:version" use="required" fixed="11.10.0.2"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

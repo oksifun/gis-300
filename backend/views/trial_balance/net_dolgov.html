@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+        <link href='//fonts.googleapis.com/css?family=Open+Sans:400,600,800&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+    </head>
+    <body>
+        <div style="width: 208.2mm; height: 295.4mm; font-size: 4mm;">
+            <div style="margin-left:35%; padding-top: 20mm">
+                <div style="font-weight: bold; ">{{ provider.str_name }}</div><br>
+                <div>ИНН/КПП: {{ provider.inn }}/{{ provider.kpp }}</div>
+                <div>Р/счет: {{ bank['account'] }}</div>
+                <div>{{ bank['name'] }}</div>
+                <div>Кор/счет: {{ bank['kor_account'] }}</div>
+                <div>БИК: {{ bank['bik'] }}</div>
+            </div>
+            <div>________________________________________________________________________________________________</div><br>
+            <span>
+            <div style="width: 50%; float:left">{{ city_address }}</div>
+            <div style="width: 50%; float: right; text-align: right">{{ date }}</div></span>
+            <br></br>
+
+            <div style="margin-top: 15mm; margin-left: 45%; margin-bottom: 40mm">СПРАВКА</div><br>
+            <p style="text-indent: 20mm; margin: 0px" align="justify"> Настоящая справка выдана: {{ tenant.short_name }}, собственнику квартиры (помещения) № {{ tenant.area.number }}, расположенной(го) в доме по адресу: {{ tenant.area.house.address }} в том, что он(она) не имеет задолженности по оплате жилищных (эксплуатационных) и коммунальных услуг по состоянию на {{ date }}.</p>
+            <p style="margin-bottom: 0px; margin-top: 30mm">Последние сданные показания по счетчикам:<br>
+                {% for meter in meters%}
+                {{ meter }} </br>
+                {% end %}
+            </p>
+            <br/><br/><br/>
+            {% if worker %}
+                <p style="margin-bottom: 0px; margin-top: 35mm">{{ worker.position.name }}</p>
+                <div style="width: 50%; float: left">{{ provider.str_name }}</div>
+                <div style="width: 50%; float: right; text-align: right">{{ worker.str_name }}</div>
+            {% else %}
+                <div style="width: 50%; float: left">{{ provider.str_name }}</div>
+            {% end %}
+        </div>
+    </body>
+</html>

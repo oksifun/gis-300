@@ -1,0 +1,55 @@
+{% extends "worker.html" %}
+
+{% block message %}
+    <p>{{ title }}</p>
+    <p>Заявку принял: {% if dispatcher %} {{ dispatcher.first_name }} {{ dispatcher.patronymic_name }} {% else %} Подано жителем {% endif %}</p>
+    <p>Дата и время принятия: {{ request.created_at.strftime("%d.%m.%Y %H:%M") }} </p>
+
+    <p>Адрес: {% if 'HouseRequest' in request._type %} {{ request.house.address }}
+                    {% elif 'AreaRequest' in request._type %} {{ request.house.address }} кв. {{ request.area.str_number }}
+                {% endif %}</p>
+
+    <p>Заявитель:
+        {% if tenant %}
+            {{ tenant.name_secured }}
+        {% endif %}
+
+
+     <div>
+        {% if tenant %}
+            {% if tenant.phones %}
+                {% for phone in tenant.phones %}
+                    тел.: <span>
+                        +7 ({{ phone.code }}) {{ phone.number }}
+                    </span><br>
+                {%  endfor %}
+            {% endif %}
+
+        {% else %}
+            ________________________________________________________
+        {% endif %}
+     </div>
+    </p>
+
+<p>
+    <div>Содержание заявки: {{ request.body }}</div>
+        {% if request.dt_desired_start and request.dt_desired_end %}
+            <span>Желаемое время
+                с {{ request.dt_desired_start.strftime("%d-%m-%Y %H:%M") }}
+                по {{  request.dt_desired_end.strftime("%d-%m-%Y %H:%M") }}
+            </span><br>
+            <br>
+        {% endif %}
+</p>
+
+    {% if url %}
+        <div style="text-align: center;">
+            <a href="{{ url }}" style="background: #5cb85c; border-radius: 8px; font-size: 16px; text-decoration: none; color: #ffffff; padding: 10px;">Открыть заявку</a>
+        </div>
+    {% endif %}
+
+{% endblock %}
+
+{% block footer %}
+    По всем вопросам просим обращаться в службу технической поддержки посредством встроенной системы сообщений
+{% endblock %}

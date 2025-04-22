@@ -1,0 +1,35 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title></title>
+</head>
+<body style='font-family: Arial;'>
+<div align="center">
+    <table cellspacing="0" cellpadding="0" style="margin-left:-5px;width:648px;">
+        <tr>
+            <td align="center" style="padding: 0; height: 122px; background-image: url('https://lk.s-c300.com/mailTemplates/img/top.gif'); background-repeat: no-repeat;">
+                <div align="right" style="width: 630px; height:122px;background:#F1F1F1;border-top-left-radius:10px;border-top-right-radius:10px; display: inline-block;">
+                    <h2 style="color: #0088cc; margin-top: 20px; margin-right: 20px;">
+                        {% block provider %}{% endblock %}
+                    </h2>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+<div align="center">
+    <table cellspacing="0" cellpadding="0" style="margin-left:-5px;width:630px;background:#F1F1F1;border-bottom-left-radius:10px;border-bottom-right-radius:10px;">
+        <tr>
+            <td style="padding: 0 40px 0 40px; font-size: 14px;">
+                {% block body %}
+                {% endblock %}
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 70px 0 0 0; height: 21px;background-image: url('https://lk.s-c300.com/mailTemplates/img/btm.gif'); background-repeat: no-repeat; background-position: bottom;">
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

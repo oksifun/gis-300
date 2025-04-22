@@ -1,0 +1,4 @@
+weight: "6"
+SETTINGS_FILE: prod.yml
+drf_proc_num: "3"
+celery_gis_proc_num: "6"

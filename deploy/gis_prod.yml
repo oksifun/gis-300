@@ -1,0 +1,14 @@
+---
+- hosts: webservers
+  roles:
+    - web-django
+  serial: 1
+
+- hosts: processing
+  roles:
+    - celery
+  serial: 1
+
+- hosts: processing
+  roles:
+    - flower

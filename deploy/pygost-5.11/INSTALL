@@ -1,0 +1,64 @@
+Download
+********
+
+No additional dependencies except Python 2.7/3.x interpreter are
+required.
+
+   Preferable way is to download tarball with the signature:
+
+     $ [fetch|wget] http://www.pygost.cypherpunks.ru/pygost-5.10.tar.zst
+     $ [fetch|wget] http://www.pygost.cypherpunks.ru/pygost-5.10.tar.zst.sig
+     $ gpg --verify pygost-5.10.tar.zst.sig pygost-5.10.tar.zst
+     $ zstd -d < pygost-5.10.tar.zst | tar xf -
+     $ cd pygost-5.10
+     $ python setup.py install
+
+   You can obtain releases source code prepared tarballs on
+<http://www.pygost.cypherpunks.ru/>.
+
+   But also you can use pip (*no* OpenPGP authentication is performed!)
+with PyPI:
+
+     $ echo pygost==5.10 --hash=sha256:TARBALL-HASH > requirements.txt
+     $ pip install --requirement requirements.txt
+
+   You *have to* verify downloaded tarballs integrity and authenticity
+to be sure that you retrieved trusted and untampered software.  GNU
+Privacy Guard (https://www.gnupg.org/) is used for that purpose.
+
+   For the very first time it is necessary to get signing public key and
+import it.  It is provided below, but you should check alternative
+resources.
+
+pub   rsa2048/0xE6FD1269CD0C009E 2016-09-13
+      F55A 7619 3A0C 323A A031  0E6B E6FD 1269 CD0C 009E
+uid   PyGOST releases <pygost at cypherpunks dot ru>
+
+   • gost (http://lists.cypherpunks.ru/gost.html) maillist
+
+   •      $ gpg --auto-key-locate dane --locate-keys pygost at cypherpunks dot ru
+          $ gpg --auto-key-locate wkd --locate-keys pygost at cypherpunks dot ru
+
+   • -----BEGIN PGP PUBLIC KEY BLOCK-----
+     
+     mQENBFfXoPQBCACfxmT1M/oDKh+3DxiIHwA2YdyJ0joxe+QhT1cACApvD9GBOlbS
+     QqJU3kyO1+uOO5QzeTsSYdZbdcXF+Y7koEUsAVGY6aTKNKuuOrhVPTnhbG8Em++p
+     i6LPAvHs1/pD9xYWgSyGueu5OrcUu1bk7Ii16BePkGdoVqIo53OrteNH8fabJ5Ga
+     Rqvn2SxyTZ/HrgSfWqXOPmP62oiUKD6ztQPv1qP5GoSqPT3zXRF+c7yoJzAi09/D
+     trKpOH+eZqj/5M1v853i/TIQE975+AH9HNuIK3XYt67VQiDqU3CFeWC6wFUt/FOD
+     eAA9pKuJvY7eCyKVCOuNYJ5af1fGuxrEZPxJABEBAAG0J1B5R09TVCByZWxlYXNl
+     cyA8cHlnb3N0QGN5cGhlcnB1bmtzLnJ1PokBQAQTAQgAKgUCV9eg9AIbAwwLCgkN
+     CAwHCwMEAQIHFQoJCAsDAgUWAgEDAAIeAQIXgAAKCRDm/RJpzQwAnkiQB/wLD29x
+     75urRIOCxLKrynERF2z/lxUv8aA6VB6Bp3/c08xbrtrNKpq970WvcxyNrsTFgcno
+     Sc2QBwGjSM4Oh5z1UxHt8wLvk+FTOYxlkUiOQv9uCwhU4ZtypV7Ps759dwneY2nS
+     Y0R5oGa3nFhi7JujBu7/9Xr2riBBczsGh3chFUe/WeQZxwfF4ZJFN/ykJpvlwkhe
+     txhAWSG2JTR9xDxbt6JBzdZ8hmS9YNZrzzyU3XUkdATi6zgkgv8BYPlc/QUCBVYp
+     xukpfqopwuT0QPKXZjPEBUNRAXGtPMo83OQyanMLm/BkSJXFBO2mVjaalEohc7Iq
+     jMcy/DjqMIpsOdVfiF4EEBEIAAYFAlfXoRkACgkQrhqBCeSYV+9zEgD/Weliq0bC
+     bQbT+AV0oPSsh4cl7/7yBWXuERUm0uIsDRsA/RSss+81tbyKTt8oObmDqi3gt8ka
+     6j2AvJWj4I8J/fT9
+     =pQ8y
+     -----END PGP PUBLIC KEY BLOCK-----
+
+   You can obtain development source code with "git clone
+git://git.cypherpunks.ru/pygost.git".

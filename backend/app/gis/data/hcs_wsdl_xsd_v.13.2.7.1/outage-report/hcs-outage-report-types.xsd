@@ -1,0 +1,737 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://dom.gosuslugi.ru/schema/integration/outage-report/" xmlns:base="http://dom.gosuslugi.ru/schema/integration/base/" xmlns:premises-base="http://dom.gosuslugi.ru/schema/integration/premises-base/" xmlns:nsi-base="http://dom.gosuslugi.ru/schema/integration/nsi-base/" xmlns:organizations-base="http://dom.gosuslugi.ru/schema/integration/organizations-base/" targetNamespace="http://dom.gosuslugi.ru/schema/integration/outage-report/" elementFormDefault="qualified" attributeFormDefault="unqualified" version="13.2.2.0">
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/base/" schemaLocation="../lib/hcs-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/premises-base/" schemaLocation="../lib/hcs-premises-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/nsi-base/" schemaLocation="../lib/hcs-nsi-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/organizations-base/" schemaLocation="../lib/hcs-organizations-base.xsd"/>
+	<xs:element name="importOutageReportRequest">
+		<xs:annotation>
+			<xs:documentation>Запрос на импорт о сведений о перерывах в предоставлении коммунальных услуг</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:sequence>
+						<xs:element name="OutageReport" maxOccurs="100">
+							<xs:annotation>
+								<xs:documentation>Сведения о перерывах в предоставлении коммунальных услуг</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="base:TransportGUID"/>
+									<xs:choice>
+										<xs:element name="PlacingOutageReport">
+											<xs:annotation>
+												<xs:documentation>Размещение сведений о перерывах в предоставлении коммунальных услуг</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="OutageReportData" type="tns:OutageReportType">
+														<xs:annotation>
+															<xs:documentation>Cведения о перерыве в предоставлении коммунальных услуг</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="OutageReportObjects">
+														<xs:annotation>
+															<xs:documentation>Список объектов жилого фонда, по которым планируется перерыв в предоставлении коммунальных услуг</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:complexContent>
+																<xs:extension base="tns:OutageReportObjectType"/>
+															</xs:complexContent>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="EditOutageReport">
+											<xs:annotation>
+												<xs:documentation>Редактирование сведений о перерывах в предоставлении коммунальных услуг</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="OutageReportGUID" type="base:GUIDType">
+														<xs:annotation>
+															<xs:documentation>Уникальный идентификатор  сведений о перерыве в предоставлении коммунальных услуг</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="OutageReportData" type="tns:OutageReportType">
+														<xs:annotation>
+															<xs:documentation>Cведения о перерыве в предоставлении коммунальных услуг</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="OutageReportObjects">
+														<xs:annotation>
+															<xs:documentation>Список объектов жилого фонда, по которым планируется перерыв в предоставлении коммунальных услуг</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:complexContent>
+																<xs:extension base="tns:OutageReportObjectType"/>
+															</xs:complexContent>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="AnnulmentOutageReport">
+											<xs:annotation>
+												<xs:documentation>Аннулирование сведений о перерывах в предоставлении коммунальных услуг</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="OutageReportGUID" type="base:GUIDType">
+														<xs:annotation>
+															<xs:documentation>Уникальный идентификатор  сведений о перерыве в предоставлении коммунальных услуг</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="AnnulmentReason">
+														<xs:annotation>
+															<xs:documentation>Причина аннулирования сведений о перерыве в предоставлении коммунальных услуг</xs:documentation>
+														</xs:annotation>
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:minLength value="1"/>
+																<xs:maxLength value="1000"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:choice>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute ref="base:version" use="required" fixed="13.2.2.0"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+		<xs:key name="importOutageReport_TransportGUIDKey">
+			<xs:selector xpath=".//base:TransportGUID"/>
+			<xs:field xpath="."/>
+		</xs:key>
+		<xs:key name="importOutageReport_OutageReportGUIDKey">
+			<xs:selector xpath=".//tns:OutageReportGUID"/>
+			<xs:field xpath="."/>
+		</xs:key>
+	</xs:element>
+	<xs:element name="getStateResult">
+		<xs:annotation>
+			<xs:documentation>Возврат статуса отправленного сообщения</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseAsyncResponseType">
+					<xs:choice minOccurs="0">
+						<xs:element name="ImportResult" type="base:CommonResultType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Результат импорта сведений о перерывах в предоставлении коммунальных услуг</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="ExportOutageReportResult" type="tns:ExportOutageReportResultType" maxOccurs="1">
+							<xs:annotation>
+								<xs:documentation>Результат экспорта сведений о перерывах в предоставлении коммунальных услуг</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element ref="base:ErrorMessage"/>
+					</xs:choice>
+					<xs:attribute ref="base:version" fixed="13.2.0.1"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="OutageReportType">
+		<xs:annotation>
+			<xs:documentation>Тип данных, описывающий сведения о перерыве в предоставлении коммунальных услуг</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="OutageKind" type="nsi-base:nsiRef">
+				<xs:annotation>
+					<xs:documentation>Вид перерыва. Указываются значения из справочника №361 "Вид перерыва в предоставлении коммунальных услуг". В текущей реализации сервиса, должен быть указан вид перерыва 1 = "Плановый".</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OutageType" type="tns:OutageTypeType">
+				<xs:annotation>
+					<xs:documentation>Тип перерыва. Возможные значения:
+PAUSE - Перерыв в предоставлении коммунальной услуги;
+LIMITATION - Ограничение в предоставлении коммунальной услуги;
+SUSPENSION - Приостановление предоставления коммунальной услуги. 
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ServiceCodes">
+				<xs:annotation>
+					<xs:documentation>Список кодов вида коммунальной услуги</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ServiceCode" type="tns:ServiceCodeType" maxOccurs="7">
+							<xs:annotation>
+								<xs:documentation>Код вида коммунальной услуги. Возможные значения: 
+1 - Холодное водоснабжение; 
+2 - Горячее водоснабжение;
+3 - Отведение сточных вод; 
+4 – Электроснабжение; 
+5 – Газоснабжение; 
+6 – Отопление; 
+7 – Обращение с твердыми коммунальными отходами.
+								</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="StartDate" type="xs:dateTime">
+				<xs:annotation>
+					<xs:documentation>Дата и время начала перерыва</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EndDate" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Дата и время окончания перерыва</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OutageReason" type="nsi-base:nsiRef">
+				<xs:annotation>
+					<xs:documentation>Причина перерыва. Указываются значения из справочника №360 "Причины перерывов в предоставлении коммунальных услуг", для которых в атрибуте «Вид перерыва» указано значение «Плановый»</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OutageReasonText" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Текст причины перерыва. Обязательно заполнен, если в атрибуте "Причина перерыва" указано значение 3 "Иная"</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="3000"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="AdditionalInfo" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Дополнительная информация</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="5000"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="ServiceCodeType">
+		<xs:annotation>
+			<xs:documentation>Тип данных, описывающий код вид коммунальной услуги. Возможные значения: 
+	1 - Холодное водоснабжение; 
+	2 - Горячее водоснабжение; 
+	3 - Отведение сточных вод; 
+	4 – Электроснабжение; 
+	5 – Газоснабжение; 
+	6 – Отопление; 
+	7 – Обращение с твердыми коммунальными отходами.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:byte">
+			<xs:enumeration value="1"/>
+			<xs:enumeration value="2"/>
+			<xs:enumeration value="3"/>
+			<xs:enumeration value="4"/>
+			<xs:enumeration value="5"/>
+			<xs:enumeration value="6"/>
+			<xs:enumeration value="7"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="OutageTypeType">
+		<xs:annotation>
+			<xs:documentation>Тип данных, описывающий тип перерыва. Возможные значения: 
+PAUSE - Перерыв в предоставлении коммунальной услуги; 
+LIMITATION  - Ограничение в предоставлении коммунальной услуги; 
+SUSPENSION - Приостановление предоставления коммунальной услуги.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="PAUSE"/>
+			<xs:enumeration value="LIMITATION"/>
+			<xs:enumeration value="SUSPENSION"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="StatusType">
+		<xs:annotation>
+			<xs:documentation>Тип данных, описывающий статус информации о перерыве. Возможные значения: 
+	PUBLISHED - Информация размещена; 
+	CANCELLED - Информация аннулирована.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="PUBLISHED"/>
+			<xs:enumeration value="CANCELLED"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="OutageReportObjectType">
+		<xs:annotation>
+			<xs:documentation>Тип данных, описывающий объекты жилого фонда, по которым планируется перерыв в предоставлении коммунальных услуг</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="Houses">
+				<xs:annotation>
+					<xs:documentation>Дома, по которым планируется перерыв в
+предоставлении  коммунальных услуг</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:choice>
+						<xs:element name="FiasHouseGUID" type="premises-base:FIASHouseGUIDType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Глобальный уникальный идентификатор дома по ФИАС/Идентификационный код дома в ГИС ЖКХ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="HouseGUID" type="base:GUIDType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Идентификатор дома в реестре объектов жилищного фонда ГИС ЖКХ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Premises">
+				<xs:annotation>
+					<xs:documentation>Помещения/блоки, по которым планируется перерыв в
+предоставлении  коммунальных услуг</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="PremiseGUID" type="base:GUIDType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Идентификатор помещения/блока в реестре объектов жилищного фонда ГИС ЖКХ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Rooms">
+				<xs:annotation>
+					<xs:documentation>Комнаты, по которым планируется перерыв в
+предоставлении  коммунальных услуг</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="RoomGUID" type="base:GUIDType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Идентификатор комнаты в реестре объектов жилищного фонда ГИС ЖКХ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:element name="exportOutageReportRequest">
+		<xs:annotation>
+			<xs:documentation>Запрос на экспорт сведений о перерывах в предоставлении коммунальных услуг</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:sequence>
+						<xs:element name="ExportCriteria" type="tns:ExportCriteriaOutageReportType">
+							<xs:annotation>
+								<xs:documentation>Критерии экспорта сведений о перерывах в предоставлении коммунальных услуг</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="NextPageExportRequestGUID" type="base:GUIDType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Идентификатор, используемый для экспорта 2-го и последующих блоков данных.
+
+Если в элементе exportOutageReportRequest указаны условия отбора по атрибутам запроса, то экспорт осуществляется блоками по 1000 записей в каждом блоке (последний блок может содержать меньшее число записей).
+Элемент NextPageExportRequestGUID не указывается для экспорта первого блока данных. Для экспорта каждого следующего блока данных в элементе NextPageExportRequestGUID должно указываться значение элемента tns:getStateResult/tns:ExportOutageReport/tns:ExportOutageReportGUID, полученное при экспорте предыдущего блока данных</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute ref="base:version" use="required" fixed="13.2.2.0"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="ExportOutageReportDataType">
+		<xs:annotation>
+			<xs:documentation>Тип данных, описывающий сведения о перерыве в предоставлении коммунальных услуг при экспорте</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="OutageReportGUID" type="base:GUIDType">
+				<xs:annotation>
+					<xs:documentation>Уникальный идентификатор  сведений о перерыве в предоставлении коммунальных услуг</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OutageKind" type="nsi-base:nsiRef">
+				<xs:annotation>
+					<xs:documentation>Вид перерыва. Содержит значения из справочника №361 "Вид перерыва в предоставлении коммунальных услуг"</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OutageType" type="tns:OutageTypeType">
+				<xs:annotation>
+					<xs:documentation>Тип перерыва. Возможные значения:
+PAUSE - Перерыв в предоставлении коммунальной услуги;
+LIMITATION - Ограничение в предоставлении коммунальной услуги;
+SUSPENSION - Приостановление предоставления коммунальной услуги. 
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ServiceCodes">
+				<xs:annotation>
+					<xs:documentation>Список кодов вида коммунальной услуги</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ServiceCode" type="tns:ServiceCodeType" maxOccurs="7">
+							<xs:annotation>
+								<xs:documentation>Код вида коммунальной услуги. Возможные значения: 
+1 - Холодное водоснабжение; 
+2 - Горячее водоснабжение;
+3 - Отведение сточных вод; 
+4 – Электроснабжение; 
+5 – Газоснабжение; 
+6 – Отопление; 
+7 – Обращение с твердыми коммунальными отходами.
+								</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="StartDate" type="xs:dateTime">
+				<xs:annotation>
+					<xs:documentation>Дата и время начала перерыва</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EndDate" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Дата и время окончания перерыва</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OutageReason" type="nsi-base:nsiRef">
+				<xs:annotation>
+					<xs:documentation>Причина перерыва. Указываются значения из справочника №360 "Причины перерывов в предоставлении коммунальных услуг", для которых в атрибуте «Вид перерыва» указано значение «Плановый»</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OutageReasonText" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Текст причины перерыва. Обязательно заполнен, если в атрибуте "Причина перерыва" указано значение 3 "Иная"</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="3000"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="AdditionalInfo" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Дополнительная информация</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="5000"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Status" type="tns:StatusType">
+				<xs:annotation>
+					<xs:documentation>Статус сведений о перерыве. Возможные значения: 
+PUBLISHED – Информация размещена; 
+CANCELLED - Информация аннулирована.
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PublishedDate" type="xs:dateTime">
+				<xs:annotation>
+					<xs:documentation>Дата размещения сведений о перерыве</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CancelledDate" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Дата аннулирования сведений о перерыве</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CancelledReason" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Причина аннулирования сведений о перерыве</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="1000"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="exportOutageReportResult">
+		<xs:annotation>
+			<xs:documentation>Результат экспорта информации о перерыве в предоставлении коммунальных услуг</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:choice>
+						<xs:element name="exportOutageReportResult" type="tns:ExportOutageReportResultType">
+							<xs:annotation>
+								<xs:documentation>Результат выполнения запроса на экспорт информации об управляющих организациях</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element ref="base:ErrorMessage"/>
+					</xs:choice>
+					<xs:attribute ref="base:version" use="required" fixed="13.2.2.0"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="ExportOutageReportResultType">
+		<xs:annotation>
+			<xs:documentation>Тип данных, описывающий результат экспорта сведений о перерыве в предоставлении коммунальных услуг</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="OutageReport" type="tns:ExportOutageReportType" maxOccurs="1000">
+				<xs:annotation>
+					<xs:documentation>Сведения о перерыве в предоставлении коммунальных услуг</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice>
+				<xs:element name="ExportOutageReportGUID" type="base:GUIDType">
+					<xs:annotation>
+						<xs:documentation>Идентификатор сведений о перерыве в предоставлении коммунальных услуг следующей 1000 записей</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="IsLastPage" type="xs:boolean" fixed="true">
+					<xs:annotation>
+						<xs:documentation>Последняя страница экспорта</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ExportOutageReportType">
+		<xs:annotation>
+			<xs:documentation>Тип данных, описывающий экспортируемые сведения о перерыве в предоставлении коммунальных услуг</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="OutageReportData" type="tns:ExportOutageReportDataType">
+				<xs:annotation>
+					<xs:documentation>Cведения о перерыве в предоставлении коммунальных услуг</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OutageReportObjects" type="tns:ExportOutageReportObjectResultType" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Список объектов жилого фонда, по которым планируется перерыв в предоставлении коммунальных услуг</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ExportCriteriaOutageReportType">
+		<xs:annotation>
+			<xs:documentation>Тип данных, описывающий критерии экспорта сведений о перерывах в предоставлении коммунальных услуг</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="OutagePeriod" type="base:PeriodOpen">
+				<xs:annotation>
+					<xs:documentation>Период перерыва в предоставлении коммунальных услуг</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OutageReportPlacingPeriod" type="base:PeriodOpen">
+				<xs:annotation>
+					<xs:documentation>Период размещения сведений о перерывах в предоставлении коммунальных услуг</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OutageTypes" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Список типов перерыва</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="OutageType" type="tns:OutageTypeType" maxOccurs="3">
+							<xs:annotation>
+								<xs:documentation>Тип перерыва. Возможные значения:
+PAUSE - Перерыв в предоставлении коммунальной услуги;
+LIMITATION - Ограничение в предоставлении коммунальной услуги;
+SUSPENSION - Приостановление предоставления коммунальной услуги. 
+					</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Statuses" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Список статусов сведений о перерывах в предоставлении коммунальных услуг</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Status" type="tns:StatusType" maxOccurs="2">
+							<xs:annotation>
+								<xs:documentation>Статус сведений о перерыве. Возможные значения: 
+PUBLISHED – Информация размещена; 
+CANCELLED - Информация аннулирована.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ServiceCodes" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Список кодов вида коммунальной услуги</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ServiceCode" type="tns:ServiceCodeType" maxOccurs="7">
+							<xs:annotation>
+								<xs:documentation>Код вида коммунальной услуги. Возможные значения: 
+1 - Холодное водоснабжение; 
+2 - Горячее водоснабжение;
+3 - Отведение сточных вод; 
+4 – Электроснабжение; 
+5 – Газоснабжение; 
+6 – Отопление; 
+7 – Обращение с твердыми коммунальными отходами.
+								</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="OutageReasons" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Список причин перерыва</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="OutageReason" type="nsi-base:nsiRef" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Причина перерыва. Указываются значения из справочника №360 "Причины перерывов в предоставлении коммунальных услуг", для которых в атрибуте «Вид перерыва» указано значение «Плановый»</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="OutageReportObject" type="tns:ExportOutageReportObjectRequestType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Объект жилого фонда, по которому планируется перерыв в предоставлении коммунальных услуг</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ExportOutageReportObjectRequestType">
+		<xs:annotation>
+			<xs:documentation>Тип данных, описывающий объекты жилого фонда, по которым планируется перерыв в предоставлении коммунальных услуг в запросе на экспорт</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="Houses">
+				<xs:annotation>
+					<xs:documentation>Дома, по которым планируется перерыв в
+предоставлении  коммунальных услуг</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:choice>
+						<xs:element name="FiasHouseGUID" type="premises-base:FIASHouseGUIDType">
+							<xs:annotation>
+								<xs:documentation>Глобальный уникальный идентификатор дома по ФИАС/Идентификационный код дома в ГИС ЖКХ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="HouseGUID" type="base:GUIDType">
+							<xs:annotation>
+								<xs:documentation>Идентификатор дома в реестре объектов жилищного фонда ГИС ЖКХ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Premises">
+				<xs:annotation>
+					<xs:documentation>Помещения/блоки, по которым планируется перерыв в
+предоставлении  коммунальных услуг</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="PremiseGUID" type="base:GUIDType">
+							<xs:annotation>
+								<xs:documentation>Идентификатор помещения/блока в реестре объектов жилищного фонда ГИС ЖКХ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Rooms">
+				<xs:annotation>
+					<xs:documentation>Комнаты, по которым планируется перерыв в
+предоставлении  коммунальных услуг</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="RoomGUID" type="base:GUIDType">
+							<xs:annotation>
+								<xs:documentation>Идентификатор комнаты в реестре объектов жилищного фонда ГИС ЖКХ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="ExportOutageReportObjectResultType">
+		<xs:annotation>
+			<xs:documentation>Тип данных, описывающий объекты жилого фонда, по которому планируется перерыв в предоставлении коммунальных услуг в результате экспорта</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="Houses">
+				<xs:annotation>
+					<xs:documentation>Дома, по которым планируется перерыв в
+предоставлении  коммунальных услуг</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="FiasHouseGUID" type="premises-base:FIASHouseGUIDType">
+							<xs:annotation>
+								<xs:documentation>Глобальный уникальный идентификатор дома по ФИАС/Идентификационный код дома в ГИС ЖКХ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="HouseGUID" type="base:GUIDType">
+							<xs:annotation>
+								<xs:documentation>Идентификатор дома в реестре объектов жилищного фонда ГИС ЖКХ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Premises">
+				<xs:annotation>
+					<xs:documentation>Помещения/блоки, по которым планируется перерыв в
+предоставлении  коммунальных услуг</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="PremiseGUID" type="base:GUIDType">
+							<xs:annotation>
+								<xs:documentation>Идентификатор помещения/блока в реестре объектов жилищного фонда ГИС ЖКХ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Rooms">
+				<xs:annotation>
+					<xs:documentation>Комнаты, по которым планируется перерыв в
+предоставлении  коммунальных услуг</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="RoomGUID" type="base:GUIDType">
+							<xs:annotation>
+								<xs:documentation>Идентификатор комнаты в реестре объектов жилищного фонда ГИС ЖКХ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+</xs:schema>

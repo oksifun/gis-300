@@ -1,0 +1,8 @@
+{% extends 'base_old.html' %}
+
+{% block body %}
+    <h1>{{ config['method'] }} error on client side ({{ status }})</h1>
+    <h2>URL: {{ config['url'] }}<br/> at {{ datetime }}</h2>
+    <pre>{{ data }}</pre>
+    <hr/>
+{% end %}

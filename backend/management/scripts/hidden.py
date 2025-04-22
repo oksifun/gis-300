@@ -1,0 +1,1 @@
+from .mass_update.mask_personal_data import mask_personal_data

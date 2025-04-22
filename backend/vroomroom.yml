@@ -1,0 +1,180 @@
+URL: 'https://vroomroom.eis24.me'
+
+DEVELOPMENT: True
+USE_SENTRY: False
+FISCALIZATION_SCHEDULE: False
+SBER_SCHEDULE: False
+ACCOUNTING_SCHEDULE: False
+REGISTRIES_SCHEDULE: False
+AUTOPAY_SCHEDULE: False
+SEND_EVENTS_NOTIFICATIONS: False
+TELEPHONY_SCHEDULE: False
+ROSREESTR_SHEDULE: False
+
+DATABASES:
+  default:
+    host: '10.1.1.221'
+    db: 'c300'
+  cache:
+    host: '10.1.1.221'
+    db: 'cached_data'
+  auth:
+    host: '10.1.1.221'
+    db: 'auth'
+  processing:
+    host: '10.1.1.221'
+    db: 'task_queue'
+  fias:
+    host: '10.1.1.221'
+    db: 'fias_31082021'
+  chunks:
+    host: '10.1.1.221'
+    db: 'chunks'
+  files:
+    host: '10.1.1.221'
+    db: 'chunks'
+  gis_data:
+    host: '10.1.1.221'
+    db: 'gis_data'
+  logs:
+    host: '10.1.1.221'
+    db: 'logs'
+
+  test_default:
+    host: 'testdb'
+    db: 'test'
+  test_legacy:
+    host: 'testdb'
+    db: 'test_legacy'
+  test_processing:
+    host: 'testdb'
+    db: 'test_processing'
+  test_files:
+    host: 'testdb'
+    db: 'test_files'
+  test_fias:
+    host: 'testdb'
+    db: 'test_fias'
+  test_gis_data:
+    host: 'testdb'
+    db: 'test_gis_data'
+  test_cache:
+    host: 'testdb'
+    db: 'test_cache'
+  test_logs:
+    host: 'mongodb'
+    db: 'test_logs'
+
+UNREESTR: 'suka@s-c300.com'
+UNREESTR_PASSWD: 'sukableat'
+UNREESTR_IMAP_SERVER: 'mail.s-c300.com'
+UNREESTR_LIMIT_PER_MINUTE: 20
+
+SBOL_REGISTRY_SEND_LIMIT: 20
+
+PSKB_REGISTRY_MAIL: 'c300_docs@pscb.ru'
+
+SEND_MAIL: True
+SEND_MAIL_INSTANTLY: False
+MAIL_SRV_PORT: 25
+MAIL_SRV_HOST: 'smtp.eis24.me'
+MAIL_SRV_USER: 'no_reply@eis24.me'
+MAIL_SRV_PASS: '1d18b5CTc6Bb67'
+TEST_MAIL: ['tester@eis24.me']
+#IP_SUPERS = ('91.122.60.16', '37.200.64.29', '91.142.93.68', '37.200.64.29', '5.19.144.30')
+cookie_secret: 'OIJP(UHQ#IOJPUQJCIUWjfe[ojwpuihogjwie;ojgjknen33l3oo3o3'
+
+JSON_INDENT: ''
+JSON_SORT_KEYS: True
+
+# PERMISSIONS_CACHE = None
+PERMISSIONS_CACHE: '1m'
+
+# SERVICE_BIND_CACHE = None
+SERVICE_BIND_CACHE: '1m'
+
+# SESSION_ACTOR_CACHE = None
+SESSION_ACTOR_CACHE: '5s'
+
+# LOG_DB_QUERIES = True
+
+LO_DOCKER_HOST: "10.0.0.159"
+LO_DOCKER_PORT: 8997
+
+GIS_CELERY_REDIS_DB: 3
+GIS_BROKER_URL: redis://10.1.1.149:6379/3
+S300_CELERY_REDIS_DB: 1
+S300_BROKER_URL: redis://10.1.1.149:6379
+
+CACHES:
+  default:
+    BACKEND: 'redis_cache.RedisCache'
+    LOCATION:
+      - '10.1.1.149:6379'
+    OPTIONS:
+      DB: 2
+      PARSER_CLASS: 'redis.connection.HiredisParser'
+      CONNECTION_POOL_CLASS: 'redis.BlockingConnectionPool'
+      MAX_CONNECTIONS: 1000
+
+  FileBasedCache:
+    BACKEND: 'django.core.cache.backends.filebased.FileBasedCache'
+    LOCATION: '/var/tmp/django_cache'
+    OPTIONS:
+      MAX_ENTRIES: 1000 # максимальное количество записей
+      SERVER_MAX_VALUE_LENGTH: 1048576 # максимальный объем файла 1 МБ
+      TIMEOUT: 360 # время жизни кэша 3 минуты в секундах
+
+ASTERISK:
+  HOST: 10.1.1.149
+  USER: stageuser
+  SECRET: stagesecret
+  LOG: Log
+
+OBELIX:
+  HOST: 10.1.1.149
+  PORT: 5038
+  USERNAME: stageuser
+  SECRET: stagesecret
+
+GPRS:
+  PORT: 59990
+
+GPRS_TUNING:
+  WORK_HOST: '91.122.15.58'
+  WORK_PORT: 59991
+
+SWAMP_THING:
+  EIS: 'the_swamp_will_swallow_you'
+  OTDEL: 'the_swamp_will_swallow_you'
+  KOTOLUP: 'the_swamp_will_swallow_you'
+  SEMENCOVA: 'the_swamp_will_swallow_you'
+
+DREAMKAS:
+  URL: 'only_prod'
+  OFD_URL: 'only_prod'
+
+DREAMKAS_DEBUG:
+  URL: 'https://kabinet-beta.dreamkas.ru/api/'
+
+BANK_PROCESSING:
+  otkritie:
+    url: 'https://web.rbsuat.com/boplatform-deploy/3.6/c300/'
+    username: '9161111115'
+    password: '12345abc'
+
+GIS:
+  use_prod_server: True  # True - ППАК, False - СИТ
+  export_changes: False  # выгружать данные в ГИС ЖКХ при создании или изменении
+  cipher_proxy: False  # адрес шифрующего прокси, False - без
+  basic_auth_password: 'xw{p&&Ee3b9r8?amJv*]'  # для тестовых серверов
+  schema_version: '13.1.10.1'  # версия схем сервиса ~ hcs_wsdl_xsd_v.[xx.x.x.x]
+  client_certificate: 'eis_gkh_2023.pem'  # сертификат выгружающей организации
+  export_missing: True  # выгружать в ГИС ЖКХ отсутствующие в загруженных данные
+  load_requirements: True  # загружать требуемые для выполнения операции данные
+
+TELEGRAM_BOT:
+  BOT_HOST: 'https://10.100.0.175'
+  BOT_PORT: '8443'
+
+FIREBASE_CREDENTIALS_FILENAME: 'only_prod'

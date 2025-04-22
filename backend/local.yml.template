@@ -1,0 +1,142 @@
+URL: 'http://localhost:8000'
+
+DEVELOPMENT: True
+USE_SENTRY: False
+
+DATABASES:
+  default:
+    host: '10.1.1.220'
+    db: 'c300'
+  cache:
+    host: '10.100.0.19'
+    db: 'cached_data'
+  processing:
+    host: '10.1.1.220'
+    db: 'task_queue'
+  logs:
+    host: '10.1.1.220'
+    db: 'logs'
+  fias:
+    host: '10.1.1.220'
+    db: 'fias_22032020'
+  chunks:
+    host: '10.1.1.220'
+    db: 'chunks'
+  files:
+    host: '10.1.1.220'
+    db: 'chunks'
+  gis_data:
+    host: '10.1.1.220'
+    db: 'gis_data'
+
+  test_default:
+    host: '10.1.1.220'
+    db: 'test'
+  test_legacy:
+    host: '10.1.1.220'
+    db: 'test_legacy'
+  test_processing:
+    host: '10.1.1.220'
+    db: 'test_processing'
+  test_files:
+    host: '10.1.1.220'
+    db: 'test_files'
+  test_fias:
+    host: '10.1.1.220'
+    db: 'test_fias'
+  test_gis_data:
+    host: '10.1.1.220'
+    db: 'test_gis_data'
+  test_cache:
+    host: '10.1.1.220'
+    db: 'test_cache'
+  test_logs:
+    host: '10.1.1.220'
+    db: 'test_logs'
+
+UNREESTR: 'suka@s-c300.com'
+UNREESTR_PASSWD: 'sukableat'
+UNREESTR_IMAP_SERVER: 'mail.s-c300.com'
+UNREESTR_LIMIT_PER_MINUTE: 20
+
+CELERY_SOFT_TIME_MODIFIER: 10
+
+SBOL_REGISTRY_SEND_LIMIT: 20
+
+PSKB_REGISTRY_MAIL: 'c300_docs@pscb.ru'
+
+SEND_MAIL: True
+MAIL_SRV_PORT: 25
+MAIL_SRV_HOST: 'smtpd'
+MAIL_SRV_USER: 'no_reply@eis24.me'
+MAIL_SRV_PASS: '1d18b5CTc6Bb67'
+#IP_SUPERS = ('91.122.60.16', '37.200.64.29', '91.142.93.68', '37.200.64.29', '5.19.144.30')
+cookie_secret: 'OIJP(UHQ#IOJPUQJCIUWjfe[ojwpuihogjwie;ojgjknen33l3oo3o3'
+
+JSON_INDENT: ''
+JSON_SORT_KEYS: True
+
+# PERMISSIONS_CACHE = None
+PERMISSIONS_CACHE: '1m'
+
+# SERVICE_BIND_CACHE = None
+SERVICE_BIND_CACHE: '1m'
+
+# SESSION_ACTOR_CACHE = None
+SESSION_ACTOR_CACHE: '5s'
+
+LOG_DB_QUERIES: False  # вывод в лог всех запросов в монгу через модели
+
+LO_DOCKER_HOST: "localhost"
+LO_DOCKER_PORT: 8997
+
+BROKER_URL: redis://redis:6379
+
+CACHES:
+  default:
+    BACKEND: 'redis_cache.RedisCache'
+    LOCATION:
+      - 'redis:6379'
+    OPTIONS:
+      DB: 2
+      PARSER_CLASS: 'redis.connection.HiredisParser'
+      CONNECTION_POOL_CLASS: 'redis.BlockingConnectionPool'
+      MAX_CONNECTIONS: 1000
+
+DEBTORS_CALL: False
+SMS_SEND: False
+
+ASTERISK:
+  HOST: 10.100.0.70
+  USER: stageuser
+  SECRET: stagesecret
+OBELIX:
+  HOST: 10.100.0.211
+  PORT: 5038
+  USERNAME: apiuser
+  SECRET: apipass
+
+GPRS:
+  PORT: 59991
+
+GPRS_TUNING:
+  WORK_HOST: '91.122.15.58'
+  WORK_PORT: 59991
+
+SWAMP_THING:
+  EIS: 'the_swamp_will_swallow_you'
+  OTDEL: 'the_swamp_will_swallow_you'
+  KOTOLUP: 'the_swamp_will_swallow_you'
+
+DREAMKAS_DEBUG:
+  URL: 'https://kabinet.dreamkas.ru/api/'
+
+DREAMKAS:
+  URL: 'http://localhost:8087/'
+  OFD_URL: 'http://localhost:8087/'
+
+BANK_PROCESSING:
+  otkritie:
+    url: 'https://web.rbsuat.com/boplatform-deploy/3.6/c300/'
+    username: '9161111115'
+    password: '12345abc'

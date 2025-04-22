@@ -1,0 +1,13 @@
+---
+
+main_port: 8888
+drf_port: 8081
+nginx_http_port: 80
+nginx_https_port: 443
+
+customers:
+  - stage.eis24.me
+  - hotfix.eis24.me
+  - redroom.eis24.me
+  - whiteroom.eis24.me
+  - vroomroom.eis24.me

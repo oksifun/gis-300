@@ -1,0 +1,902 @@
+﻿        <table width="761" heght="511" border="0" cellspacing="0" style="%PAGE_BREAK% font-family: Arial; font-size: 9pt; table-layout: fixed">
+            <tr height="5px">
+                <td width="5px"></td>
+                <td width="10px"></td>
+                <td width="32px"></td>
+                <td width="30px"></td>
+                <td width="25px"></td>
+                <td width="25px"></td>
+                <td width="45px"></td>
+                <td width="20px"></td>
+                <td width="25px"></td>
+                <td width="20px"></td>
+                <td width="25px"></td>
+                <td width="43px"></td>
+                <td width="47px"></td>
+                <td width="11px"></td>
+                <td width="65px"></td>
+                <td width="20px"></td>
+                <td width="35px"></td>
+                <td width="45px"></td>
+                <td width="8px"></td>
+                <td width="20px"></td>
+                <td width="12px"></td>
+                <td width="25px"></td>
+                <td width="20px"></td>
+                <td width="28px"></td>
+                <td width="17px"></td>
+                <td width="47px"></td>
+                <td width="2px"></td>
+            </tr>
+            <tr height="17px">
+                <td></td>
+                <td rowspan="12" style="border-style: solid none solid solid; border-width: 1px 0 1px 1px"></td>
+                <td colspan="4" style="vertical-align: middle; border-style: solid none none none; border-width: 1px 0 0 0">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-weight: bold; float:left;">
+                            СЧЕТ-ИЗВЕЩЕНИЕ
+                        </div>
+                    </div>
+                </td>
+                <td colspan="2" style="vertical-align: middle; border-style: solid none none none; border-width: 1px 0 0 0">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-family: Arial Narrow; text-align: center; float:left;">
+                            получатель
+                        </div>
+                    </div>
+                </td>
+                <td colspan="11" style="vertical-align: middle; border-style: solid solid none none; border-width: 1px 1px 0 0">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-size: 10pt; font-weight: bold; float:left;">
+                            {{ НАЗВАНИЕДЛЯКВ() }}
+                        </div>
+                    </div>
+                </td>
+                <td style="border-style: solid none none none; border-width: 1px 0 0 0"></td>
+                <td colspan="6" rowspan="11" style="border-style: solid none none none; border-width: 1px 0 0 0">
+		    <div class="wordwrapcell" style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div class="wordwrapcell2" style="font-size: 8pt; float:left;">
+                            {{ ОБЪЯВЛЕНИЕ() }}
+                        </div>
+                    </div>
+		</td>
+                <td rowspan="11" style="border-style: solid solid none none; border-width: 1px 1px 0 0"></td>
+            </tr>
+            <tr height="12px">
+                <td></td>
+                <td>
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="float:left;">
+                            Р/с
+                        </div>
+                    </div>
+                </td>
+                <td colspan="5">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="float:left;">
+                            {{ РСЧЕТ() }}
+                        </div>
+                    </div>
+                </td>
+                <td colspan="2">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-size: 10pt; float:left;">
+                            БИК
+                        </div>
+                    </div>
+                </td>
+                <td colspan="2">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-size: 10pt; float:left;">
+                            {{ БАНКБИК() }}
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-size: 10pt; float:left;" class="text_right">
+                            к/с
+                        </div>
+                    </div>
+                </td>
+                <td colspan="5">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-size: 10pt; float:left;">
+                            {{ БАНККС() }}
+                        </div>
+                    </div>
+                </td>
+                <td style="border-style: none solid none none; border-width: 0 1px 0 0"></td>
+                <td></td>
+            </tr>
+            <tr height="12px">
+                <td></td>
+                <td colspan="10">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="float:left;">
+                            {{ БАНКНАЗВ() }}
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="float:left;">
+                            ИНН
+                        </div>
+                    </div>
+                </td>
+                <td colspan="6" style="border-style: none solid none none; border-width: 0 1px 0 0">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="float:left;">
+                            {{ ИНН() }}
+                        </div>
+                    </div>
+                </td>
+                <td></td>
+            </tr>
+            <tr height="12px">
+                <td></td>
+                <td colspan="3">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="float:left;">
+                            Плательщик:
+                        </div>
+                    </div>
+                </td>
+                <td colspan="6">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="float:left;">
+                            {{ ФИОВЛАДЕЛЬЦА() }}
+                        </div>
+                    </div>
+                </td>
+                <td></td>
+                <td colspan="7" style="border-style: none solid none none; border-width: 0 1px 0 0">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-style: italic; float:left;">
+                            Оплатить до 10 числа след.месяца
+                        </div>
+                    </div>
+                </td>
+                <td></td>
+            </tr>
+            <tr height="14px">
+                <td></td>
+                <td colspan="2">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="float:left;">
+                            Адрес
+                        </div>
+                    </div>
+                </td>
+                <td colspan="14">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-weight: bold; float:left;">
+                            {{ АДРЕСДОМА()+', '+ПОМСТР() }}
+                        </div>
+                    </div>
+                </td>
+                <td style="border-style: none solid none none; border-width: 0 1px 0 0"></td>
+                <td></td>
+            </tr>
+            <tr height="3px">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="border-style: none solid none none; border-width: 0 1px 0 0"></td>
+                <td></td>
+            </tr>
+            <tr height="15px">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                    <div style="width:100%; overflow:visible; white-space:nowrap;">
+                        <div style="font-size: 10pt; overflow:visible;float:left;">
+                            {{ ШТРИХОД() }}
+                        </div>
+                    </div>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td colspan="2" style="vertical-align: middle">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-size: 8pt; text-align: center; float:left;">
+                            Л/счет:
+                        </div>
+                    </div>
+                </td>
+                <td colspan="5" style="vertical-align: middle; border-style: none solid none none; border-width: 0 1px 0 0">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="float:left;">
+                            {{ ЛИЦСЧЕТ() }}
+                        </div>
+                    </div>
+                </td>
+                <td></td>
+            </tr>
+            <tr height="15px">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td colspan="5" style="border-style: none solid none none; border-width: 0 1px 0 0"></td>
+                <td></td>
+            </tr>
+            <tr height="12px">
+                <td></td>
+                <td colspan="3">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="float:left;">
+                            Начислено
+                        </div>
+                    </div>
+                </td>
+                <td colspan="3">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="float:left;">
+                            {{ ВСЕГОНАЧ() }}
+                        </div>
+                    </div>
+                </td>
+                <td></td>
+                <td colspan="3"></td>
+                <td colspan="3"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="border-style: none solid none none; border-width: 0 1px 0 0"></td>
+                <td></td>
+            </tr>
+            <tr height="12px">
+                <td></td>
+                <td colspan="16">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-weight: bold; float:left;">
+                            {{ ДОПСТРОКА1() }}
+                        </div>
+                    </div>
+                </td>
+                <td style="border-style: none solid none none; border-width: 0 1px 0 0"></td>
+                <td></td>
+            </tr>
+            <tr height="12px">
+                <td></td>
+                <td colspan="3">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="float:left;">
+                            К оплате за
+                        </div>
+                    </div>
+                </td>
+                <td colspan="4">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="float:left;">
+                            {{ ПЕРИОДСЧЕТА() }}
+                        </div>
+                    </div>
+                </td>
+                <td colspan="3">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-weight: bold; float:left;">
+                            {{ ВСЕГОКОПЛАТЕ() }}
+                        </div>
+                    </div>
+                </td>
+                <td colspan="6">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="float:left;">
+                            Подпись плательщика
+                        </div>
+                    </div>
+                </td>
+                <td style="border-style: none solid none none; border-width: 0 1px 0 0"></td>
+                <td></td>
+            </tr>
+            <tr height="5px">
+                <td></td>
+                <td style="border-style: none none solid none; border-width: 0 0 1px 0"></td>
+                <td style="border-style: none none solid none; border-width: 0 0 1px 0"></td>
+                <td style="border-style: none none solid none; border-width: 0 0 1px 0"></td>
+                <td style="border-style: none none solid none; border-width: 0 0 1px 0"></td>
+                <td style="border-style: none none solid none; border-width: 0 0 1px 0"></td>
+                <td style="border-style: none none solid none; border-width: 0 0 1px 0"></td>
+                <td style="border-style: none none solid none; border-width: 0 0 1px 0"></td>
+                <td style="border-style: none none solid none; border-width: 0 0 1px 0"></td>
+                <td style="border-style: none none solid none; border-width: 0 0 1px 0"></td>
+                <td style="border-style: none none solid none; border-width: 0 0 1px 0"></td>
+                <td style="border-style: none none solid none; border-width: 0 0 1px 0"></td>
+                <td style="border-style: none none solid none; border-width: 0 0 1px 0"></td>
+                <td style="border-style: none none solid none; border-width: 0 0 1px 0"></td>
+                <td style="border-style: none none solid none; border-width: 0 0 1px 0"></td>
+                <td style="border-style: none none solid none; border-width: 0 0 1px 0"></td>
+                <td style="border-style: none none solid none; border-width: 0 0 1px 0"></td>
+                <td style="border-style: none solid solid none; border-width: 0 1px 1px 0"></td>
+                <td colspan="8" style="border-style: none solid solid none; border-width: 0 1px 1px 0"></td>
+            </tr>
+            <tr height="17px">
+                <td></td>
+                <td style="border-style: none none none solid; border-width: 0 0 0 1px"></td>
+                <td colspan="4" style="vertical-align: middle">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-weight: bold; float:left;">
+                            СЧЕТ-КВИТАНЦИЯ
+                        </div>
+                    </div>
+                </td>
+                <td colspan="2" style="vertical-align: middle">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-family: Arial Narrow; text-align: center; float:left;">
+                            получатель
+                        </div>
+                    </div>
+                </td>
+                <td colspan="11" style="vertical-align: middle; border-style: none solid none none; border-width: 0 1px 0 0">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-size: 10pt; font-weight: bold; float:left;">
+                            {{ НАЗВАНИЕДЛЯКВ() }}
+                        </div>
+                    </div>
+                </td>
+                <td></td>
+                <td colspan="6" rowspan="11" style="vertical-align: bottom">
+                    <div style="width:100%; overflow:visible; white-space:nowrap;">
+                        <div style="font-size: 10pt; overflow:visible;float:left;">
+                            {{ QRCODE() }}
+                        </div>
+                    </div>
+                </td>
+                <td rowspan="12" style="border-style: none solid none none; border-width: 0 1px 0 0"></td>
+            </tr>
+            <tr height="12px">
+                <td></td>
+                <td style="border-style: none none none solid; border-width: 0 0 0 1px"></td>
+                <td>
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="float:left;">
+                            Р/с
+                        </div>
+                    </div>
+                </td>
+                <td colspan="5">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="float:left;">
+                            {{ РСЧЕТ() }}
+                        </div>
+                    </div>
+                </td>
+                <td colspan="2">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-size: 10pt; float:left;">
+                            БИК
+                        </div>
+                    </div>
+                </td>
+                <td colspan="2">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-size: 10pt; float:left;">
+                            {{ БАНКБИК() }}
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-size: 10pt; float:left;" class="text_right">
+                            к/с
+                        </div>
+                    </div>
+                </td>
+                <td colspan="5">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-size: 10pt; float:left;">
+                            {{ БАНККС() }}
+                        </div>
+                    </div>
+                </td>
+                <td style="border-style: none solid none none; border-width: 0 1px 0 0"></td>
+                <td></td>
+            </tr>
+            <tr height="12px">
+                <td></td>
+                <td style="border-style: none none none solid; border-width: 0 0 0 1px"></td>
+                <td colspan="10">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="float:left;">
+                            {{ БАНКНАЗВ() }}
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="float:left;">
+                            ИНН
+                        </div>
+                    </div>
+                </td>
+                <td colspan="6" style="border-style: none solid none none; border-width: 0 1px 0 0">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="float:left;">
+                            {{ ИНН() }}
+                        </div>
+                    </div>
+                </td>
+                <td></td>
+            </tr>
+            <tr height="12px">
+                <td></td>
+                <td style="border-style: none none none solid; border-width: 0 0 0 1px"></td>
+                <td colspan="3">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="float:left;">
+                            Плательщик:
+                        </div>
+                    </div>
+                </td>
+                <td colspan="6">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="float:left;">
+                            {{ ФИОВЛАДЕЛЬЦА() }}
+                        </div>
+                    </div>
+                </td>
+                <td></td>
+                <td colspan="7" style="border-style: none solid none none; border-width: 0 1px 0 0">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-style: italic; float:left;">
+                            Оплатить до 10 числа след.месяца
+                        </div>
+                    </div>
+                </td>
+                <td></td>
+            </tr>
+            <tr height="14px">
+                <td></td>
+                <td style="border-style: none none none solid; border-width: 0 0 0 1px"></td>
+                <td colspan="2">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="float:left;">
+                            Адрес
+                        </div>
+                    </div>
+                </td>
+                <td colspan="14">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-weight: bold; float:left;">
+                            {{ АДРЕСДОМА()+', '+ПОМСТР() }}
+                        </div>
+                    </div>
+                </td>
+                <td style="border-style: none solid none none; border-width: 0 1px 0 0"></td>
+                <td></td>
+            </tr>
+            <tr height="12px">
+                <td></td>
+                <td style="border-style: none none none solid; border-width: 0 0 0 1px"></td>
+                <td colspan="3">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="float:left;">
+                            Начислено
+                        </div>
+                    </div>
+                </td>
+                <td colspan="3">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="float:left;">
+                            {{ ВСЕГОНАЧ() }}
+                        </div>
+                    </div>
+                </td>
+                <td></td>
+                <td colspan="9" style="vertical-align: middle">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="float:left;">
+                            {{ ДОПСТРОКА2() }}
+                        </div>
+                    </div>
+                </td>
+                <td style="border-style: none solid none none; border-width: 0 1px 0 0"></td>
+                <td></td>
+            </tr>
+            <tr height="12px">
+                <td></td>
+                <td style="border-style: none none none solid; border-width: 0 0 0 1px"></td>
+                <td colspan="16">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-weight: bold; float:left;">
+                            {{ ДОПСТРОКА1() }}
+                        </div>
+                    </div>
+                </td>
+                <td style="border-style: none solid none none; border-width: 0 1px 0 0"></td>
+                <td></td>
+            </tr>
+            <tr height="13px">
+                <td></td>
+                <td style="border-style: none none none solid; border-width: 0 0 0 1px"></td>
+                <td colspan="3">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="float:left;">
+                            Показания:
+                        </div>
+                    </div>
+                </td>
+                <td colspan="7" style="vertical-align: middle">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-size: 8pt; float:left;">
+                            ХВС: {{ ПОКАЗАНИЯХВ() }}
+                        </div>
+                    </div>
+                </td>
+                <td colspan="6" style="vertical-align: middle">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-size: 8pt; float:left;">
+                            ГВС: {{ ПОКАЗАНИЯГВ() }}
+                        </div>
+                    </div>
+                </td>
+                <td style="border-style: none solid none none; border-width: 0 1px 0 0"></td>
+                <td></td>
+            </tr>
+            <tr height="5px">
+                <td></td>
+                <td style="border-style: none none none solid; border-width: 0 0 0 1px"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td colspan="13"></td>
+                <td style="border-style: none solid none none; border-width: 0 1px 0 0"></td>
+                <td></td>
+            </tr>
+            <tr height="12px">
+                <td></td>
+                <td style="border-style: none none none solid; border-width: 0 0 0 1px"></td>
+                <td colspan="3">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="float:left;">
+                            К оплате за
+                        </div>
+                    </div>
+                </td>
+                <td colspan="4">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="float:left;">
+                            {{ ПЕРИОДСЧЕТА() }}
+                        </div>
+                    </div>
+                </td>
+                <td colspan="3">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-weight: bold; float:left;">
+                            {{ ВСЕГОКОПЛАТЕ() }}
+                        </div>
+                    </div>
+                </td>
+                <td colspan="6">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="float:left;">
+                            Подпись плательщика
+                        </div>
+                    </div>
+                </td>
+                <td style="border-style: none solid none none; border-width: 0 1px 0 0"></td>
+                <td></td>
+            </tr>
+            <tr height="12px">
+                <td></td>
+                <td style="border-style: none none none solid; border-width: 0 0 0 1px"></td>
+                <td colspan="2">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="float:left;">
+                            Площадь:
+                        </div>
+                    </div>
+                </td>
+                <td colspan="3">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="float:left;">
+                            {{ ПЛОЩАДЬ() }}
+                        </div>
+                    </div>
+                </td>
+                <td></td>
+                <td></td>
+                <td colspan="2" style="vertical-align: middle">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="text-align: center; float:left;">
+                            К/ч:
+                        </div>
+                    </div>
+                </td>
+                <td style="vertical-align: middle">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="float:left;">
+                            {{ ФЧ(КВКЧПРОП(),0)+'/'+ФЧ(КВКЧПРОЖ(),0) }}
+                        </div>
+                    </div>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="border-style: none solid none none; border-width: 0 1px 0 0"></td>
+                <td></td>
+            </tr>
+            <tr height="2px">
+                <td></td>
+                <td style="border-style: none none none solid; border-width: 0 0 0 1px"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="border-style: none solid none none; border-width: 0 1px 0 0"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr height="12px">
+                <td></td>
+                <td style="border-style: solid solid solid solid; border-width: 1px 1px 1px 1px"></td>
+                <td colspan="4" style="border-style: solid solid solid none; border-width: 1px 1px 1px 0">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-size: 7pt; text-align: center; float:left;">
+                            вид платежа
+                        </div>
+                    </div>
+                </td>
+                <td style="border-style: solid solid solid none; border-width: 1px 1px 1px 0">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-size: 7pt; text-align: center; float:left;">
+                            тариф
+                        </div>
+                    </div>
+                </td>
+                <td colspan="2" style="border-style: solid solid solid none; border-width: 1px 1px 1px 0">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-family: Arial Narrow; font-size: 7pt; text-align: center; float:left;">
+                            норм./расх.
+                        </div>
+                    </div>
+                </td>
+                <td colspan="2" style="border-style: solid solid solid none; border-width: 1px 1px 1px 0">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-size: 7pt; text-align: center; float:left;">
+                            стоимость
+                        </div>
+                    </div>
+                </td>
+                <td style="border-style: solid solid solid none; border-width: 1px 1px 1px 0">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-size: 7pt; text-align: center; float:left;">
+                            перерасч.
+                        </div>
+                    </div>
+                </td>
+                <td style="border-style: solid solid solid none; border-width: 1px 1px 1px 0">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-size: 7pt; text-align: center; float:left;">
+                            начислено
+                        </div>
+                    </div>
+                </td>
+                <td style="border-style: solid solid solid none; border-width: 1px 1px 1px 0"></td>
+                <td colspan="3" style="border-style: solid solid solid none; border-width: 1px 1px 1px 0">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-size: 7pt; text-align: center; float:left;">
+                            вид платежа
+                        </div>
+                    </div>
+                </td>
+                <td style="border-style: solid solid solid none; border-width: 1px 1px 1px 0">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-size: 7pt; text-align: center; float:left;">
+                            тариф
+                        </div>
+                    </div>
+                </td>
+                <td colspan="3" style="border-style: solid solid solid none; border-width: 1px 1px 1px 0">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-family: Arial Narrow; font-size: 7pt; text-align: center; float:left;">
+                            норм./расх.
+                        </div>
+                    </div>
+                </td>
+                <td colspan="2" style="border-style: solid solid solid none; border-width: 1px 1px 1px 0">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-size: 7pt; text-align: center; float:left;">
+                            стоимость
+                        </div>
+                    </div>
+                </td>
+                <td colspan="2" style="border-style: solid solid solid none; border-width: 1px 1px 1px 0">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-size: 7pt; text-align: center; float:left;">
+                            перерасч.
+                        </div>
+                    </div>
+                </td>
+                <td style="border-style: solid none solid none; border-width: 1px 0 1px 0">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-size: 7pt; text-align: center; float:left;">
+                            начислено
+                        </div>
+                    </div>
+                </td>
+                <td style="border-style: solid solid solid none; border-width: 1px 1px 1px 0"></td>
+            </tr>
+            <tr height="135px">
+                <td></td>
+                <td rowspan="2" style="border-style: none solid solid solid; border-width: 0 1px 1px 1px"></td>
+                <td colspan="4" rowspan="2" style="border-style: none solid solid none; border-width: 0 1px 1px 0">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-size: 8pt; float:left;">
+                            {{ ВПНАЗВАНИЯ(1,13) }}
+                        </div>
+                    </div>
+                </td>
+                <td rowspan="2" style="border-style: none solid solid none; border-width: 0 1px 1px 0">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-size: 8pt; float:left;" class="text_right">
+                            {{ ВПТАРИФЫ(1,13) }}
+                        </div>
+                    </div>
+                </td>
+                <td colspan="2" rowspan="2" style="border-style: none solid solid none; border-width: 0 1px 1px 0">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-size: 8pt; float:left;" class="text_right">
+                            {{ ВПНОРМИ(1,13) }}
+                        </div>
+                    </div>
+                </td>
+                <td colspan="2" rowspan="2" style="border-style: none solid solid none; border-width: 0 1px 1px 0">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-size: 8pt; float:left;" class="text_right">
+                            {{ ВПНАЧИ(1,13) }}
+                        </div>
+                    </div>
+                </td>
+                <td rowspan="2" style="border-style: none solid solid none; border-width: 0 1px 1px 0">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-size: 8pt; float:left;" class="text_right">
+                            {{ ВППЕРИ(1,13) }}
+                        </div>
+                    </div>
+                </td>
+                <td rowspan="2" style="border-style: none solid solid none; border-width: 0 1px 1px 0">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-size: 8pt; float:left;" class="text_right">
+                            {{ ВПИТОГИ(1,13) }}
+                        </div>
+                    </div>
+                </td>
+                <td style="border-style: none solid none none; border-width: 0 1px 0 0"></td>
+                <td colspan="3" style="border-style: none solid none none; border-width: 0 1px 0 0">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-size: 8pt; float:left;">
+                            {{ ВПНАЗВАНИЯ(14) }}
+                        </div>
+                    </div>
+                </td>
+                <td style="border-style: none solid none none; border-width: 0 1px 0 0">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-size: 8pt; float:left;" class="text_right">
+                            {{ ВПТАРИФЫ(14) }}
+                        </div>
+                    </div>
+                </td>
+                <td colspan="3" style="border-style: none solid none none; border-width: 0 1px 0 0">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-size: 8pt; float:left;" class="text_right">
+                            {{ ВПНОРМИ(14) }}
+                        </div>
+                    </div>
+                </td>
+                <td colspan="2" style="border-style: none solid none none; border-width: 0 1px 0 0">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-size: 8pt; float:left;" class="text_right">
+                            {{ ВПНАЧИ(14) }}
+                        </div>
+                    </div>
+                </td>
+                <td colspan="2" style="border-style: none solid none none; border-width: 0 1px 0 0">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-size: 8pt; float:left;" class="text_right">
+                            {{ ВППЕРИ(14) }}
+                        </div>
+                    </div>
+                </td>
+                <td style="border-style: none solid none none; border-width: 0 1px 0 0">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-size: 8pt; float:left;" class="text_right">
+                            {{ ВПИТОГИ(14) }}
+                        </div>
+                    </div>
+                </td>
+                <td style="border-style: none solid none none; border-width: 0 1px 0 0"></td>
+            </tr>
+            <tr height="12px">
+                <td></td>
+                <td style="border-style: none solid solid none; border-width: 0 1px 1px 0"></td>
+                <td colspan="3" style="border-style: none solid solid none; border-width: 0 1px 1px 0">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-size: 8pt; float:left;">
+                            Итого
+                        </div>
+                    </div>
+                </td>
+                <td style="border-style: none solid solid none; border-width: 0 1px 1px 0"></td>
+                <td colspan="3" style="border-style: none solid solid none; border-width: 0 1px 1px 0"></td>
+                <td colspan="2" style="border-style: none solid solid none; border-width: 0 1px 1px 0">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-size: 8pt; float:left;" class="text_right">
+                            {{ НАЧИСЛЕНОИТ() }}
+                        </div>
+                    </div>
+                </td>
+                <td colspan="2" style="border-style: none solid solid none; border-width: 0 1px 1px 0">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-size: 8pt; float:left;" class="text_right">
+                            {{ ПЕРЕРАСЧЕТИТ() }}
+                        </div>
+                    </div>
+                </td>
+                <td style="border-style: none none solid none; border-width: 0 0 1px 0">
+                    <div style="width:100%; overflow:hidden; white-space:nowrap;">
+                        <div style="font-size: 8pt; float:left;" class="text_right">
+                            {{ ИТОГОИТ() }}
+                        </div>
+                    </div>
+                </td>
+                <td style="border-style: none solid solid none; border-width: 0 1px 1px 0"></td>
+            </tr>
+            <tr height="13px">
+                <td></td>
+                <td colspan="25"></td>
+                <td></td>
+            </tr>
+        </table>

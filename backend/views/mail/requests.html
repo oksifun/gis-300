@@ -1,0 +1,63 @@
+{% extends 'worker.html' %}
+
+{% block message %}
+    <p>{{ title }}</p>
+    <p>Заявку принял: {% if request.dispatcher %} {{ request.dispatcher.first_name }} {{ request.dispatcher.patronymic_name }} {% else %} Подано жителем {% end %}</p>
+    <p>Дата и время принятия: {{ request.created_at.strftime("%d.%m.%Y %H:%M:%s") }} </p>
+
+    <p>Адрес: {% if isinstance(request, house_req) %} {{ request.house.address }}
+                    {% elif isinstance(request, area_req) %} {{ request.house.address }} кв. {{ request.area.number }}
+                {% end %}</p>
+
+    <p>Заявитель:
+        {% if isinstance(request, house_req) %}
+            {{ request.dispatcher.name_secured }}
+        {% elif isinstance(request, area_req) %}
+            {{ request.tenant.name_secured }}
+        {% end %}
+    <p>
+
+     <div>
+        {% if isinstance(request, house_req) %}
+            {% if request.dispatcher.phones %}
+                {% for phone in request.dispatcher.phones %}
+                    тел.: <span>
+                        +7 ({{ phone.code }}) {{ phone.number }}
+                    </span><br>
+                {%  end %}
+            {% end %}
+
+        {% elif isinstance(request, area_req) %}
+            {% if request.tenant.phones %}
+                {% for phone in request.tenant.phones %}
+                    тел.: <span>
+                        +7 ({{ phone.code }}) {{ phone.number }}
+                    </span><br>
+                {% end %}
+            {% end %}
+        {% else %}
+            ________________________________________________________
+        {% end %}
+     </div>
+
+
+    <div>Содержание заявки: {{ request.body }}</div>
+        {% if request.dt_desired_start and request.dt_desired_end %}
+            <span>Желаемое время
+                с {{ request.dt_desired_start.strftime("%d-%m-%Y %H:%M") }}
+                по {{  request.dt_desired_end.strftime("%d-%m-%Y %H:%M") }}
+            </span><br>
+            <br>
+        {% end %}
+
+    {% if url %}
+        <div style="text-align: center;">
+            <a href="{{ url }}" style="background: #5cb85c; border-radius: 8px; font-size: 16px; text-decoration: none; color: #ffffff; padding: 10px;">Открыть заявку</a>
+        </div>
+    {% end %}
+
+{% end %}
+
+{% block footer %}
+    По всем вопросам просим обращаться в службу технической поддержки посредством встроенной системы сообщений
+{% end %}

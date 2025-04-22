@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+        <link href='//fonts.googleapis.com/css?family=Open+Sans:400,600,800&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+    </head>
+    <body>
+        <div style="width: 208.2mm; height: 295.4mm; font-size: 4mm;">
+            <div style="margin-left:35%;">
+                <div style="font-weight: bold; ">{{ provider.str_name }}</div><br>
+                <div>ИНН/КПП: {{ provider.inn }}/{{ provider.kpp }}</div>
+                <div>Р/счет: {{ bank['account'] }}</div>
+                <div>{{ bank['name'] }}</div>
+                <div>Кор/счет: {{ bank['kor_account'] }}</div>
+                <div>БИК: {{ bank['bik'] }}</div>
+            </div>
+            <div>________________________________________________________________________________________________</div><br>
+            <span>
+            <div style="width: 50%; float:left">{{ city_address }}</div>
+            <div style="width: 50%; float: right; text-align: right">{{ date }}</div></span>
+            <br><br>
+
+            <div style="margin-top: 5mm; margin-left: 22%; margin-bottom: 5mm">СПРАВКА О НАЧИСЛЕНИЯХ  ЗА ПЕРИОД С {{ date_from }} ПО {{ date_till }}</div>
+            <!-- <div style="margin-top: 15mm; margin-left: 45%; margin-bottom: 40mm">Справка о начислениях  за период с 01.11.2011г. по 31.08.2012г</div><br> -->
+            <p style="text-indent: 20mm; margin: 0px" align="justify">
+      Дана {{ tenant.str_name }} в том, что ему(ей) ежемесячно начисляются жилищно-коммунальные услуги и он действительно оплачивает  их  по адресу: {{ address }} {% if electric_stove%} (дом снабжен электроплитами) {% endif %} с {{ date_from }} г. по настоящее время.
+            </p><br>
+
+<!-- <p style="text-indent: 20mm; margin: 0px" align="justify">-->
+    <p style="margin-bottom: 0px; margin-top: 3mm">
+            {% if balance_in <= 0 %}
+            Задолженность
+            {% else %}
+            Переплата
+            {% endif %}
+            на {{ date_from }}г.:
+
+            {% if balance_in < 0%}
+            {{ balance_in * -1 }}
+            {% else %}
+            {{ balance_in }}
+            {% endif %}
+            руб.
+        </p>
+    <p style="margin-bottom: 0px; margin-top: 3mm">
+    Таблица начислений и оплат:<br>
+    <table border="1" style="border-collapse:collapse; font-size:9pt">
+        <tr>
+            <th>Услуга</th>
+            <th>Начислено за период с {{ date_from }} по {{ date_till }}, рублей</th>
+        </tr>
+        {% for key, val in data.items() %}
+            <tr>
+            <td>{{ key }}</td>
+            <td align="right">{{ val }} </td>
+            </tr>
+        {% endfor %}
+        {% if data.items() or penalties != 0  %}
+        <tr>
+            <td>Пени</td>
+            <td align="right">{{ penalties }}</td>
+        </tr>
+        {% endif %}
+        <tr>
+            <td><b>Итого начислено:</b></td>
+            <td align="right">{{ total_acc }}</td>
+        </tr>
+        <tr>
+            <td><b>Итого оплачено с учетом пени:</b></td>
+            <td align="right">{{ total_pay }}</td>
+        </tr>
+        <tr>
+            <td>{% if balance_out <= 0 %}
+                Задолженность
+                {% else %}
+                Переплата
+                {% endif %}
+                на {{ date_till }}г.:</td>
+            <td align="right">
+                {% if balance_out < 0 %}
+                {{ balance_out * -1 }}
+                {% else %}
+                {{ balance_out }}
+                {% endif %}</td>
+        </tr>
+    </table>
+            <p style="margin-bottom: 0px; margin-top: 3mm">{{ worker.position.name }}</p>
+            <div style="width: 50%; float: left">{{ provider.str_name }}</div>
+            <div style="width: 50%; float: right; text-align: right">{{ worker.str_name }}</div>
+
+        </div>
+    </body>
+</html>

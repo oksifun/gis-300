@@ -1,0 +1,1030 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!---->
+<xs:schema xmlns:tns="http://dom.gosuslugi.ru/schema/integration/appeals/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:base="http://dom.gosuslugi.ru/schema/integration/base/" xmlns:premises-base="http://dom.gosuslugi.ru/schema/integration/premises-base/" xmlns:bills-base="http://dom.gosuslugi.ru/schema/integration/bills-base/" xmlns:account-base="http://dom.gosuslugi.ru/schema/integration/account-base/" xmlns:nsi-base="http://dom.gosuslugi.ru/schema/integration/nsi-base/" xmlns:organizations-base="http://dom.gosuslugi.ru/schema/integration/organizations-base/" xmlns:organizations-registry-base="http://dom.gosuslugi.ru/schema/integration/organizations-registry-base/" xmlns:individual-registry-base="http://dom.gosuslugi.ru/schema/integration/individual-registry-base/" targetNamespace="http://dom.gosuslugi.ru/schema/integration/appeals/" elementFormDefault="qualified" attributeFormDefault="unqualified" version="13.1.10.1">
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/base/" schemaLocation="../lib/hcs-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/premises-base/" schemaLocation="../lib/hcs-premises-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/bills-base/" schemaLocation="../lib/hcs-bills-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/account-base/" schemaLocation="../lib/hcs-account-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/nsi-base/" schemaLocation="../lib/hcs-nsi-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/organizations-base/" schemaLocation="../lib/hcs-organizations-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/individual-registry-base/" schemaLocation="../lib/hcs-individual-registry-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/organizations-registry-base/" schemaLocation="../lib/hcs-organizations-registry-base.xsd"/>
+	<!--Операции с обращениями-->
+	<!--Выгрузка обращений и ответов на обращения-->
+	<xs:element name="exportAppealRequest">
+		<xs:annotation>
+			<xs:documentation source="Экспорт обращений">Запрос на экспорт обращений. Доступны версии 12.2.0.11, 13.1.10.1, 13.2.1.0, 13.2.5.0</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:sequence>
+						<xs:choice>
+							<xs:sequence>
+								<xs:element name="AppealGUID" type="base:GUIDType" maxOccurs="1000">
+									<xs:annotation>
+										<xs:documentation>Идентификатор обращения в системе ГИС ЖКХ</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+							<xs:choice>
+								<xs:annotation>
+									<xs:documentation>По бизнес-атрибутам обращения</xs:documentation>
+								</xs:annotation>
+								<xs:element name="AppealNumber" type="tns:AppealNumberType" maxOccurs="1000">
+									<xs:annotation>
+										<xs:documentation>Номер обращения</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:sequence>
+									<xs:element name="StartDate" type="xs:date" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Дата создания обращения - начало диапазона</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="EndDate" type="xs:date" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Дата создания обращения - конец диапазона</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="AppealTheme" type="nsi-base:nsiRef" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Тема обращения (НСИ 220)</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="FIASHouseGuid" type="premises-base:FIASHouseGUIDType" minOccurs="0" maxOccurs="unbounded">
+										<xs:annotation>
+											<xs:documentation>Глобальный уникальный идентификатор дома по ФИАС</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="StatusOfAppeal" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Статус обращения</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="NotSent" type="xs:boolean" fixed="true" minOccurs="0">
+													<xs:annotation>
+														<xs:documentation>Не отправлено (элемент не используется в Системе - обращения, имеющие статус "Не отправлено", не экспортируются)</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+												<xs:element name="Sent" type="xs:boolean" fixed="true" minOccurs="0">
+													<xs:annotation>
+														<xs:documentation>Отправлено</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+												<xs:element name="InWork" type="xs:boolean" fixed="true" minOccurs="0">
+													<xs:annotation>
+														<xs:documentation>В работе</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+												<xs:element name="Executed" type="xs:boolean" fixed="true" minOccurs="0">
+													<xs:annotation>
+														<xs:documentation>Исполнено</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+												<xs:element name="Withdrawn" type="xs:boolean" fixed="true" minOccurs="0">
+													<xs:annotation>
+														<xs:documentation>Отозвано</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:choice>
+							<xs:choice>
+								<xs:annotation>
+									<xs:documentation>По бизнес-атрибутам ответа на обращение</xs:documentation>
+								</xs:annotation>
+								<xs:element name="AnswerGUID" type="base:GUIDType" maxOccurs="1000">
+									<xs:annotation>
+										<xs:documentation>Идентификатор ответа</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:sequence>
+									<xs:element name="StartCreateDate" type="xs:date" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Дата создания ответа на обращения - начало диапазона</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="EndCreateDate" type="xs:date" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Дата создания ответа на обращения - конец диапазона</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="StartPostDate" type="xs:date" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Дата отправки ответа на обращения - начало диапазона</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="EndPostDate" type="xs:date" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Дата отправки ответа на обращения - конец диапазона</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:choice>
+						</xs:choice>
+						<xs:element name="IncludeHCSAppeals" type="xs:boolean" fixed="true" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Признак "Включать в экспорт обращения, сформированные ГИС ЖКХ" (для запросов по бизнес-атрибутам обращения или ответа) </xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute ref="base:version" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="exportAppealResult">
+		<xs:annotation>
+			<xs:documentation>Результат экспорта обращений. Доступны версии 12.2.0.11, 13.2.5.0</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:choice>
+						<xs:element name="Appeal" type="tns:exportAppealResultType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Обращение</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element ref="base:ErrorMessage"/>
+					</xs:choice>
+					<xs:attribute ref="base:version" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="exportAppealResultType">
+		<xs:annotation>
+			<xs:documentation> Тип результата экспорта обращений</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AppealGUID" type="base:GUIDType">
+				<xs:annotation>
+					<xs:documentation>Идентификатор обращения в системе ГИС ЖКХ</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ParentAppealGUID" type="base:GUIDType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Идентификатор родительского обращения</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ApplicantInfo">
+				<xs:annotation>
+					<xs:documentation>Заявитель обращения</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="tns:ApplicantType"/>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AppealNumber" type="tns:AppealNumberType">
+				<xs:annotation>
+					<xs:documentation>Номер обращения</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AppealCreateDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation>Дата создания обращения</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice>
+				<xs:element name="AppealTopic" type="nsi-base:nsiRef">
+					<xs:annotation>
+						<xs:documentation>Тема обращения (НСИ 220)</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="AnotherTopic">
+					<xs:annotation>
+						<xs:documentation>Другая тема обращения</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="250"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:choice>
+			<xs:element name="FIASHouseGuid" type="premises-base:FIASHouseGUIDType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Глобальный уникальный идентификатор дома по ФИАС</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OKTMO" type="base:OKTMORefType">
+				<xs:annotation>
+					<xs:documentation>ОКТМО </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AppealText" type="tns:String10000Type">
+				<xs:annotation>
+					<xs:documentation>Текст обращения</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Attachment" type="base:AttachmentType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Прикрепленные файлы</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AnswererGUID" type="base:GUIDType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Идентификатор исполнителя по обращению</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AppealHistory" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>История изменений по обращению</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Organization" type="organizations-registry-base:RegOrgType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Организация, выполнившая действие по обращению</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="ChangeDate" type="xs:date">
+							<xs:annotation>
+								<xs:documentation>Дата изменения (выполнения действия)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:choice minOccurs="0">
+							<xs:element name="Answer">
+								<xs:annotation>
+									<xs:documentation>Сведения об ответе на обращение</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:complexContent>
+										<xs:extension base="tns:AnswerInfoType">
+											<xs:sequence>
+												<xs:element name="AnswerIsSent" type="xs:boolean" fixed="true" minOccurs="0">
+													<xs:annotation>
+														<xs:documentation>Ответ отправлен</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+												<xs:element name="SignedAttachments" type="base:SignedAttachmentType" minOccurs="0" maxOccurs="unbounded">
+													<xs:annotation>
+														<xs:documentation>Прикрепленные файлы с открепленной (detached) подписью</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+											</xs:sequence>
+										</xs:extension>
+									</xs:complexContent>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Redirected">
+								<xs:annotation>
+									<xs:documentation>Обращение переадресовано</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Receiver">
+											<xs:annotation>
+												<xs:documentation>Адресат обращения</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:complexContent>
+													<xs:extension base="organizations-registry-base:RegOrgType"/>
+												</xs:complexContent>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="Comment" type="tns:String1000Type" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Комментарий</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="Attachment" type="base:AttachmentType" minOccurs="0" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation>Прикрепленные файлы</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="AnswererGUID" type="base:GUIDType" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Идентификатор исполнителя по обращению</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="RolledOver">
+								<xs:annotation>
+									<xs:documentation>Продлен срок рассмотрения обращения</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:complexContent>
+										<xs:extension base="tns:RollOverAppealType"/>
+									</xs:complexContent>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="IsNotRequired">
+								<xs:annotation>
+									<xs:documentation>Ответ на обращение не требуется</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Cause" type="xs:string">
+											<xs:annotation>
+												<xs:documentation>Причина, по которой ответ на обращение не требуется</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Assesment">
+								<xs:annotation>
+									<xs:documentation>Оценка исполнения обращения</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:choice>
+										<xs:element name="InformationIsReceived" type="xs:boolean" fixed="true">
+											<xs:annotation>
+												<xs:documentation>Необходимая информация получена</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:sequence>
+											<xs:choice>
+												<xs:element name="AnswerIsPartlyReceived" type="xs:boolean" fixed="true">
+													<xs:annotation>
+														<xs:documentation>Необходимая информация получена частично</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+												<xs:element name="AnswerIsNotSatisfied" type="xs:boolean" fixed="true">
+													<xs:annotation>
+														<xs:documentation>Ответом не удовлетворен</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+											</xs:choice>
+											<xs:element name="DeclineComment" type="tns:String1000Type">
+												<xs:annotation>
+													<xs:documentation>Отзыв</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+										</xs:sequence>
+									</xs:choice>
+								</xs:complexType>
+							</xs:element>
+						</xs:choice>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AppealStatus" type="tns:AppealStatusType">
+				<xs:annotation>
+					<xs:documentation>Статус обращения
+Send -Отправлено /Получено 
+Executed - Исполнено Withdrawn - Отозвано </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice>
+				<xs:element name="Redirected" type="xs:boolean" fixed="true" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Перенаправлено в другую организацию</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="RedirectedIsNotHCS" type="xs:boolean" fixed="true" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Перенаправлено в организацию, не зарегистрированную в ГИС ЖКХ</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:element name="RolledOver" type="xs:boolean" fixed="true" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Продлен срок рассмотрения</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AnswerIsNotRequired" type="xs:boolean" fixed="true" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Ответ на обращение не требуется</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AppealWithdrawn" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Обращение отозвано заявителем</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Comment" type="tns:String1000Type" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Комментарий заявителя</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="FromMobile" type="xs:boolean" fixed="true" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Признак поступления обращения из мобильного приложения "Госуслуги Дом"</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExecutionEndDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Дата окончания срока исполнения обращения. Рассчитывается ГИС ЖКХ на основании требований нормативно-правовых актов (НПА)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="NPARequirements" type="base:String500Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Требования нормативно-правовых актов (НПА), на основании которых рассчитана дата окончания срока исполнения обращения ExecutionEndDate (согласно справочнику «Темы обращений»)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!--Загрузка ответов на обращения-->
+	<xs:element name="importAnswerRequest">
+		<xs:annotation>
+			<xs:documentation>Импорт ответов на обращения. Доступны версии 12.2.0.13, 13.2.1.0</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:sequence>
+						<xs:element name="AnswerAction" minOccurs="0" maxOccurs="1000">
+							<xs:annotation>
+								<xs:documentation>Действия с ответами на обращения</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:sequence>
+										<xs:element ref="base:TransportGUID"/>
+										<xs:choice>
+											<xs:element name="AppealGUID" type="base:GUIDType">
+												<xs:annotation>
+													<xs:documentation>Идентификатор обращения в системе ГИС ЖКХ</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="AppealNumber" type="tns:AppealNumberType">
+												<xs:annotation>
+													<xs:documentation>Номер обращения</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+										</xs:choice>
+									</xs:sequence>
+									<xs:element name="Answer" maxOccurs="unbounded">
+										<xs:annotation>
+											<xs:documentation>Ответ на обращение</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element ref="base:TransportGUID"/>
+												<xs:element name="AnswerGUID" type="base:GUIDType" minOccurs="0">
+													<xs:annotation>
+														<xs:documentation>Идентификатор ответа. Заполняется при изменении ранее созданного ответа</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+												<xs:element name="AnswererGUID" type="base:GUIDType">
+													<xs:annotation>
+														<xs:documentation>Идентификатор исполнителя по обращению</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+												<xs:choice>
+													<xs:sequence>
+														<xs:element name="LoadAnswer" minOccurs="0">
+															<xs:annotation>
+																<xs:documentation>Создание / изменение  ответа</xs:documentation>
+															</xs:annotation>
+															<xs:complexType>
+																<xs:sequence>
+																	<xs:element name="AnswerText" type="tns:String10000Type">
+																		<xs:annotation>
+																			<xs:documentation>Текст ответа</xs:documentation>
+																		</xs:annotation>
+																	</xs:element>
+																	<xs:element name="Attachment" type="base:AttachmentType" minOccurs="0" maxOccurs="unbounded">
+																		<xs:annotation>
+																			<xs:documentation>Прикрепленные файлы</xs:documentation>
+																		</xs:annotation>
+																	</xs:element>
+																	<xs:element name="SignedAttachments" type="base:SignedAttachmentType" minOccurs="0" maxOccurs="unbounded">
+																		<xs:annotation>
+																			<xs:documentation>Прикрепленные файлы с открепленной (detached) подписью</xs:documentation>
+																		</xs:annotation>
+																	</xs:element>
+																</xs:sequence>
+															</xs:complexType>
+														</xs:element>
+														<xs:element name="SendAnswer" type="xs:boolean" fixed="true" minOccurs="0">
+															<xs:annotation>
+																<xs:documentation>Отправка ответа</xs:documentation>
+															</xs:annotation>
+														</xs:element>
+													</xs:sequence>
+													<xs:element name="DeleteAnswer" type="xs:boolean" fixed="true">
+														<xs:annotation>
+															<xs:documentation>Удаление ответа</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:choice>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="AppealAction" minOccurs="0" maxOccurs="1000">
+							<xs:annotation>
+								<xs:documentation>Действия с обращениями</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="base:TransportGUID"/>
+									<xs:choice>
+										<xs:element name="AppealGUID" type="base:GUIDType">
+											<xs:annotation>
+												<xs:documentation>Идентификатор обращения в системе ГИС ЖКХ</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="AppealNumber" type="tns:AppealNumberType">
+											<xs:annotation>
+												<xs:documentation>Номер обращения</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:choice>
+									<xs:sequence>
+										<xs:element name="Performer" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Назначить/ изменить исполнителя по обращению</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="AnswererGUID" type="base:GUIDType">
+														<xs:annotation>
+															<xs:documentation>Идентификатор исполнителя по обращению</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="DateOfAppointment" type="xs:date" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation>Плановая дата исполнения
+Заполняется при первичном назначении исполнителя</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="Executed" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Проставить для обращения статус "Исполнено"</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="AnswererGUID" type="base:GUIDType">
+														<xs:annotation>
+															<xs:documentation>Идентификатор исполнителя по обращению</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="RedirectAppeal" minOccurs="0" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation>Переадресация обращения другой организации</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:complexContent>
+													<xs:extension base="tns:RedirectAppealType"/>
+												</xs:complexContent>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="RollOverAppeal" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Продление срока рассмотрения обращения</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:complexContent>
+													<xs:extension base="tns:RollOverAppealType"/>
+												</xs:complexContent>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="AnswerIsNotRequired" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Ответ на обращение не требуется</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="Cause" type="xs:string">
+														<xs:annotation>
+															<xs:documentation>Причина, по которой ответ на обращение не требуется</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="AnswererGUID" type="base:GUIDType">
+														<xs:annotation>
+															<xs:documentation>Идентификатор исполнителя по обращению</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute ref="base:version" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+		<xs:key name="importAppealAnswer_TransportGUIDKey">
+			<xs:annotation>
+				<xs:documentation>Проверка уникальности транспортного идентификатора в рамках запроса</xs:documentation>
+			</xs:annotation>
+			<xs:selector xpath=".//base:TransportGUID"/>
+			<xs:field xpath="."/>
+		</xs:key>
+		<xs:key name="importAppealAnswer_AppealGUIDKey">
+			<xs:annotation>
+				<xs:documentation>Проверка уникальности идентификатора обращения в рамках AppealAnswer</xs:documentation>
+			</xs:annotation>
+			<xs:selector xpath="tns:AnswerAction/tns:AppealGUID"/>
+			<xs:field xpath="."/>
+		</xs:key>
+		<xs:key name="importAppealAction_AppealGUIDKey">
+			<xs:annotation>
+				<xs:documentation>Проверка уникальности идентификатора обращения в рамках AppealAction</xs:documentation>
+			</xs:annotation>
+			<xs:selector xpath="tns:AppealAction/tns:AppealGUID"/>
+			<xs:field xpath="."/>
+		</xs:key>
+		<xs:key name="importAppealAnswer_AppealNumberKey">
+			<xs:annotation>
+				<xs:documentation>Проверка уникальности номера обращения в рамках AppealAnswer</xs:documentation>
+			</xs:annotation>
+			<xs:selector xpath="tns:AnswerAction/tns:AppealNumber"/>
+			<xs:field xpath="."/>
+		</xs:key>
+		<xs:key name="importAppealAnswer_AnswerGUID">
+			<xs:annotation>
+				<xs:documentation>Проверка уникальности номера обращения в рамках AppealAnswer</xs:documentation>
+			</xs:annotation>
+			<xs:selector xpath="tns:AnswerAction/tns:Answer/tns:AnswerGUID"/>
+			<xs:field xpath="."/>
+		</xs:key>
+		<xs:key name="importAppealAction_AppealNumberKey">
+			<xs:annotation>
+				<xs:documentation>Проверка уникальности номера обращения в рамках AppealAction</xs:documentation>
+			</xs:annotation>
+			<xs:selector xpath="tns:AppealAction/tns:AppealNumber"/>
+			<xs:field xpath="."/>
+		</xs:key>
+	</xs:element>
+	<!--Типы асинхронного обмена-->
+	<xs:element name="getStateResult">
+		<xs:annotation>
+			<xs:documentation>Возврат статуса отправленного сообщения</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseAsyncResponseType">
+					<xs:choice minOccurs="0">
+						<xs:element ref="base:ErrorMessage"/>
+						<xs:element name="ImportResult" type="base:CommonResultType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Результат импорта</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="ExportAppealResult" type="tns:exportAppealResultType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Экспортируемое обращение</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
+					<xs:attribute ref="base:version" use="required" fixed="12.2.0.5"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<!--Составные типы-->
+	<!--Типы данных-->
+	<xs:complexType name="AppealAnswerType">
+		<xs:annotation>
+			<xs:documentation>Ответ на обращение</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AnswerGUID" type="base:GUIDType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Идентификатор ответа. Заполняется при изменении ранее созданного ответа</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AnswerText" type="tns:String10000Type">
+				<xs:annotation>
+					<xs:documentation>Текст ответа</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Attachment" type="base:AttachmentType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Прикрепленные файлы</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AnswererGUID" type="base:GUIDType">
+				<xs:annotation>
+					<xs:documentation>Идентификатор исполнителя по обращению</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AnswerInfoType">
+		<xs:annotation>
+			<xs:documentation>Информация об ответе</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AnswerGUID" type="base:GUIDType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Идентификатор ответа</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AnswerNumber" type="tns:AnswerNumberType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Номер ответа на обращение</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SendAnswerDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Дата отправки ответа на обращение</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Answerer">
+				<xs:annotation>
+					<xs:documentation>Лицо - исполнитель обращения</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="AnswererGUID" type="base:GUIDType">
+							<xs:annotation>
+								<xs:documentation>Идентификатор исполнителя</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AnswerText" type="tns:String10000Type">
+				<xs:annotation>
+					<xs:documentation>Текст ответа на обращение</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Attachment" type="base:AttachmentType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Прикрепленные файлы</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AppealInfoType">
+		<xs:annotation>
+			<xs:documentation>Обращение</xs:documentation>
+		</xs:annotation>
+	</xs:complexType>
+	<xs:complexType name="ApplicantType">
+		<xs:annotation>
+			<xs:documentation>Заявитель</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:sequence>
+				<xs:choice>
+					<xs:element name="Person">
+						<xs:annotation>
+							<xs:documentation>Физическое лицо</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:extension base="tns:PersonType"/>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="Org" type="organizations-registry-base:RegOrgType">
+						<xs:annotation>
+							<xs:documentation>Ссылка на реестр организаций</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:choice>
+				<xs:element name="PostAddress" type="tns:String100Type" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Почтовый адрес</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ApartmentNumber" type="tns:PremisesNumType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Номер помещения</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Email" type="tns:String100Type" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Электронная почта</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="PhoneNumber" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Номер телефона</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string"/>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+			<xs:element name="HCS" type="xs:boolean" fixed="true">
+				<xs:annotation>
+					<xs:documentation>Обращение сформировано ГИС ЖКХ</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="AnswererType">
+		<xs:annotation>
+			<xs:documentation>Лицо-исполнитель обращения</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Surname" type="tns:String256Type">
+				<xs:annotation>
+					<xs:documentation>Фамилия</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="FirstName" type="tns:String256Type">
+				<xs:annotation>
+					<xs:documentation>Имя</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Patronymic" type="tns:String256Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Отчество</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Post" type="tns:String255Type">
+				<xs:annotation>
+					<xs:documentation>Должность</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AnswererInfoType">
+		<xs:annotation>
+			<xs:documentation>Информация об исполнителе обращения</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Organization" type="organizations-registry-base:RegOrgType">
+				<xs:annotation>
+					<xs:documentation>Организация - исполнитель обращения</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PersonType">
+		<xs:annotation>
+			<xs:documentation>Физическое лицо - заявитель обращения</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Surname" type="tns:String100Type">
+				<xs:annotation>
+					<xs:documentation>Фамилия</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="FirstName" type="tns:String100Type">
+				<xs:annotation>
+					<xs:documentation>Имя</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Patronymic" type="tns:String100Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Отчество</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RedirectAppealType">
+		<xs:annotation>
+			<xs:documentation>Переадресация обращения</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Receiver">
+				<xs:annotation>
+					<xs:documentation>Адресат обращения</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="organizations-registry-base:RegOrgType"/>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Comment" type="tns:String1000Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Комментарий</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Attachment" type="base:AttachmentType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Прикрепленные файлы</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AnswererGUID" type="base:GUIDType">
+				<xs:annotation>
+					<xs:documentation>Идентификатор исполнителя по обращению</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RollOverAppealType">
+		<xs:annotation>
+			<xs:documentation>Продление срока обращения</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ExecutionDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation>Дата исполнения (продления)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Comment" type="tns:String1000Type">
+				<xs:annotation>
+					<xs:documentation>Комментарий</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Attachment" type="base:AttachmentType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Прикрепленные файлы</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AnswererGUID" type="base:GUIDType">
+				<xs:annotation>
+					<xs:documentation>Идентификатор исполнителя по обращению</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!--Простые типы-->
+	<xs:simpleType name="String100Type">
+		<xs:annotation>
+			<xs:documentation>Скалярный тип. Строка не более 100 символов.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="100"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="String255Type">
+		<xs:annotation>
+			<xs:documentation>Скалярный тип. Строка не более 255 символов.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="255"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="String256Type">
+		<xs:annotation>
+			<xs:documentation>Скалярный тип. Строка не более 256 символов.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="256"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="String1000Type">
+		<xs:annotation>
+			<xs:documentation>Скалярный тип. Строка не более 1000 символов.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="1000"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="String10000Type">
+		<xs:annotation>
+			<xs:documentation> Скалярный тип. Строка не более 10 000 символов.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="10000"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AnswerNumberType">
+		<xs:annotation>
+			<xs:documentation>Номер ответа на обращение</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="35"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AppealNumberType">
+		<xs:annotation>
+			<xs:documentation>Номер обращения</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="30"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AppealStatusType">
+		<xs:annotation>
+			<xs:documentation>Статус обращения. Send - Отправлено/Получено, Executed - Исполнено, Withdrawn - Отозвано, InWork - В работе</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Send"/>
+			<xs:enumeration value="Executed"/>
+			<xs:enumeration value="Withdrawn"/>
+			<xs:enumeration value="InWork"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PremisesNumType">
+		<xs:annotation>
+			<xs:documentation>Номер помещения</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="100"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

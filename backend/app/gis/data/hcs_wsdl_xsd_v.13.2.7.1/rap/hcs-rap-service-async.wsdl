@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://dom.gosuslugi.ru/schema/integration/rap-service-async/" xmlns:rap="http://dom.gosuslugi.ru/schema/integration/rap/" xmlns:base="http://dom.gosuslugi.ru/schema/integration/base/" xmlns:ns="http://www.w3.org/2000/09/xmldsig#" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:ns1="http://dom.gosuslugi.ru/schema/integration/account-base/" xmlns:ns2="http://dom.gosuslugi.ru/schema/integration/individual-registry-base/" xmlns:ns3="http://dom.gosuslugi.ru/schema/integration/metering-device-base/" xmlns:ns4="http://dom.gosuslugi.ru/schema/integration/nsi-base/" xmlns:ns5="http://dom.gosuslugi.ru/schema/integration/organizations-registry-base/" xmlns:ns6="http://dom.gosuslugi.ru/schema/integration/bills-base/" xmlns:ns7="http://dom.gosuslugi.ru/schema/integration/organizations-base/" xmlns:ns8="http://dom.gosuslugi.ru/schema/integration/premises-base/" xmlns:ns9="http://dom.gosuslugi.ru/schema/integration/rap-service-async/" targetNamespace="http://dom.gosuslugi.ru/schema/integration/rap-service-async/">
+	<wsdl:types>
+		<xs:schema version="11.10.0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+			<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/rap/" schemaLocation="hcs-rap-types.xsd"/>
+			<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/base/" schemaLocation="../lib/hcs-base.xsd"/>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="RequestHeader">
+		<wsdl:part name="Header" element="base:RequestHeader"/>
+	</wsdl:message>
+	<wsdl:message name="ResultHeader">
+		<wsdl:part name="Header" element="base:ResultHeader"/>
+	</wsdl:message>
+	<wsdl:message name="getStateRequest">
+		<wsdl:part name="getStateRequest" element="base:getStateRequest"/>
+	</wsdl:message>
+	<wsdl:message name="getStateResult">
+		<wsdl:part name="getStateResult" element="rap:getStateResult"/>
+	</wsdl:message>
+	<wsdl:message name="ImportDecreesAndDocumentsRequest">
+		<wsdl:part name="ImportDecreesAndDocumentsRequest" element="rap:ImportDecreesAndDocumentsRequest"/>
+	</wsdl:message>
+	<wsdl:message name="ImportDecreesAndDocumentsResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="ExportDecreesAndDocumentsRequest">
+		<wsdl:part name="ExportDecreesAndDocumentsRequest" element="rap:ExportDecreesAndDocumentsRequest"/>
+	</wsdl:message>
+	<wsdl:message name="ExportDecreesAndDocumentsResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="Fault">
+		<wsdl:part name="Fault" element="base:Fault"/>
+	</wsdl:message>
+	<wsdl:portType name="RapPortAsync">
+		<wsdl:operation name="getState">
+			<wsdl:documentation>Результат обработки асинхронного вызова</wsdl:documentation>
+			<wsdl:input message="tns:getStateRequest"/>
+			<wsdl:output message="tns:getStateResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="importDecreesAndDocumentsData">
+			<wsdl:documentation>Импорт постановлений и процессуальных документов</wsdl:documentation>
+			<wsdl:input message="tns:ImportDecreesAndDocumentsRequest"/>
+			<wsdl:output message="tns:ImportDecreesAndDocumentsResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="exportDecreesAndDocumentsData">
+			<wsdl:documentation>Экспорт постановлений и процессуальных документов</wsdl:documentation>
+			<wsdl:input message="tns:ExportDecreesAndDocumentsRequest"/>
+			<wsdl:output message="tns:ExportDecreesAndDocumentsResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="RapBindingAsync" type="tns:RapPortAsync">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="getState">
+			<soap:operation soapAction="urn:getState"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="importDecreesAndDocumentsData">
+			<wsdl:documentation>Импорт постановлений и процессуальных документов</wsdl:documentation>
+			<soap:operation soapAction="urn:importDecreesAndDocumentsData"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="exportDecreesAndDocumentsData">
+			<wsdl:documentation>Экспорт постановлений и процессуальных документов</wsdl:documentation>
+			<soap:operation soapAction="urn:exportDecreesAndDocumentsData"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="RapServiceAsync">
+		<wsdl:documentation>Асинхронный сервис работы с административными правонарушениями</wsdl:documentation>
+		<wsdl:port name="RapPortAsync" binding="tns:RapBindingAsync">
+			<soap:address location="https://api.dom.gosuslugi.ru/ext-bus-rap-service/services/RapAsync"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

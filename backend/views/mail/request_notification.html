@@ -1,0 +1,32 @@
+{% extends 'notice.html' %}
+
+{% block content %}
+    <p>
+        Новая {{ request_category }} заявка №{{ request_number }}
+    </p>
+    <p>
+        Принял: {{ dispatcher }}, время принятия: {{ date_created }}
+    </p>
+    <p>
+        Заказчик Ф.И.О.: {{ applicant }}
+    </p>
+    <p>
+        <b>{{ address }}</b>, {{ phone }}, {{ email }}
+    </p>
+    <p>
+        Содержание заявки:<br>
+        <b>{{ application }}</b>
+    </p>
+    <p>
+        Тип заявки: {{ request_kind }} {{ request_type }}
+    </p>
+    <p>
+        Желаемое время исполнения: {{ desired_datetime_end }}
+    </p>
+    <p align="center">
+        <a style="color: #0088cc;" href="http://lk.c300.me/api/v1/requests/get_blank/{{ request_id }}/">Распечатать бланк заявки</a>
+    </p>
+    <p align="center">
+        <a style="color: #0088cc;" href="http://lk.c300.me/#/requests/detail/{{ request_id }}">Открыть заявку в журнале</a>
+    </p>
+{% end %}

@@ -1,0 +1,199 @@
+URL: 'https://lk.eis24.me'
+DEFAULT_URL: 'lk.eis24.me'
+
+DEVELOPMENT: False
+TORNADO_DEBUG: False
+USE_SENTRY: True
+
+DATABASES:
+  default:
+    host: '10.1.5.15:27017,10.1.5.18:27017,10.1.1.17:27017'
+    db: 'c300'
+    replicaset: 'sc300'
+    read_preference: 1
+  cache:
+    host: '10.1.1.21:27020,10.1.1.23:27020'
+    db: 'cached_data'
+    replicaset: 'ca4e300'
+  auth:
+    host: '10.1.5.15:27017,10.1.5.18:27017,10.1.1.17:27017'
+    db: 'auth'
+    replicaset: 'sc300'
+    read_preference: 1
+  processing:
+    host: '10.1.1.22:27022,10.1.1.24:27022'
+    db: 'task_queue'
+    replicaset: 'tasks300'
+  fias:
+    host: '10.1.1.15:27021,10.1.1.14:27021'
+    db: 'fias_31082021'
+    replicaset: 'fias'
+    read_preference: 1
+  chunks:
+    host: '10.1.1.8:27018'
+    db: 'chunks'
+    replicaset: 'c300'
+  files:
+    host: '10.1.1.8:27018'
+    db: 'chunks'
+    replicaset: 'c300'
+  gis_data:
+    host: '10.1.1.17:27017'
+    db: 'gis_data'
+    replicaset: 'sc300'
+  logs:
+    host: '10.1.1.10:27019,10.1.1.13:27019'
+    db: 'logs'
+    replicaset: 'logs300'
+
+UNREESTR: 'unreestr@eis24.me'
+UNREESTR_PASSWD: 'R4kV0g1W1P'
+UNREESTR_IMAP_SERVER: 'zrs01.eis24.me'
+UNREESTR_LIMIT_PER_MINUTE: 20
+
+SBOL_REGISTRY_SEND_LIMIT: 20
+
+PSKB_REGISTRY_MAIL: 'c300_docs@pscb.ru'
+
+SEND_MAIL: True
+MAIL_SRV_PORT: 25
+MAIL_SRV_HOST: 'smtp.eis24.me'
+MAIL_SRV_USER: 'no_reply@eis24.me'
+MAIL_SRV_PASS: '1d18b5CTc6Bb67'
+
+cookie_secret: 'OIJP(UHQ#IOJPUQJCIUWjfe[ojwpuihogjwie;ojgjknen33l3oo3o3'
+
+IP_SUPERS:
+  - '84.204.249.170'  # office inet megafon
+  - '46.32.70.57'  # office inet большеохтинский 15к2
+  - '91.122.60.16'
+  - '37.200.64.29'
+  - '188.162.65.37'
+  - '91.142.93.68'
+  - '213.221.50.222'
+  - '94.25.216.65'  # office inet yota
+  - '95.213.175.153'  # gate.c300.me (OpenVPN)
+  - '91.122.15.58'  # office tarasova 12 rostelecom
+  - '5.17.89.114'   # office tarasova 12 domru
+#  - '91.142.85.101'  # vpn
+  - '109.195.85.85' # ip Kotolup.V.V
+
+JSON_INDENT: ''
+JSON_SORT_KEYS: True
+
+# PERMISSIONS_CACHE = None
+PERMISSIONS_CACHE: '1m'
+
+# SERVICE_BIND_CACHE = None
+SERVICE_BIND_CACHE: '1m'
+
+# SESSION_ACTOR_CACHE = None
+SESSION_ACTOR_CACHE: '5s'
+
+# LOG_DB_QUERIES = True
+#
+LO_DOCKER_HOST: "10.1.1.16"
+LO_DOCKER_PORT: 8997
+
+GIS_CELERY_REDIS_DB: 3
+GIS_BROKER_URL: redis://10.1.1.16:6379/3
+S300_CELERY_REDIS_DB: 1
+S300_BROKER_URL: redis://10.1.1.16:6379
+
+CACHES:
+  default:
+    BACKEND: 'redis_cache.RedisCache'
+    LOCATION:
+      - '10.1.1.16:6379'
+    OPTIONS:
+      DB: 2
+      PARSER_CLASS: 'redis.connection.HiredisParser'
+      CONNECTION_POOL_CLASS: 'redis.BlockingConnectionPool'
+      MAX_CONNECTIONS: 1000
+
+  FileBasedCache:
+    BACKEND: 'django.core.cache.backends.filebased.FileBasedCache'
+    LOCATION: '/var/tmp/django_cache'
+    OPTIONS:
+      MAX_ENTRIES: 1000 # максимальное количество записей
+      SERVER_MAX_VALUE_LENGTH: 1048576 # максимальный объем файла 1 МБ
+      TIMEOUT: 360 # время жизни кэша 3 минуты в секундах
+
+DEBTORS_CALL: True
+SMS_SEND: True
+
+ASTERISK:
+  HOST: voip.eis24.me
+  USER: zahquileedeis
+  SECRET: caik8GooghaiG
+  LOG: Log
+
+OBELIX:
+  HOST: 10.105.0.211
+  PORT: 5038
+  USERNAME: apiuser001
+  SECRET: apipass001
+
+GPRS:
+  PORT: 59990
+
+GPRS_TUNING:
+  WORK_HOST: '5.17.89.114'
+  WORK_PORT: 59990
+
+SWAMP_THING:
+  EIS: 'dashboard.c300.me/AccountEIS/hs/api_C300'
+  OTDEL: 'dashboard.c300.me/AccountOTDEL/hs/api_C300'
+  KOTOLUP: 'dashboard.c300.me/AccountIPr/hs/api_C300'
+  SEMENCOVA: 'dashboard.c300.me/AccountIPSOV/hs/api_C300'
+
+DREAMKAS:
+  URL: 'https://kabinet.dreamkas.ru/api/'
+  OFD_URL: 'https://ofd.dreamkas.ru/api/v1/documents/'
+
+BANK_PROCESSING:
+  otkritie:
+    url: 'https://secure.openbank.ru/openapi/deploy/3.6/c300/'
+    username: '9119290760'
+    password: '593d6ebda5'
+    weight: 0
+  elecsnet:
+    url: 'https://pay.elecsnet.ru/paynet/api/elecsnet/v1/9993/'
+    username: 'eis24me'
+    password: '8Of9alv7'
+    weight: 100
+
+GIS:
+  use_prod_server: True  # True - ППАК, False - СИТ
+  export_changes: True  # отправлять объекты на выгрузку при изменении (save)
+  resurrect_errors: True  # переотправлять при получении внутренней ошибки от ГИС
+  cipher_proxy: False  # адрес шифрующего прокси, None - без
+  schema_version: '13.2.7.1'  # версия схем сервиса ~ hcs_wsdl_xsd_v.[xx.x.x.x]
+  client_certificate: 'cert_and_key.pem'
+#  client_certificate: 'sign.cer'  # сертификат выгружающей организации
+  export_missing: False  # TODO выгружать отсутствующие в загруженных данные
+  load_requirements: True  # загружать требуемые для выполнения данные
+  update_existing: False  # обновлять имеющие идентификатор ГИС ЖКХ данные
+
+TELEGRAM_BOT:
+  BOT_HOST: 'https://10.1.1.145'
+  BOT_PORT: '8443'
+
+FIREBASE_CREDENTIALS_FILENAME: 'kabinet-zhitelyarf-firebase-adminsdk-jjw6c-50cc8c7b9d.json'
+
+QR_CALL_URL: 'http://91.142.93.69/pincode/call.php?client={}&sim=2&key=AjYm53Nj4uq6'
+CREATE_CALL_URL: 'http://91.142.93.69/calldebts/calldebts.php'
+
+ROSREESTR_OPEN_DATA:
+  username: "bedman@mail.ru"
+  password: "IosifStalin(=8=)"
+
+MAUTIC:
+  username: 'admin'
+  password: '7t8Wuv9vXh'
+
+SETL_HOME:
+  enabled: True
+  identificator: 'petr26'
+  code: 'petr26'
+  url: 'https://server.setlhome.ru:8081'

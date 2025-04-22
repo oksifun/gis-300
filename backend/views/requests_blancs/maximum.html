@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:400,600,800&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+    <style>
+        html {
+            font-size: 11pt;
+        }
+
+        table {
+            height: 120mm;
+            width: 195mm;
+            font-size: 3.2mm;
+            border-width: 0 1px 1px 0;
+            border-style: solid;
+        }
+
+        tr.top-row {
+            height: 60mm
+        }
+        tr.middle-row {
+            height: 5mm;
+        }
+        tr.bottom-row {
+            height: 55mm;
+        }
+        td.left-col {
+            width: 13.5mm;
+            border-width: 1px 0 0 1px;
+            border-style: solid;
+        }
+        td.right-col {
+            width: 181.5mm;
+            border-width: 1px 0 0 1px;
+            border-style: solid;
+            vertical-align: top;
+        }
+        div.third {
+            float: left;
+            width: 33.3%;
+        }
+        div.half {
+            float: left;
+            width: 50%;
+        }
+        div.full {
+            width: 100%;
+        }
+        div.bordered-bottom {
+            border-width: 0 0 1px 0;
+            border-style: solid;
+        }
+        div.relative {
+            display: inline-block;
+            text-align: justify;
+            width: 50%;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .text-right {
+            text-align: right;
+        }
+        .text-bold {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body style="margin: 0;">
+<table cellspacing="0" cellpadding="5">
+    <tr class="top-row">
+        <td class="left-col" style="font-size: 10px;text-align: center;">
+            Т<br>А<br>Л<br>О<br>Н<br><br>С<br>О<br>Б<br>С<br>Т<br>В<br>Е<br>Н<br>Н<br>И<br>К<br>А
+        </td>
+        <td class="right-col">
+            <div class="half">Заказчик: {% if isinstance(request, house_req) %} {{ request.dispatcher.str_name }}
+                {% elif isinstance(request, area_req) %} {{ request.tenant.str_name }}
+                {% end %}</div>
+            <div class="half text-right">Исполнитель: {{ request.provider.str_name }}</div>
+            <div class="full text-center text-bold">Заказ-наряд №{{ request.number }}<br>на выполнение работ<br>за счет собственника жилья</div>
+            <div class="full">Адрес: {% if isinstance(request, house_req) %} {{ request.house.address }}
+                                    {% elif isinstance(request, area_req) %} {{ request.area.house.address }} кв. {{ request.area.number }}
+                        {% end %}&nbsp&nbsp&nbsp&nbsp&nbsp&nbspДата____________&nbsp&nbsp&nbsp&nbspВремя____________</div>
+            <div class="full">Вид работ: {{ request.body }}</div>
+            <div class="full">Описание произведенных работ:</div>
+            <div class="full bordered-bottom">&nbsp</div>
+            <div class="full bordered-bottom">&nbsp</div>
+            <div class="full bordered-bottom">&nbsp</div>
+            <div class="full bordered-bottom">&nbsp</div>
+            <div class="full bordered-bottom">&nbsp</div>
+            <div class="full">Общая стоимость работ согласно "Перечня": <div class="relative bordered-bottom">&nbsp</div></div>
+            <div class="full">На работы, выполненные по настоящему заказ-наряду, установлена гарантия 1 год (12 месяцев)</div>
+            <div class="full">&nbsp</div>
+            <div class="full text-center text-bold">Работы принял</div>
+            <div class="half text-center">Исполнитель____________________/</div>
+            <div class="half text-center">Заказчик____________________/</div>
+            <div class="full">&nbsp</div>
+        </td>
+    </tr>
+    <tr class="middle-row">
+        <td class="left-col"></td>
+        <td class="right-col" align="right">
+        </td>
+    </tr>
+    <tr class="top-row">
+        <td class="left-col" style="font-size: 10px;text-align: center;">
+            Т<br>А<br>Л<br>О<br>Н<br><br>И<br>С<br>П<br>О<br>Л<br>Н<br>И<br>Т<br>Е<br>Л<br>Я
+        </td>
+        <td class="right-col">
+            <!-- <div class="full" style="text-align: right;"><img style="height: 27px; width: 143px;" src="data:image/png;base64,{%if barcode%}{{barcode}}{% end %}" /></div> убрать if  когда появится barcode-->
+            <div class="half">Заказчик: {% if isinstance(request, house_req) %}
+                    {{ request.dispatcher.str_name }}
+                {% elif isinstance(request, area_req) %}
+                    {{ request.tenant.str_name }}
+                {% end %}</div>
+            <div class="half text-right">Исполнитель: {{ request.provider.str_name }}</div>
+            <div class="full text-center text-bold">Заказ-наряд №{{ request.number }}<br>на выполнение работ<br>за счет собственника жилья</div>
+            <div class="full">Адрес: {% if isinstance(request, house_req) %} {{ request.house.address }}
+                                    {% elif isinstance(request, area_req) %} {{ request.area.house.address }} кв. {{ request.area.number }}
+                        {% end %}&nbsp&nbsp&nbsp&nbsp&nbsp&nbspДата____________&nbsp&nbsp&nbsp&nbspВремя____________</div>
+            <div class="full">Вид работ: {{ request.body }}</div>
+            <div class="full">Описание произведенных работ:</div>
+            <div class="full bordered-bottom">&nbsp</div>
+            <div class="full bordered-bottom">&nbsp</div>
+            <div class="full bordered-bottom">&nbsp</div>
+            <div class="full bordered-bottom">&nbsp</div>
+            <div class="full bordered-bottom">&nbsp</div>
+            <div class="full">Общая стоимость работ согласно "Перечня": <div class="relative bordered-bottom">&nbsp</div></div>
+            <div class="full">На работы, выполненные по настоящему заказ-наряду, установлена гарантия 1 год (12 месяцев)</div>
+            <div class="full">&nbsp</div>
+            <div class="full text-center text-bold">Работы принял</div>
+            <div class="half text-center">Исполнитель____________________/</div>
+            <div class="half text-center">Заказчик____________________/</div>
+            <div class="full">&nbsp</div>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,538 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:tns="http://dom.gosuslugi.ru/schema/integration/uk/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:base="http://dom.gosuslugi.ru/schema/integration/base/" xmlns:nsi-base="http://dom.gosuslugi.ru/schema/integration/nsi-base/" xmlns:premises-base="http://dom.gosuslugi.ru/schema/integration/premises-base/" targetNamespace="http://dom.gosuslugi.ru/schema/integration/uk/" elementFormDefault="qualified" attributeFormDefault="unqualified" version="12.2.3.8">
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/base/" schemaLocation="../lib/hcs-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/nsi-base/" schemaLocation="../lib/hcs-nsi-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/premises-base/" schemaLocation="../lib/hcs-premises-base.xsd"/>
+	<!--Объекты-->
+	<xs:complexType name="DocumentPortalType">
+		<xs:annotation>
+			<xs:documentation>Базовый тип документа</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Name">
+				<xs:annotation>
+					<xs:documentation>Наименование документа</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="1000"/>
+						<xs:pattern value="(.*)([0-9а-яА-Яa-zA-Z]+)(.*)"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="DocNumber">
+				<xs:annotation>
+					<xs:documentation>Номер документа</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="50"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ApproveDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation>Дата принятия документа органом власти</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Attachment" type="base:AttachmentType">
+				<xs:annotation>
+					<xs:documentation>Вложение</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DocumentType" type="nsi-base:nsiRef">
+				<xs:annotation>
+					<xs:documentation>Вид документа. (Ссылка на справочник "Вид закона и нормативного акта"). НСИ 324</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DocumentPortalExportType">
+		<xs:annotation>
+			<xs:documentation>Базовый тип документа для экспорта</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Name">
+				<xs:annotation>
+					<xs:documentation>Наименование документа</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="1000"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="DocNumber" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Номер документа</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="50"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ApproveDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation>Дата принятия документа органом власти</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Attachment" type="base:AttachmentType">
+				<xs:annotation>
+					<xs:documentation>Вложение</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DocumentType" type="nsi-base:nsiRef" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Вид документа. (Ссылка на справочник "Вид закона и нормативного акта"). НСИ 324</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DocumentMunicipalType">
+		<xs:annotation>
+			<xs:documentation>Документ закона/нормативно-правового акта уровня муниципальных образований</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:DocumentPortalType">
+				<xs:sequence>
+					<xs:element name="Municipal" type="base:OKTMORefType">
+						<xs:annotation>
+							<xs:documentation>Действие документа на определенном муниципальном образовании РФ. Для опеарции импорта документов поле должно быть заполнено кодом ОКТМО из полномочий ОМС</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="DocumentMunicipalExportType">
+		<xs:annotation>
+			<xs:documentation>Документ закона/нормативно-правового акта уровня муниципальных образований для операции экспорта</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:DocumentPortalExportType">
+				<xs:sequence minOccurs="0">
+					<xs:element name="Municipal" type="base:OKTMORefType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Действие документа на определенном муниципальном образовании РФ. Для опеарции импорта документов поле должно быть заполнено кодом ОКТМО из полномочий ОМС</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="DocumentRegionType">
+		<xs:annotation>
+			<xs:documentation>Документ закона/нормативно-правового акта регионального уровня</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:DocumentPortalType">
+				<xs:choice>
+					<xs:element name="Region" type="nsi-base:nsiRef">
+						<xs:annotation>
+							<xs:documentation>Действие документа на определенном субъекте РФ. Для опеарции импорта документов поле должно быть заполнено кодом субъекта из пономочий ОГВ.  (Ссылка на справочник Субъекты РФ). НСИ 237</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Municipal" type="base:OKTMORefType" maxOccurs="1000">
+						<xs:annotation>
+							<xs:documentation>Действие документа на определенном муниципальном образовании РФ.  Для опеарции импорта документов должны быть указаны муниципальные образования, входящие в территорию действий полномочий ОГВ</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:choice>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="DocumentRegionExportType">
+		<xs:annotation>
+			<xs:documentation>Документ закона/нормативно-правового акта регионального уровня для операции экспорта</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:DocumentPortalExportType">
+				<xs:choice minOccurs="0">
+					<xs:element name="Region" type="nsi-base:nsiRef" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Действие документа на определенном субъекте РФ. Для опеарции импорта документов поле должно быть заполнено кодом субъекта из пономочий ОГВ.  (Ссылка на справочник Субъекты РФ). НСИ 237</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Municipal" type="base:OKTMORefType" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Действие документа на определенном муниципальном образовании РФ.  Для опеарции импорта документов должны быть указаны муниципальные образования, входящие в территорию действий полномочий ОГВ</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:choice>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="DocumentFederalType">
+		<xs:annotation>
+			<xs:documentation>Документ закона/нормативно-правового акта федерального уровня</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:DocumentPortalType">
+				<xs:sequence>
+					<xs:element name="Аudience" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Аудитория документа</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="HeaderDocument" type="xs:boolean" default="true" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Отображать документ на главной странице портала</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="PeopleDocument" type="xs:boolean" default="true" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Отображать документ для получателей услуг</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="ProviderDocument" type="xs:boolean" default="true" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Отображать документ для поставщиков услуг</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="GovernmentAuthorityDocument" type="xs:boolean" default="true" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Отображать документ для органов власти</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="DefaultSearchDocument" type="xs:boolean" default="true" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Отображать по умолчанию при поиске законов и нормативных актов</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:choice>
+						<xs:element name="Federal" type="xs:boolean" default="true">
+							<xs:annotation>
+								<xs:documentation>Дествие документа на всей территории РФ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Region" type="base:RegionType" maxOccurs="1000">
+							<xs:annotation>
+								<xs:documentation>Действие документа на определенных субъектах РФ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="DocumentFederalExportType">
+		<xs:annotation>
+			<xs:documentation>Документ закона/нормативно-правового акта федерального уровня для операции экспорта</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:DocumentPortalExportType">
+				<xs:sequence>
+					<xs:element name="Audience" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Аудитория документа</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="HeaderDocument" type="xs:boolean" default="true" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Отображать документ на главной странице портала</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="PeopleDocument" type="xs:boolean" default="true" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Отображать документ для получателей услуг</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="ProviderDocument" type="xs:boolean" default="true" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Отображать документ для поставщиков услуг</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="GovernmentAuthorityDocument" type="xs:boolean" default="true" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Отображать документ для органов власти</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="DefaultSearchDocument" type="xs:boolean" default="true" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Отображать по умолчанию при поиске законов и нормативных актов</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:choice>
+						<xs:element name="Federal" type="xs:boolean" default="true">
+							<xs:annotation>
+								<xs:documentation>Дествие документа на всей территории РФ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Region" type="base:RegionType" maxOccurs="1000">
+							<xs:annotation>
+								<xs:documentation>Действие документа на определенных субъектах РФ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="exportDocumentType">
+		<xs:annotation>
+			<xs:documentation>Экспортируемый документ</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DocumentGuid" type="base:GUIDType">
+				<xs:annotation>
+					<xs:documentation>Идентификатор документа в системе ГИС ЖКХ</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice>
+				<xs:element name="DocumentFederal" type="tns:DocumentFederalExportType">
+					<xs:annotation>
+						<xs:documentation>Реквизиты документа закона/нормативно провавого акта федерального уровня</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="DocumentRegion" type="tns:DocumentRegionExportType">
+					<xs:annotation>
+						<xs:documentation>Реквизиты документа закона/нормативно провавого акта регионального уровня</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="DocumentMunicipal" type="tns:DocumentMunicipalExportType">
+					<xs:annotation>
+						<xs:documentation>Реквизиты документа  закона/нормативно провавого акта уровня муниципальных образований</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="DocumentGUID" type="base:GUIDType">
+		<xs:annotation>
+			<xs:documentation>Идентификатор документа</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<!--Импорт документа-->
+	<xs:element name="importDocumentRegionRequest">
+		<xs:annotation>
+			<xs:documentation>Запрос импорта документа закона/нормативно-правового акта регионального уровня</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:sequence>
+						<xs:element name="Document" maxOccurs="1000">
+							<xs:annotation>
+								<xs:documentation>Документ</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="base:TransportGUID"/>
+									<xs:choice>
+										<xs:element name="importDocument">
+											<xs:annotation>
+												<xs:documentation>Добавление/Изменеие документа</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:complexContent>
+													<xs:extension base="tns:DocumentRegionType">
+														<xs:sequence>
+															<xs:element ref="tns:DocumentGUID" minOccurs="0"/>
+														</xs:sequence>
+													</xs:extension>
+												</xs:complexContent>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="AnnulmentDocument">
+											<xs:annotation>
+												<xs:documentation>Аннулирование документа</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element ref="tns:DocumentGUID"/>
+													<xs:element name="ReasonOfAnnulment">
+														<xs:annotation>
+															<xs:documentation>Причина аннулировани</xs:documentation>
+														</xs:annotation>
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:maxLength value="500"/>
+																<xs:minLength value="1"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:choice>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute ref="base:version" use="required" fixed="11.2.0.2"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+		<xs:unique name="DocumentRegionTransportGuidUnique">
+			<xs:selector xpath=".//tns:TransportGuid"/>
+			<xs:field xpath="."/>
+		</xs:unique>
+		<xs:unique name="DocumentRegionGuid">
+			<xs:selector xpath=".//tns:DocumentGuid"/>
+			<xs:field xpath="."/>
+		</xs:unique>
+	</xs:element>
+	<xs:element name="importDocumentMunicipalRequest">
+		<xs:annotation>
+			<xs:documentation>Запрос импорта закона/нормативно-правового акта уровня муниципальных образований</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:sequence>
+						<xs:element name="Document" maxOccurs="1000">
+							<xs:annotation>
+								<xs:documentation>Документ</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="base:TransportGUID"/>
+									<xs:choice>
+										<xs:element name="importDocument">
+											<xs:annotation>
+												<xs:documentation>Добавление/изменение документа</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:complexContent>
+													<xs:extension base="tns:DocumentMunicipalType">
+														<xs:sequence>
+															<xs:element ref="tns:DocumentGUID" minOccurs="0"/>
+														</xs:sequence>
+													</xs:extension>
+												</xs:complexContent>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="AnnulmentDocument">
+											<xs:annotation>
+												<xs:documentation>Аннулирование документа</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element ref="tns:DocumentGUID"/>
+													<xs:element name="ReasonOfAnnulment">
+														<xs:annotation>
+															<xs:documentation>Причина аннулировани</xs:documentation>
+														</xs:annotation>
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:maxLength value="500"/>
+																<xs:minLength value="1"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:choice>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute ref="base:version" use="required" fixed="11.2.0.2"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+		<xs:unique name="DocumentMunicipalTransportGuid">
+			<xs:selector xpath=".//tns:TransportGuid"/>
+			<xs:field xpath="."/>
+		</xs:unique>
+		<xs:unique name="DocumentMunicipalGuid">
+			<xs:selector xpath=".//tns:DocumentGuid"/>
+			<xs:field xpath="."/>
+		</xs:unique>
+	</xs:element>
+	<!--Экспорт документа-->
+	<xs:element name="exportDocumentRequest">
+		<xs:annotation>
+			<xs:documentation>Запрос экспорта документа</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:choice>
+						<xs:sequence>
+							<xs:choice>
+								<xs:element name="Federal" type="xs:boolean" default="true">
+									<xs:annotation>
+										<xs:documentation>Сфера действия документа "Федеральный уровень"</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="Region" type="nsi-base:nsiRef">
+									<xs:annotation>
+										<xs:documentation>Сфера действия документа "Региональный уровень". Действие документа на определенном субъекте РФ.  (Ссылка на справочник Субъекты РФ). НСИ 237</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="Municipal" type="base:OKTMORefType">
+									<xs:annotation>
+										<xs:documentation>Сфера действия документа "Муниципальный уровень". Действие документа на определенном муниципальном образовании</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:choice>
+							<xs:sequence minOccurs="0">
+								<xs:element name="AcceptStartDate" type="xs:date">
+									<xs:annotation>
+										<xs:documentation>Дата начала периода принятия документа органом власти</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="AcceptEndDate" type="xs:date" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Дата окончания периода принятия документа органов власти</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+							<xs:element name="DocumentType" type="nsi-base:nsiRef" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Вид документа. (Ссылка на справочник "Вид закона и нормативного акта"). НСИ 324</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+						<xs:element name="DocumentGuid" type="base:GUIDType" maxOccurs="1000">
+							<xs:annotation>
+								<xs:documentation>Идентификатор документа в системе ГИС ЖКХ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
+					<xs:attribute ref="base:version" use="required" fixed="11.2.0.2"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getStateResult">
+		<xs:annotation>
+			<xs:documentation>Возврат статуса отправленного сообщения</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseAsyncResponseType">
+					<xs:choice minOccurs="0">
+						<xs:element ref="base:ErrorMessage"/>
+						<xs:element name="ImportDocumentResult" type="base:CommonResultType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Результат импорта</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Document" type="tns:exportDocumentType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Экспортируемый документ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
+					<xs:attribute ref="base:version" use="required" fixed="11.2.0.2"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

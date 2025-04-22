@@ -1,0 +1,451 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+
+</head>
+
+<body>
+
+<style>
+    @charset "UTF-8";
+    /*@import url('https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Open+Sans:400,700&subset=cyrillic');*/
+    html, body, div, span, applet, object, iframe,
+    h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+    a, abbr, acronym, address, big, cite, code,
+    del, dfn, em, img, ins, kbd, q, s, samp,
+    small, strike, strong, sub, sup, tt, var,
+    b, u, i, center,
+    dl, dt, dd, ol, ul, li,
+    fieldset, form, label, legend,
+    table, caption, tbody, tfoot, thead, tr, th, td,
+    article, aside, canvas, details, embed,
+    figure, figcaption, footer, header, hgroup,
+    menu, nav, output, ruby, section, summary,
+    time, mark, audio, video {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        font-size: 100%;
+        font: inherit;
+        vertical-align: baseline;
+    }
+
+    /* HTML5 display-role reset for older browsers */
+    article, aside, details, figcaption, figure,
+    footer, header, hgroup, menu, nav, section {
+        display: block;
+    }
+
+    body {
+        line-height: 1;
+    }
+
+    ol, ul {
+        list-style: none;
+    }
+
+    blockquote, q {
+        quotes: none;
+    }
+
+    blockquote:before, blockquote:after,
+    q:before, q:after {
+        content: '';
+        content: none;
+    }
+
+    table {
+        border-collapse: collapse;
+        border-spacing: 0;
+    }
+
+    .hide {
+        display: none;
+    }
+
+    canvas#qrcanv {
+        /* padding: 10px;
+        background-color: #fff; */
+        margin: 0 auto;
+        display: block;
+    }
+
+    pre {
+        white-space: pre-wrap !important;
+        white-space: -moz-pre-wrap !important;
+        white-space: -pre-wrap !important;
+        white-space: -o-pre-wrap !important;
+        font-size: 13px !important;
+        margin-bottom: 0 !important;
+        text-align: left;
+        padding: 10px !important;
+        word-break: break-all !important;
+        word-wrap: break-word !important;
+        background-color: #f5f5f5 !important;
+        border: 1px solid #ccc !important;
+        border-radius: 4px !important;
+    }
+
+    textarea {
+        border-radius: 0 !important;
+    }
+
+    .ofd-modal-content a {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 300;
+        color: #0099ff;
+        text-decoration: none;
+        -webkit-transition: color .3s;
+        -o-transition: color .3s;
+        transition: color .3s;
+    }
+
+    .ofd-modal-content a:hover,
+    .ofd-modal-content a:focus {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 300;
+    }
+
+    .relative {
+        position: relative;
+    }
+
+    .sender_email_span {
+        white-space: nowrap;
+    }
+
+    .sender_email_span.wrap {
+        white-space: normal;
+    }
+
+    .ofd-modal-content {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 300;
+        color: #333;
+        -webkit-border-radius: 0;
+        border-radius: 0;
+    }
+
+    .ofd-modal-body {
+        width: 320px;
+        margin: 0 auto;
+        box-shadow: 0 0 5px #D7D7D7;
+        padding: 20px 15px 30px;
+    }
+
+    .ofd-modal-body.ofd-modal-check {
+        font-size: 16px;
+        line-height: 1.4;
+    }
+
+    .ofd-modal-body.ofd-modal-check .span-small,
+    .ofd-modal-body.ofd-modal-check .check-footer {
+        font-size: 14px;
+        line-height: 1.4;
+    }
+
+    .ofd-modal-body.ofd-modal-check h2 {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 700;
+        color: #333;
+        font-size: 22px;
+        line-height: 1.4;
+    }
+
+    .ofd-modal-body.ofd-modal-check h4 {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 700;
+        color: #333;
+        margin-top: 15px;
+        margin-bottom: 5px;
+    }
+
+    .ofd-modal-body.ofd-modal-check .ext-info-agents {
+        text-align: left;
+        margin-left: 31px;
+        padding-top: 0;
+        padding-bottom: 2px;
+        font-size: 13px;
+        line-height: 1.4;
+    }
+
+    .ofd-modal-body.ofd-modal-check a {
+        color: #0099ff;
+        text-decoration: underline;
+    }
+
+    .ofd-modal-body.ofd-modal-check a:hover,
+    .ofd-modal-body.ofd-modal-check a:focus {
+        color: #0099ff !important;
+        text-decoration: none;
+    }
+
+    .ofd-modal-body.ofd-modal-check .btn-link.ext-info {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 300;
+        color: #0099ff;
+        border-bottom: dashed 1px #0099ff;
+    }
+
+    .ofd-modal-body.ofd-modal-check .btn-link.ext-info:hover,
+    .ofd-modal-body.ofd-modal-check .btn-link.ext-info:focus {
+        text-decoration: none;
+        border-bottom: dashed 0 #0099ff;
+    }
+
+    .ofd-modal-content {
+        -webkit-border-radius: 0;
+        border-radius: 0;
+    }
+
+    .C1043,
+    .item_num {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 700;
+    }
+
+    .nds_small {
+        font-size: 12px;
+        line-height: 1.4;
+    }
+
+    .ofd-modal-body.ofd-modal-check h2 {
+        font-size: 18px;
+        line-height: 1.4;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    .ofd-modal-body.ofd-modal-check .C1000 {
+        font-size: 20px;
+        line-height: 1.4;
+    }
+
+    .small_data,
+    #ext_info_area {
+        font-size: 12px;
+        line-height: 1.4;
+    }
+
+    .pd-t-5 {
+        padding-top: 5px;
+    }
+
+    .pd-t-15 {
+        padding-top: 15px;
+    }
+
+    .pd-r-5 {
+        padding-right: 5px;
+    }
+
+    .pd-b-15 {
+        padding-bottom: 15px;
+    }
+
+    .pull-right {
+        float: right !important
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .bold {
+        font-weight: bold;
+    }
+
+    .agent-box {
+        font-size: 14px;
+    }
+    .agent-box-margin {
+        margin-top: 10px
+    }
+
+
+</style>
+
+
+<div class="wpb_wrapper">
+
+    <div class="-container">
+
+        <div class="js-check-result">
+
+            <!-- мобильная версия чека -->
+            <div id="inner_html_check_mob" class="mob">
+                <div class="ofd-modal-content">
+                    <div class="ofd-modal-body ofd-modal-check relative">
+                        <div class="text-center">
+                            <h2 class="check">
+                                <span class="C1000 bold">Кассовый чек</span>
+                            </h2>
+                            <div>
+                                <span class="C1187">{{provider_name}}</span>
+                            </div>
+                            <div>
+                                <span class="C1012">{{date}}</span>
+                            </div>
+                        </div>
+                        <div class="pd-t-15">
+                            <h2 class="check bold">ИТОГО:
+                                <span class="check C1020 pull-right bold">{{total_sum}}</span>
+                            </h2>
+                        </div>
+                        <div class="pd-t-5"></div>
+
+                        <div>{{payment_type}}:
+                            <span class="C1081 pull-right">{{total_sum}}</span>
+                        </div>
+                        {% if tax_nds %}
+                        <div>СУММА НДС {{tax_nds}}:
+                            <span class="C1081 pull-right">{{nds_val}}</span>
+                        </div>
+                        {% endif %}
+
+                        <div class="pd-t-15">
+                            <span class="C1008">Электронный адрес покупателя: {{email}}</span>
+                        </div>
+                        <div class="pd-t-15"></div>
+                        <div id="check_items">
+
+                            {% for item in items %}
+                              <div class="check_item">
+                                <div><span class="item_num"></span> <span class="C1030">{{item.name}}</span>
+                                </div>
+                                <div class="clearfix pd-t-5">
+                                    <div class="pull-left" style="display: inline-block"><span class="C1079">{{item.quantity}}</span>
+                                        <span
+                                                class="C1023"> x {{item.price}}</span></div>
+                                    <div class="pull-right"><span class="C1043 bold">{{item.sum}}</span></div>
+                                </div>
+                                    {% if item.inn %}
+                                    <div class="agent-box agent-box-margin"><span class="pull-left">ИНН</span><span class="pull-right">{{item.inn}}</span></div>
+                                    {% endif %}
+                                    {% if item.phone %}
+                                    <div class="agent-box"><span class="pull-left">Телефон</span><span class="pull-right">{{item.phone}}</span></div>
+                                    {% endif %}
+                                    {% if item.agent %}
+                                    <div class="agent-box"><span class="pull-left">Агент</span><span class="pull-right">{{item.agent}}</span></div>
+                                    {% endif %}
+                                <div class="clearfix nds_small">
+                                    <div class="pull-left"><span class="C1199"></span></div>
+                                    <div class="pull-right"><span class="C1106"></span></div>
+                                </div>
+                                <div class="pd-t-15"></div>
+                            </div>
+                            {% endfor %}
+
+                        </div>
+                        <div class="ext_info_area small_data pd-b-15 hide">
+
+
+                            <div>Итого без НДС:
+                                <span class="C1105 pull-right">20.00</span>
+                            </div>
+
+
+                        </div>
+                        <div>ФП:
+                            <span class="C1077">{{fp_number}}</span>
+                        </div>
+                        <div class="pd-t-15"></div>
+                        <div>
+                            <span class="C1038">{{tax}}</span>
+                        </div>
+                        <div>Смена:
+                            <span class="C1038">{{shift}}</span>
+                        </div>
+                        <div>Номер чека за смену:
+                            <span class="C1042">{{receipt_number}}</span>
+                        </div>
+                        <div>№ ФД:
+                            <span class="C1040">{{fd_number}}</span>
+                        </div>
+                        <div>
+                            <span class="C1054">{{operation_name}}</span>
+                        </div>
+
+                        <div class="pd-t-15"></div>
+                        <div>Регистрационный номер ККТ:
+                            <span class="C1037">{{kkt_reg_id}}</span>
+                        </div>
+                        <div>№ ФН:
+                            <span class="C1041">{{fn_number}}</span>
+                        </div>
+                        <div>
+                            <span class="C1108"></span>
+                        </div>
+                        <div>СНО:
+                            <span class="C1055">{{tax_mode}}</span>
+                        </div>
+                        <div class="pd-t-15"></div>
+                        <div>
+                            <span class="C1048">{{provider_name}}</span>
+                        </div>
+                        <div>ИНН:
+                            <span class="C1018">{{inn}}</span>
+                        </div>
+                        <div>
+                            Адрес расчетов:<br>
+                            <span class="C1009">{{provider_address}}</span>
+                        </div>
+                        <div>
+                            <span class="C1085"></span>
+                        </div>
+                        <div>
+                            <span class="C1086"></span>
+                        </div>
+                        <div class="pd-t-15"></div>
+                        <div class="sender_email_div">
+                <span class="sender_email_span wrap">
+                   Адрес электронной почты отправителя&nbsp;чека:
+                   <div class="C1117 pd-r-5">{{provider_email}}</div>
+                </span>
+                <span class="sender_email_span wrap">
+                   Лицевой счет:
+                   <div class="C1117 pd-r-5">{{tenant_number}}</div>
+                </span>
+                <span class="sender_email_span wrap">
+                   Адрес:
+                   <div class="C1117 pd-r-5">{{tenant_address}}</div>
+                </span>
+                <span class="sender_email_span wrap">
+                   <table><tr>
+                       <td width="15" style="width: 85px; max-width: 85px; min-width: 85px;">&nbsp;</td>
+                       <td><img style="height: 128px; width: 128px;" src="data:image/png;base64,{{ qr_code }}"></td>
+                   </tr></table>
+
+                </span>
+                        </div>
+                        <div class="pd-t-15"></div>
+                        <div class="sender_email_div">Сайт ФНС:
+                            <span><a href="https://www.nalog.ru/" target="_blank">www.nalog.ru/</a></span>
+                        </div>
+                        <div class="ext_info_area hide">
+                            <div class="small_data pd-t-15">
+                                <div>Код&nbsp;формы&nbsp;ФД:&nbsp;
+                                    <span class="ofd_code">3</span>
+                                </div>
+                                <div>Версия&nbsp;ФФД:
+                                    <span class="C1209">1.05</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>

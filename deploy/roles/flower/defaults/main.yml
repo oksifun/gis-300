@@ -1,0 +1,4 @@
+---
+
+SETTINGS_FILE: prod.yml
+flower_port: 5556

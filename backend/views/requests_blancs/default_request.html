@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+    <html>
+        <head>
+            <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+            <title></title>
+            <link href='//fonts.googleapis.com/css?family=Open+Sans:400,600,800&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+        </head>
+        <body style="margin: 0mm;">
+            <table cellspacing="0" cellpadding="5" border="1" style="height: 295.4mm; width: 208.2mm; font-size: 4mm;border-collapse: collapse;">
+                <tr>
+                    <td style="padding: 0; border: none;  font-weight: bold;" > {{ request.provider.str_name }}</td>
+                    <td style="padding: 0; border: none;  font-weight: bold;" align="right" ><img style="height: 27px; width: 143px;" src="data:image/png;base64,{{barcode}}" /></td>
+                </tr>
+                <tr>
+                    <td style="border: none;" colspan="2">
+                        <div style="text-align: center; border: none">Заявка №{{ request.number }} от {{ request.created_at.strftime("%d.%m.%Y") }} г.</div> <br>
+                        <div style="width: 50%;float: left; border: none">Кто принял:  {% if request.dispatcher %} {{ request.dispatcher.str_name }} {% else %} Подано жителем {% end %} </div>
+                        <div style="width:50%;float:right; text-align: right; border: none">Дата и время принятия: {{ request.created_at.strftime("%d-%m-%Y %H:%M") }}</div><br>
+                        <div style="margin-top: 6mm; border: none">Заказчик: {% if isinstance(request, house_req) %} {{ request.dispatcher.str_name }}
+                                                                {% elif isinstance(request, area_req) %} {{ request.tenant.str_name }}
+                                                            {% end %}
+                        </div>
+                        <div>Адрес: {% if isinstance(request, house_req) %} {{ request.house.address }}
+                                    {% elif isinstance(request, area_req) %} {{ request.area.house.address }} кв. {{ request.area.number }}
+                        {% end %}</div>
+                         <div>
+                            {% if isinstance(request, house_req) %}
+                                {% if request.dispatcher.phones %}
+                                    {% for phone in request.dispatcher.phones %}
+                                        тел.: <span>
+                                            +7 ({{ phone.code }}) {{ phone.number }}
+                                        </span><br>
+                                    {%  end %}
+                                {% end %}
+
+                            {% elif isinstance(request, area_req) %}
+                                {% if request.tenant.phones %}
+                                    {% for phone in request.tenant.phones %}
+                                        тел.: <span>
+                                            +7 ({{ phone.code }}) {{ phone.number }}
+                                        </span><br>
+                                    {% end %}
+                                {% end %}
+                            {% else %}
+                                ________________________________________________________
+                            {% end %}
+                         </div>
+                        <div>Содержание заявки: {{ request.body }}</div>
+                        {% if request.dt_desired_start and request.dt_desired_end %}
+                            <span>Желаемое время
+                                с {{ request.dt_desired_start.strftime("%d-%m-%Y %H:%M") }}
+                                по {{  request.dt_desired_end.strftime("%d-%m-%Y %H:%M") }}
+                            </span><br>
+                            <br>
+                        {% end %}
+                        <hr><br>
+                        <hr><br>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 110mm; border-left: none; border-right: none; border-bottom: none">
+                        Заявка передана исполнителю<br>
+                        {% for worker in executors %}
+                        <span>{{ "{}: {}".format(worker.position.name, worker.str_name) }}</span><br>
+                        {% end %}
+                    </td>
+                    <td>
+                        <div>Дата и время передачи: {{ '_' * 16 }} </div>
+                        <div>Прибыл на объект: ____ часов ____ минут</div>
+                        <div>Убыл с объекта: ____ часов ____ минут</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="padding: 0;">
+                        <table style="border-collapse: collapse;border: 2px solid white; height: 100%; border-bottom:0px;">
+                            <tr>
+                                <td style="width: 80mm; border: 1px solid #000000; border-top: none; border-left: none">
+                                    <div style="width: 40mm">Выполненные работы:</div>
+                                </td>
+                                <td style="padding: 2mm; border: none">
+                                    <div style="height: 1.5em">____________________________________________________________</div>
+                                    <div style="height: 1.5em">____________________________________________________________</div>
+                                    <div style="height: 1.5em">____________________________________________________________</div>
+                                    <div style="height: 1.5em">____________________________________________________________</div>
+                                    <div style="height: 1.5em">____________________________________________________________</div>
+                                    <div style="height: 1.5em">____________________________________________________________</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>Затраченные материалы:</div>
+                                </td>
+                                <td style="padding: 2mm; border: 1px solid #000000; border-bottom: none; border-right: none;">
+                                    <div style="height: 1.5em">____________________________________________________________</div>
+                                    <div style="height: 1.5em">____________________________________________________________</div>
+                                    <div style="height: 1.5em">____________________________________________________________</div>
+                                    <div style="height: 1.5em">____________________________________________________________</div>
+                                    <div style="height: 1.5em">____________________________________________________________</div>
+                                    <div style="height: 1.5em">____________________________________________________________</div>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div>Показания квартирных счетчиков:</div>
+                        <div><span>ХВС:</span><span>____________________</span><span>ХВС:</span><span>____________________</span><span>ХВС:</span><span>____________________</span></div>
+                        <div><span>ГВС:</span><span>____________________</span><span>ГВС:</span><span>____________________</span><span>ГВС:</span><span>____________________</span></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <br>
+                        <div>Работа выполнена: ________________________________________________________________________</div>
+                        <div style="text-align: center">(да/нет/частично)</div>
+                        <br>
+
+    {% for i, w in enumerate(executors) %}
+        <div style="width: 50%; float: left">
+        {% set _worker = "{}".format(w.str_name) %}
+            <ins>{{ _worker }}</ins><span> /_____________________________/</span>
+            (Исполнитель)
+        </div>
+        {% if i == 0 %}
+        <div style="width: 50%; float: right">
+            /_____________________________/ _________________/
+            <span style="float:right;text-align: right; width: 20%; padding-right: 45mm">(Заказчик)</span>
+        </div>
+        {% end %}
+    {% end %}
+         </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div style="text-align: center">Организация предоставляет гарантию на выполненные работы только при наличии оплаченой квитанции</div>
+                    </td>
+                </tr>
+            </table>
+        </body>
+    </html>

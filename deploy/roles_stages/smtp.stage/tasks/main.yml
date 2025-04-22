@@ -1,0 +1,21 @@
+---
+
+- name: ensure python:3.5 image up to date
+  docker_image:
+    name: python
+    tag: 3.5
+    state: present
+    force_source: yes
+    source: pull
+  tags: smtpd
+
+- name: ensure smtp daemon running
+  docker_container:
+    name: smtpd
+    image: python:3.5
+    restart: yes
+    ports:
+      - "{{ inventory_hostname }}:1025:1025"
+    command: /usr/local/bin/python -m smtpd -n -c DebuggingServer 0.0.0.0:1025
+    log_driver: syslog
+  tags: smtpd

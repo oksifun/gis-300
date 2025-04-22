@@ -1,0 +1,991 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://dom.gosuslugi.ru/schema/integration/rvuo/" xmlns:base="http://dom.gosuslugi.ru/schema/integration/base/" xmlns:premises-base="http://dom.gosuslugi.ru/schema/integration/premises-base/" xmlns:nsi-base="http://dom.gosuslugi.ru/schema/integration/nsi-base/" xmlns:organizations-base="http://dom.gosuslugi.ru/schema/integration/organizations-base/" targetNamespace="http://dom.gosuslugi.ru/schema/integration/rvuo/" elementFormDefault="qualified" attributeFormDefault="unqualified" version="13.1.10.1">
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/base/" schemaLocation="../lib/hcs-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/premises-base/" schemaLocation="../lib/hcs-premises-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/nsi-base/" schemaLocation="../lib/hcs-nsi-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/organizations-base/" schemaLocation="../lib/hcs-organizations-base.xsd"/>
+	<!--Базовые типы-->
+	<xs:simpleType name="OrgStateType">
+		<xs:annotation>
+			<xs:documentation>Тип данных, описывающий состояние организации. Возможные значения: Excluded - Исключена; Included - Включена.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Excluded"/>
+			<xs:enumeration value="Included"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="InfoStatusType">
+		<xs:annotation>
+			<xs:documentation>Тип данных, описывающий статус размещаемой информации. Возможные значения: Project - Проект; Placed - Размещена.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Project"/>
+			<xs:enumeration value="Placed"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="InfoStatusExportType">
+		<xs:annotation>
+			<xs:documentation>Тип данных, описывающий статус размещаемой информации в результатах экспорта. Возможные значения: Project - Проект; Placed - Размещена; Annulled - Аннулирована.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Project"/>
+			<xs:enumeration value="Placed"/>
+			<xs:enumeration value="Annulled"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="OrganizationDocumentBlockInfoType">
+		<xs:annotation>
+			<xs:documentation>Тип данных, описывающий блок информации для документа. Возможные значения: IncludedInfo - Информация о включении; AdditionalInfo - Дополнительна информация; ExcludedInfo - Информация об исключении.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="IncludedInfo"/>
+			<xs:enumeration value="AdditionalInfo"/>
+			<xs:enumeration value="ExcludedInfo"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DecisionDocumentBlockInfoType">
+		<xs:annotation>
+			<xs:documentation>Тип данных, описывающий блок информации для документа. Возможные значения: DecisionInfo - Информация о решении; AdditionalInfo - Дополнительна информация; ServicesInfo - Перечень работ и услуг.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="DecisionInfo"/>
+			<xs:enumeration value="AdditionalInfo"/>
+			<xs:enumeration value="ServicesInfo"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="AttachedOrganizationDocumentType">
+		<xs:annotation>
+			<xs:documentation>Тип данных, описывающий документ прилагаемый к информации об управляющей организации</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Attachment" type="base:AttachmentType">
+				<xs:annotation>
+					<xs:documentation>Прикрепленный файл</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DocumentBlockInfoType" type="tns:OrganizationDocumentBlockInfoType">
+				<xs:annotation>
+					<xs:documentation>Тип блока информации для документа. Возможные значения: IncludedInfo - Информация о включении; AdditionalInfo - Дополнительна информация; ExcludedInfo - Информация об исключении.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AttachedDecisionDocumentType">
+		<xs:annotation>
+			<xs:documentation>Тип данных, описывающий документ в запросе на импорт информации о решении об определении управляющей организации</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Attachment" type="base:AttachmentType">
+				<xs:annotation>
+					<xs:documentation>Прикрепленный файл</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DocumentBlockInfoType" type="tns:DecisionDocumentBlockInfoType">
+				<xs:annotation>
+					<xs:documentation>Тип блока информации для документа. Возможные значения: DecisionInfo - Информация о решении; AdditionalInfo - Дополнительна информация; ServicesInfo - Перечень работ и услуг.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BusinessPropertiesType">
+		<xs:annotation>
+			<xs:documentation>Тип данных, описывающий реквизиты организации</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="OGRN" type="organizations-base:OGRNType">
+					<xs:annotation>
+						<xs:documentation>ОГРН</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="OGRNIP" type="organizations-base:OGRNIPType">
+					<xs:annotation>
+						<xs:documentation>ОГРНИП</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:element name="INN" type="organizations-base:INNType">
+				<xs:annotation>
+					<xs:documentation>ИНН</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="KPP" type="organizations-base:KPPType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>КПП</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="HouseType">
+		<xs:annotation>
+			<xs:documentation>Тип данных, описывающий дом в решении</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="FIASHouseGuid" type="premises-base:FIASHouseGUIDType">
+				<xs:annotation>
+					<xs:documentation>Глобальный уникальный идентификатор дома по ФИАС/Идентификационный код дома в ГИС ЖКХ</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ManagementPeriod" type="base:Period">
+				<xs:annotation>
+					<xs:documentation> Период управления</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!--Типы для решений об определении управляющей организации-->
+	<xs:complexType name="DecisionType">
+		<xs:annotation>
+			<xs:documentation>Тип данных, описывающий решение об определении управляющей организации</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Number" type="base:String100Type">
+				<xs:annotation>
+					<xs:documentation>Номер решения</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DecisionDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation>Дата решения</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PaymentSize">
+				<xs:annotation>
+					<xs:documentation>Размер платы за содержание</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="1000"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="AdditionalInformation" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Дополнительная информация</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="1000"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="InfoStatus" type="tns:InfoStatusType">
+				<xs:annotation>
+					<xs:documentation>Статус размещаемой информации. Возможные значения: Project - Проект; Placed - Размещена.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DecisionExportType">
+		<xs:annotation>
+			<xs:documentation>Тип данных, описывающий решение об определении управляющей организации в результатах экспорта</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DecisionGUID" type="base:GUIDType">
+				<xs:annotation>
+					<xs:documentation>Уникальный идентификатор решения об определении управляющей организации</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OrgGUID" type="base:GUIDType">
+				<xs:annotation>
+					<xs:documentation>Уникальный идентификатор управляющей организации</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Number" type="base:String100Type">
+				<xs:annotation>
+					<xs:documentation>Номер решения</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DecisionDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation>Дата решения</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PaymentSize">
+				<xs:annotation>
+					<xs:documentation>Размер платы за содержание</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="1000"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="AdditionalInformation" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Дополнительная информация</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="1000"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="InfoStatus" type="tns:InfoStatusExportType">
+				<xs:annotation>
+					<xs:documentation>Статус размещаемой информации. Возможные значения: Project - Проект; Placed - Размещена; Annulled - Аннулирована.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PlacingDate" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Дата и время размещения</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AnnulmentReason" type="base:String255Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Причина аннулирования</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="House" type="tns:HouseType" maxOccurs="100">
+				<xs:annotation>
+					<xs:documentation>Дом в решении об определении управляющей организации</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="exportDecisionResult">
+		<xs:annotation>
+			<xs:documentation>Результат экспорта информации о решении об определении управляющей организации</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:choice>
+						<xs:element name="exportDecisionResult" type="tns:exportDecisionResultType">
+							<xs:annotation>
+								<xs:documentation>Результат выполнения запроса на Результат экспорта информации о решении об определении управляющей организации</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element ref="base:ErrorMessage"/>
+					</xs:choice>
+					<xs:attribute ref="base:version" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="exportDecisionResultType">
+		<xs:annotation>
+			<xs:documentation>Результат выполнения запроса на Результат экспорта информации о решении об определении управляющей организации</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Decision" type="tns:DecisionExportType" maxOccurs="1000"/>
+			<xs:choice>
+				<xs:element name="ExportDecisionGUID" type="base:GUIDType">
+					<xs:annotation>
+						<xs:documentation>Идентификатор решения об определении управляющей организации для экспорта следующей 1000 решении об определении управляющей организации</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="IsLastPage" type="xs:boolean" fixed="true">
+					<xs:annotation>
+						<xs:documentation>Последняя страница экспорта</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<!--Типы для управляющих организаций-->
+	<xs:complexType name="ManagingOrganizationType">
+		<xs:annotation>
+			<xs:documentation>Тип данных, описывающий управляющую организацию</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="OKTMO" type="base:OKTMOType" maxOccurs="100">
+				<xs:annotation>
+					<xs:documentation>Код ОКТМО</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="BaseForInclude">
+				<xs:annotation>
+					<xs:documentation>Основание включения</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Type" type="nsi-base:nsiRef">
+							<xs:annotation>
+								<xs:documentation>Тип основания. Ссылка на НСИ "Вид основания для включения в перечень УО" (реестровый номер 204)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="ProtocolNumber" type="base:String100Type">
+							<xs:annotation>
+								<xs:documentation>Номер заявления/протокола</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="ProtocolDate" type="xs:date">
+							<xs:annotation>
+								<xs:documentation>Дата заявления/протокола</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="IncludeDate" type="xs:date">
+							<xs:annotation>
+								<xs:documentation>Дата включения сведений</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="SerialNumber">
+							<xs:annotation>
+								<xs:documentation>Порядковый номер</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:int">
+									<xs:minInclusive value="1"/>
+									<xs:maxInclusive value="999"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ExclusionInfo" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Информация об исключении</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Reason" type="nsi-base:nsiRef">
+							<xs:annotation>
+								<xs:documentation>Причина исключения. Ссылка на НСИ "Вид основания для исключения из перечня УО" (реестровый номер 205)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Date" type="xs:date">
+							<xs:annotation>
+								<xs:documentation>Дата исключения</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AdditionalInformation" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Дополнительная информация</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="1000"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="InfoStatus" type="tns:InfoStatusType">
+				<xs:annotation>
+					<xs:documentation>Статус размещаемой информации. Возможные значения: Project - Проект; Placed - Размещена.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ManagingOrganizationExportType">
+		<xs:annotation>
+			<xs:documentation>Тип данных, описывающий управляющую организацию в результатах экспорта</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="OrgGUID" type="base:GUIDType">
+				<xs:annotation>
+					<xs:documentation>Уникальный идентификатор управляющей организации</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OKTMO" type="base:OKTMOType" maxOccurs="100">
+				<xs:annotation>
+					<xs:documentation>Код ОКТМО</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="BaseForInclude">
+				<xs:annotation>
+					<xs:documentation>Основание включения</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Type" type="nsi-base:nsiRef">
+							<xs:annotation>
+								<xs:documentation>Тип основания. Ссылка на НСИ "Вид основания для включения в перечень УО" (реестровый номер 204)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="ProtocolNumber">
+							<xs:annotation>
+								<xs:documentation>Номер заявления/протокола</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="base:String100Type">
+									<xs:maxLength value="100"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="ProtocolDate" type="xs:date">
+							<xs:annotation>
+								<xs:documentation>Дата заявления/протокола</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="IncludeDate" type="xs:date">
+							<xs:annotation>
+								<xs:documentation>Дата включения сведений</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="SerialNumber">
+							<xs:annotation>
+								<xs:documentation>Порядковый номер</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:int">
+									<xs:maxInclusive value="999"/>
+									<xs:minInclusive value="1"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ExclusionInfo" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Информация об исключении</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Reason" type="nsi-base:nsiRef">
+							<xs:annotation>
+								<xs:documentation>Причина исключения. Ссылка на НСИ "Вид основания для исключения из перечня УО" (реестровый номер 205)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Date" type="xs:date">
+							<xs:annotation>
+								<xs:documentation>Дата исключения</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AdditionalInformation" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Дополнительная информация</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="1000"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="InfoStatus" type="tns:InfoStatusExportType">
+				<xs:annotation>
+					<xs:documentation>Статус размещаемой информации. Возможные значения: Project - Проект; Placed - Размещена; Annulled - Аннулирована.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PlacingDate" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Дата и время размещения</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AnnulmentReason" type="base:String255Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Причина аннулирования</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="exportManagingOrganizationResult">
+		<xs:annotation>
+			<xs:documentation>Результат экспорта информации об управляющих организациях</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:choice>
+						<xs:element name="exportManagingOrganizationResult" type="tns:exportManagingOrganizationResultType">
+							<xs:annotation>
+								<xs:documentation>Результат выполнения запроса на экспорт информации об управляющих организациях</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element ref="base:ErrorMessage"/>
+					</xs:choice>
+					<xs:attribute ref="base:version" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="exportManagingOrganizationResultType">
+		<xs:annotation>
+			<xs:documentation>Результат экспорта информации об управляющих организациях</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ManagingOrganization" type="tns:ManagingOrganizationExportType" maxOccurs="1000"/>
+			<xs:choice>
+				<xs:element name="ExportOrgGUID" type="base:GUIDType">
+					<xs:annotation>
+						<xs:documentation>Идентификатор управляющей организации для экспорта следующей 1000 управляющих организаций</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="IsLastPage" type="xs:boolean" fixed="true">
+					<xs:annotation>
+						<xs:documentation>Последняя страница экспорта</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<!--Операции с решениями об определении управляющей организации-->
+	<xs:element name="importDecisionRequest">
+		<xs:annotation>
+			<xs:documentation>Запрос на импорт информации о решении об определении управляющей организации</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:sequence>
+						<xs:element name="Decision" maxOccurs="100">
+							<xs:annotation>
+								<xs:documentation>Решение об определении управляющей организации</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="base:TransportGUID"/>
+									<xs:choice>
+										<xs:element name="PlacingDecision">
+											<xs:annotation>
+												<xs:documentation>Размещение решения об определении управляющей организации</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="OrgGUID" type="base:GUIDType">
+														<xs:annotation>
+															<xs:documentation>Уникальный идентификатор управляющей организации</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="DecisionData" type="tns:DecisionType">
+														<xs:annotation>
+															<xs:documentation>Информация о решения об определении управляющей организации</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="AttachedDocument" type="tns:AttachedDecisionDocumentType" maxOccurs="100">
+														<xs:annotation>
+															<xs:documentation>Документ прилагаемый к информации о решения об определении управляющей организации</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="House" type="tns:HouseType" minOccurs="0" maxOccurs="100">
+														<xs:annotation>
+															<xs:documentation>Дом в решении об определении управляющей организации</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="EditDecision">
+											<xs:annotation>
+												<xs:documentation>Редактирование решения об определении управляющей организации</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="DecisionGUID" type="base:GUIDType">
+														<xs:annotation>
+															<xs:documentation>Уникальный идентификатор решения об определении управляющей организации</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="DecisionData" type="tns:DecisionType">
+														<xs:annotation>
+															<xs:documentation>Информация о решения об определении управляющей организации</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="AttachedDocument" type="tns:AttachedDecisionDocumentType" maxOccurs="100">
+														<xs:annotation>
+															<xs:documentation>Документ прилагаемый к информации о решения об определении управляющей организации</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="House" type="tns:HouseType" minOccurs="0" maxOccurs="100">
+														<xs:annotation>
+															<xs:documentation>Дом в решении об определении управляющей организации</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="AnnulmentDecision">
+											<xs:annotation>
+												<xs:documentation>Аннулирование решения об определении управляющей организации</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="DecisionGUID" type="base:GUIDType">
+														<xs:annotation>
+															<xs:documentation>Уникальный идентификатор решения об определении управляющей организации</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="Reason" type="base:String255Type" minOccurs="1">
+														<xs:annotation>
+															<xs:documentation>Причина аннулирования управляющей организации</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="DeleteDecision">
+											<xs:annotation>
+												<xs:documentation>Удаление решения об определении управляющей организации</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="DecisionGUID" type="base:GUIDType">
+														<xs:annotation>
+															<xs:documentation>Уникальный идентификатор решения об определении управляющей организации</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="PublishDecision">
+											<xs:annotation>
+												<xs:documentation>Изменение решения об определении управляющей организации в статусе "Проект" на статус "Размещена"</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="DecisionGUID" type="base:GUIDType">
+														<xs:annotation>
+															<xs:documentation>Уникальный идентификатор решения об определении управляющей организации</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:choice>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute ref="base:version" use="required" fixed="13.1.8.3"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+		<xs:key name="importDecision_TransportGUIDKey">
+			<xs:selector xpath=".//base:TransportGUID"/>
+			<xs:field xpath="."/>
+		</xs:key>
+		<xs:key name="importDecision_DecisionGUIDKey">
+			<xs:selector xpath=".//tns:DecisionGUID"/>
+			<xs:field xpath="."/>
+		</xs:key>
+	</xs:element>
+	<xs:element name="exportDecisionRequest">
+		<xs:annotation>
+			<xs:documentation>Запрос на экспорт информации о решении об определении управляющей организации</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:sequence>
+						<xs:element name="DecisionGUID" type="base:GUIDType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Уникальный идентификатор решения об определении управляющей организации</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="OrgGUID" type="base:GUIDType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Уникальный идентификатор управляющей организации</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="BusinessProperties" type="tns:BusinessPropertiesType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Реквизиты управляющей организации</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Number" type="base:String100Type" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Номер решения</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="OKTMO" type="base:OKTMOType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Код ОКТМО</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:choice>
+							<xs:element name="FIASHouseGUID" type="premises-base:FIASHouseGUIDType" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Глобальный уникальный идентификатор дома по ФИАС/Идентификационный код дома в ГИС ЖКХ</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="Address" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Неформализованное описание адреса</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="1"/>
+										<xs:maxLength value="2500"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:choice>
+						<xs:choice minOccurs="0">
+							<xs:element name="DecisionDate" type="xs:date" minOccurs="1">
+								<xs:annotation>
+									<xs:documentation>Дата принятия решения. Используется для поиска решений по дате принятия. Значение содержит одну дату. В результирующую выборку попадут решения, у которых дата принятия входит в диапазон с 00:00:00 до 23:59:59 часов даты, указанной в элементе</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="DecisionPeriod" type="base:Period" minOccurs="1">
+								<xs:annotation>
+									<xs:documentation>Период принятия решения. Используется для поиска решений по дате принятия. Значение содержит временной период</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:choice>
+						<xs:element name="InfoStatus" type="tns:InfoStatusExportType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Статус размещаемой информации. Возможные значения: Project - Проект; Placed - Размещена; Annulled - Аннулирована.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="ManagementPeriod" type="base:Period" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Период управления</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="CreatePeriod" type="base:Period" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Период создания сведений</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="PlacingPeriod" type="base:Period" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Период размещения сведений</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="exportRequestGUID" type="base:GUIDType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Идентификатор, используемый для экспорта 2-го и последующих блоков данных.
+
+Если в элементе exportDecisionRequest указаны условия отбора по атрибутам запроса, то экспорт запросов осуществляется блоками по 1000 запросов в каждом блоке (последний блок может содержать меньшее число запросов).
+
+Для экспорта первого блока данных элемент не указывается. Для экспорта каждого следующего блока данных в элементе должно указываться значение элемента getStateResult/ exportDecisionResult/ ExportDecisionGUID, полученное при экспорте предыдущего блока данных</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute ref="base:version" use="required" fixed="13.1.8.3"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<!--Операции с управляющими организациями-->
+	<xs:element name="importManagingOrganizationRequest">
+		<xs:annotation>
+			<xs:documentation>Запрос на импорт информации об управляющей организации</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:sequence>
+						<xs:element name="ManagingOrganization" maxOccurs="100">
+							<xs:annotation>
+								<xs:documentation>Управляющая организация</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="base:TransportGUID"/>
+									<xs:choice>
+										<xs:element name="PlacingManagingOrganization">
+											<xs:annotation>
+												<xs:documentation>Размещение управляющей организации</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="BusinessProperties" type="tns:BusinessPropertiesType">
+														<xs:annotation>
+															<xs:documentation>Реквизиты управляющей организации</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="OrganizationData" type="tns:ManagingOrganizationType">
+														<xs:annotation>
+															<xs:documentation>Информация об управляющей организации</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="AttachedDocument" type="tns:AttachedOrganizationDocumentType" maxOccurs="100">
+														<xs:annotation>
+															<xs:documentation>Документ прилагаемый к информации об управляющей организации</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="EditManagingOrganization">
+											<xs:annotation>
+												<xs:documentation>Редактирование управляющей организации</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="OrgGUID" type="base:GUIDType">
+														<xs:annotation>
+															<xs:documentation>Уникальный идентификатор управляющей организации</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="OrganizationData" type="tns:ManagingOrganizationType">
+														<xs:annotation>
+															<xs:documentation>Информация об управляющей организации</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="AttachedDocument" type="tns:AttachedOrganizationDocumentType" maxOccurs="100">
+														<xs:annotation>
+															<xs:documentation>Документ прилагаемый к информации об управляющей организации</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="AnnulmentManagingOrganization">
+											<xs:annotation>
+												<xs:documentation>Аннулирование управляющей организации</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="OrgGUID" type="base:GUIDType">
+														<xs:annotation>
+															<xs:documentation>Уникальный идентификатор управляющей организации</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="AnnulmentReason" type="base:String255Type" minOccurs="1">
+														<xs:annotation>
+															<xs:documentation>Причина аннулирования управляющей организации</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="DeleteManagingOrganization">
+											<xs:annotation>
+												<xs:documentation>Удаление управляющей организации</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="OrgGUID" type="base:GUIDType">
+														<xs:annotation>
+															<xs:documentation>Уникальный идентификатор управляющей организации</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="PublishManagingOrganization">
+											<xs:annotation>
+												<xs:documentation>Изменение управляющей организации в статусе "Проект" на статус "Размещена"</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="OrgGUID" type="base:GUIDType">
+														<xs:annotation>
+															<xs:documentation>Уникальный идентификатор управляющей организации</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:choice>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute ref="base:version" use="required" fixed="13.1.8.3"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+		<xs:key name="importManagingOrganization_TransportGUIDKey">
+			<xs:selector xpath=".//base:TransportGUID"/>
+			<xs:field xpath="."/>
+		</xs:key>
+		<xs:key name="importManagingOrganization_OrgGUIDKey">
+			<xs:selector xpath=".//tns:OrgGUID"/>
+			<xs:field xpath="."/>
+		</xs:key>
+	</xs:element>
+	<xs:element name="exportManagingOrganizationRequest">
+		<xs:annotation>
+			<xs:documentation>Запрос на экспорт информации об управляющих организациях</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:sequence>
+						<xs:element name="OrgGUID" type="base:GUIDType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Уникальный идентификатор управляющей организации</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="BaseForInclude" type="nsi-base:nsiRef" minOccurs="0" maxOccurs="2">
+							<xs:annotation>
+								<xs:documentation>Основание включения сведений. Ссылка на НСИ "Вид основания для включения в перечень УО" (реестровый номер 204)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="BusinessProperties" type="tns:BusinessPropertiesType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Реквизиты управляющей организации</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="OKTMO" type="base:OKTMOType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Код ОКТМО</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="OrgState" type="tns:OrgStateType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Состояние организации. Возможные значения: Excluded - Исключена; Included - Включена.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="InfoStatus" type="tns:InfoStatusExportType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Статус размещаемой информации. Возможные значения: Project - Проект; Placed - Размещена; Annulled - Аннулирована.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="CreatePeriod" type="base:Period" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Период создания сведений</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="IncludePeriod" type="base:Period" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Период включения сведений</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="ExcludePeriod" type="base:Period" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Период исключения сведений</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="PlacingPeriod" type="base:Period" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Период размещения сведений</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="exportRequestGUID" type="base:GUIDType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Идентификатор, используемый для экспорта 2-го и последующих блоков данных.
+
+Если в элементе exportManagingOrganizationRequest указаны условия отбора по атрибутам запроса, то экспорт запросов осуществляется блоками по 1000 запросов в каждом блоке (последний блок может содержать меньшее число запросов).
+
+Для экспорта первого блока данных элемент не указывается. Для экспорта каждого следующего блока данных в элементе должно указываться значение элемента getStateResult/ exportManagingOrganizationResult/ ExportOrgGUID, полученное при экспорте предыдущего блока данных</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute ref="base:version" use="required" fixed="13.1.8.3"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<!--Операции получения статуса отправленного сообщения -->
+	<xs:element name="getStateResult">
+		<xs:annotation>
+			<xs:documentation>Возврат статуса отправленного сообщения</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseAsyncResponseType">
+					<xs:choice minOccurs="0">
+						<xs:element name="ImportResult" type="base:CommonResultType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Результат импорта</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="exportManagingOrganizationResult" type="tns:exportManagingOrganizationResultType">
+							<xs:annotation>
+								<xs:documentation>Результат экспорта информации об управляющих организациях</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="exportDecisionResult" type="tns:exportDecisionResultType">
+							<xs:annotation>
+								<xs:documentation>Результат экспорта информации о решении об определении управляющей организации</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element ref="base:ErrorMessage"/>
+					</xs:choice>
+					<xs:attribute ref="base:version" fixed="13.1.8.3"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

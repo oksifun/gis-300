@@ -1,0 +1,23 @@
+{% extends 'notice.html' %}
+
+{% block content %}
+    <p>
+        Вы больше не являетесь исполнителем заявки №{{ request_number }} ( {{ request_category }} )
+    </p>
+    <p>
+        Принял: {{ dispatcher }}, время принятия: {{ date_created }}
+    </p>
+    <p>
+        Заказчик Ф.И.О.: {{ applicant }}
+    </p>
+    <p>
+        <b>{{ address }}</b>, {{ phone }}, {{ email }}
+    </p>
+    <p>
+        Содержание заявки:<br>
+        <b>{{ application }}</b>
+    </p>
+    <p>
+        Тип заявки: {{ request_kind }} {{ request_type }}
+    </p>
+{% end %}

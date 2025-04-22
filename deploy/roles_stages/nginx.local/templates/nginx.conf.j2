@@ -1,0 +1,59 @@
+worker_processes auto;
+pid /run/nginx.pid;
+
+events {
+    worker_connections 1024;
+}
+
+http {
+    sendfile on;
+    tcp_nopush on;
+    tcp_nodelay on;
+    keepalive_timeout 65;
+    types_hash_max_size 2048;
+
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
+    gzip on;
+    gzip_proxied    any;
+    gzip_comp_level 6;
+    gzip_types text/css image/png image/jpg application/json application/javascript application/xml application/octet-stream;
+
+    upstream backend_main {
+    {% for host in groups['main'] %}
+        server {{ host }}:{{ main_port }} weight={{ hostvars[host]['weight'] }} max_fails=3 fail_timeout=10s;
+    {% endfor %}
+    }
+    upstream backend_drf {
+    {% for host in groups['main'] %}
+        server {{ host }}:{{ drf_port }} weight={{ hostvars[host]['weight'] }} max_fails=3 fail_timeout=10s;
+    {% endfor %}
+    }
+    upstream asgi {
+    {% for host in groups['main'] %}
+        server {{ host }}:{{ drf_port }} weight=1 max_fails=3 fail_timeout=10s;
+    {% endfor %}
+    }
+#    server {
+#        listen 80 default;
+#        server_name localhost;
+#        deny all;
+#    }
+
+    server {
+        listen 80;
+        listen 443 ssl http2;
+        ssl_certificate         /etc/nginx/crt/local.eis24.me.pem;
+        ssl_certificate_key     /etc/nginx/crt/local.eis24.me.key;
+        server_name lk.s-c300.com www.lk.s-c300.com;
+        return 301 https://lk.c300.me$request_uri;
+    }
+
+    include /etc/nginx/conf.d/*.conf;
+
+    server {
+        server_name xn----7sbdqbfldlsq5dd8p.xn--p1ai www.xn----7sbdqbfldlsq5dd8p.xn--p1ai;
+        listen 80;
+        return 301 https://lk.c300.me$request_uri;
+    }
+}

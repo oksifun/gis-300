@@ -1,0 +1,43 @@
+---
+
+- name: Check if sources exists
+  stat: path=/opt/asterisk-11-current
+  register: asterisk_source_dir
+  tags: asterisk
+
+- include: install.yml
+  when: not asterisk_source_dir.stat.exists
+  tags: asterisk
+
+- name: place extensions config
+  template: src=extensions.conf.j2 dest=/etc/asterisk/extensions.conf
+  notify:
+    - restart asterisk
+  tags: asterisk
+
+- name: place manager config
+  template: src=manager.conf.j2 dest=/etc/asterisk/manager.conf
+  notify:
+    - restart asterisk
+  tags: asterisk
+
+- name: place sip config
+  template: src=sip.conf.j2 dest=/etc/asterisk/sip.conf
+  notify:
+    - restart asterisk
+  tags: asterisk
+
+- name: Ensure Asterisk running
+  service: name=asterisk state=started enabled=yes
+  tags: asterisk
+
+- name: ensure firewall allows tcp packets on asterisk port
+  iptables:
+    chain: INPUT
+    action: insert
+    destination_port: 5038
+    jump: ACCEPT
+    match: tcp
+    protocol: tcp
+    state: present
+  tags: asterisk

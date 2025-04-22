@@ -1,0 +1,91 @@
+---
+
+- name: Ensure yum is up to date
+  yum: name='*' state=latest
+  tags: asterisk
+
+- name: Installation of Basic Dependencies
+  yum: name="{{ item }}" state=latest
+  with_items:
+    - make
+    - wget
+    - openssl-devel
+    - ncurses-devel
+    - newt-devel
+    - libxml2-devel
+    - kernel-devel
+    - gcc
+    - gcc-c++
+    - sqlite-devel
+  tags: asterisk
+
+- name: Downloading Asterisk Source Code
+  get_url:
+    dest: /opt
+    url: "{{ item }}"
+    mode: 0755
+  with_items:
+    - http://downloads.asterisk.org/pub/telephony/dahdi-linux-complete/dahdi-linux-complete-current.tar.gz
+    - http://downloads.asterisk.org/pub/telephony/libpri/libpri-current.tar.gz
+    - http://downloads.asterisk.org/pub/telephony/asterisk/asterisk-11-current.tar.gz
+  tags: asterisk
+
+- name: Create dirs if they are not exist
+  file:
+    path: "/opt/{{ item }}"
+    state: directory
+    mode: 0755
+    force_source: yes
+  with_items:
+    - dahdi-linux-complete-current
+    - libpri-current
+    - asterisk-11-current
+  tags: asterisk
+
+- name: Extraction of Downloaded Files
+  shell: "tar xf /opt/{{ item }}.tar.gz --strip-components=1 --directory=/opt/{{ item }}"
+  with_items:
+    - dahdi-linux-complete-current
+    - libpri-current
+    - asterisk-11-current
+  tags: asterisk
+
+- name: DAHDI Installation default
+  make: chdir=/opt/dahdi-linux-complete-current
+  tags: asterisk
+
+- name: DAHDI Installation install
+  make: chdir=/opt/dahdi-linux-complete-current target=install
+  tags: asterisk
+
+- name: DAHDI Installation config
+  make: chdir=/opt/dahdi-linux-complete-current target=config
+  tags: asterisk
+
+- name: LibPRI Installation
+  make: chdir=/opt/libpri-current
+  tags: asterisk
+
+- name: LibPRI Installation install
+  make: chdir=/opt/libpri-current target=install
+  tags: asterisk
+
+- name: Configure asterisk prebuild
+  command: ./configure --libdir=/usr/lib64 chdir=/opt/asterisk-11-current
+  tags: asterisk
+
+- name: Asterisk Installation default
+  make: chdir=/opt/asterisk-11-current
+  tags: asterisk
+
+- name: Asterisk Installation install
+  make: chdir=/opt/asterisk-11-current target=install
+  tags: asterisk
+
+- name: Asterisk Installation samples
+  make: chdir=/opt/asterisk-11-current target=samples
+  tags: asterisk
+
+- name: Asterisk Installation config
+  make: chdir=/opt/asterisk-11-current target=config
+  tags: asterisk

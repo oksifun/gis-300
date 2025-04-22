@@ -1,0 +1,5 @@
+---
+
+SETTINGS_FILE: stage.yml
+drf_port: 8084
+drf_proc_num: 3

@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://dom.gosuslugi.ru/schema/integration/tariff-service/" xmlns:tariff="http://dom.gosuslugi.ru/schema/integration/tariff/" xmlns:base="http://dom.gosuslugi.ru/schema/integration/base/" xmlns:ns="http://www.w3.org/2000/09/xmldsig#" xmlns:ns1="http://dom.gosuslugi.ru/schema/integration/nsi-base/" xmlns:ns2="http://dom.gosuslugi.ru/schema/integration/organizations-registry-base/" xmlns:ns3="http://dom.gosuslugi.ru/schema/integration/organizations-base/" xmlns:ns4="http://dom.gosuslugi.ru/schema/integration/premises-base/" targetNamespace="http://dom.gosuslugi.ru/schema/integration/tariff-service/">
+	<wsdl:types>
+		<xs:schema version="13.2.0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+			<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/base/" schemaLocation="../lib/hcs-base.xsd"/>
+			<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/tariff/" schemaLocation="hcs-tariff-types.xsd"/>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="getStateRequest">
+		<wsdl:part name="getStateRequest" element="base:getStateRequest"/>
+	</wsdl:message>
+	<wsdl:message name="getStateResult">
+		<wsdl:part name="getStateResult" element="tariff:getStateResult"/>
+	</wsdl:message>
+	<wsdl:message name="RequestHeader">
+		<wsdl:part name="Header" element="base:RequestHeader"/>
+	</wsdl:message>
+	<wsdl:message name="ResultHeader">
+		<wsdl:part name="Header" element="base:ResultHeader"/>
+	</wsdl:message>
+	<wsdl:message name="Fault">
+		<wsdl:part name="Fault" element="base:Fault"/>
+	</wsdl:message>
+	<wsdl:message name="importSocialNormsRequest">
+		<wsdl:part name="importSocialNormsRequest" element="tariff:importSocialNormsRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importSocialNormsResult">
+		<wsdl:part name="importSocialNormsResult" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportSocialNormsRequest">
+		<wsdl:part name="exportSocialNormsRequest" element="tariff:exportSocialNormsRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportSocialNormsResult">
+		<wsdl:part name="exportSocialNormsResult" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importResidentialPremisesMaintenanceRequest">
+		<wsdl:part name="importResidentialPremisesMaintenanceRequest" element="tariff:importResidentialPremisesMaintenanceRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importResidentialPremisesMaintenanceResult">
+		<wsdl:part name="importResidentialPremisesMaintenanceResult" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportResidentialPremisesMaintenanceRequest">
+		<wsdl:part name="exportResidentialPremisesMaintenanceRequest" element="tariff:exportResidentialPremisesMaintenanceRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportResidentialPremisesMaintenanceResult">
+		<wsdl:part name="exportResidentialPremisesMaintenanceResult" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importMunicipalResourceTariffRequest">
+		<wsdl:part name="importMunicipalResourceTariffRequest" element="tariff:importMunicipalResourceTariffRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importMunicipalResourceTariffResult">
+		<wsdl:part name="importMunicipalResourceTariffResult" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportMunicipalResourceTariffRequest">
+		<wsdl:part name="exportMunicipalResourceTariffRequest" element="tariff:exportMunicipalResourceTariffRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportMunicipalResourceTariffResult">
+		<wsdl:part name="exportMunicipalResourceTariffResult" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importCapitalRepairTariffRequest">
+		<wsdl:part name="importCapitalRepairTariffRequest" element="tariff:importCapitalRepairTariffRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importCapitalRepairTariffResult">
+		<wsdl:part name="importCapitalRepairTariffResult" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportCapitalRepairTariffRequest">
+		<wsdl:part name="exportCapitalRepairTariffRequest" element="tariff:exportCapitalRepairTariffRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportCapitalRepairTariffResult">
+		<wsdl:part name="exportCapitalRepairTariffResult" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importResidentialPremisesUsageRequest">
+		<wsdl:part name="importResidentialPremisesUsageRequest" element="tariff:importResidentialPremisesUsageRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importResidentialPremisesUsageResult">
+		<wsdl:part name="importResidentialPremisesUsageResult" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportResidentialPremisesUsageRequest">
+		<wsdl:part name="exportResidentialPremisesUsageRequest" element="tariff:exportResidentialPremisesUsageRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportResidentialPremisesUsageResult">
+		<wsdl:part name="exportResidentialPremisesUsageResult" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportTariffDifferentiationRequest">
+		<wsdl:part name="exportTariffDifferentiationRequest" element="tariff:exportTariffDifferentiationRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportTariffDifferentiationResult">
+		<wsdl:part name="exportTariffDifferentiationResult" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:portType name="TariffAsyncPort">
+		<wsdl:operation name="getState">
+			<wsdl:documentation>Результат обработки асинхронного вызова</wsdl:documentation>
+			<wsdl:input message="tns:getStateRequest"/>
+			<wsdl:output message="tns:getStateResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="importSocialNorms">
+			<wsdl:documentation>Импорт информации о социальных нормах потребления электрической энергии</wsdl:documentation>
+			<wsdl:input message="tns:importSocialNormsRequest"/>
+			<wsdl:output message="tns:importSocialNormsResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="exportSocialNorms">
+			<wsdl:documentation>Экспорт информации о социальных нормах потребления электрической энергии</wsdl:documentation>
+			<wsdl:input message="tns:exportSocialNormsRequest"/>
+			<wsdl:output message="tns:exportSocialNormsResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="importResidentialPremisesMaintenance">
+			<wsdl:documentation>Импорт информации о размерах платы за содержание жилого помещения</wsdl:documentation>
+			<wsdl:input message="tns:importResidentialPremisesMaintenanceRequest"/>
+			<wsdl:output message="tns:importResidentialPremisesMaintenanceResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="exportResidentialPremisesMaintenance">
+			<wsdl:documentation>Экспорт информации о размерах платы за содержание жилого помещения</wsdl:documentation>
+			<wsdl:input message="tns:exportResidentialPremisesMaintenanceRequest"/>
+			<wsdl:output message="tns:exportResidentialPremisesMaintenanceResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="importMunicipalResourceTariff">
+			<wsdl:documentation>Импорт информации о тарифах на оплату коммунальных ресурсов</wsdl:documentation>
+			<wsdl:input message="tns:importMunicipalResourceTariffRequest"/>
+			<wsdl:output message="tns:importMunicipalResourceTariffResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="exportMunicipalResourceTariff">
+			<wsdl:documentation>Экспорт информации о тарифах на оплату коммунальных ресурсов</wsdl:documentation>
+			<wsdl:input message="tns:exportMunicipalResourceTariffRequest"/>
+			<wsdl:output message="tns:exportMunicipalResourceTariffResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="importCapitalRepairTariff">
+			<wsdl:documentation>Импорт информации о минимальных размерах взносов на капитальный ремонт</wsdl:documentation>
+			<wsdl:input message="tns:importCapitalRepairTariffRequest"/>
+			<wsdl:output message="tns:importCapitalRepairTariffResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="exportCapitalRepairTariff">
+			<wsdl:documentation>Экспорт информации о минимальных размерах взносов на капитальный ремонт</wsdl:documentation>
+			<wsdl:input message="tns:exportCapitalRepairTariffRequest"/>
+			<wsdl:output message="tns:exportCapitalRepairTariffResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="importResidentialPremisesUsage">
+			<wsdl:documentation>Импорт информации о размерах платы за пользование жилым помещением</wsdl:documentation>
+			<wsdl:input message="tns:importResidentialPremisesUsageRequest"/>
+			<wsdl:output message="tns:importResidentialPremisesUsageResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="exportResidentialPremisesUsage">
+			<wsdl:documentation>Экспорт информации о размерах платы за пользование жилым помещением</wsdl:documentation>
+			<wsdl:input message="tns:exportResidentialPremisesUsageRequest"/>
+			<wsdl:output message="tns:exportResidentialPremisesUsageResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="exportTariffDifferentiation">
+			<wsdl:documentation>Экспорт списка критериев дифференциации</wsdl:documentation>
+			<wsdl:input message="tns:exportTariffDifferentiationRequest"/>
+			<wsdl:output message="tns:exportTariffDifferentiationResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="TariffAsyncBinding" type="tns:TariffAsyncPort">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="getState">
+			<soap:operation soapAction="urn:getState"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="importSocialNorms">
+			<soap:operation soapAction="urn:importSocialNorms"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="exportSocialNorms">
+			<soap:operation soapAction="urn:exportSocialNorms"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="importResidentialPremisesMaintenance">
+			<soap:operation soapAction="urn:importResidentialPremisesMaintenance"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="exportResidentialPremisesMaintenance">
+			<soap:operation soapAction="urn:exportResidentialPremisesMaintenance"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="importMunicipalResourceTariff">
+			<soap:operation soapAction="urn:importMunicipalResourceTariff"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="exportMunicipalResourceTariff">
+			<soap:operation soapAction="urn:exportMunicipalResourceTariff"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="importCapitalRepairTariff">
+			<soap:operation soapAction="urn:importCapitalRepairTariff"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="exportCapitalRepairTariff">
+			<soap:operation soapAction="urn:exportCapitalRepairTariff"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="importResidentialPremisesUsage">
+			<soap:operation soapAction="urn:importResidentialPremisesUsage"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="exportResidentialPremisesUsage">
+			<soap:operation soapAction="urn:exportResidentialPremisesUsage"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="exportTariffDifferentiation">
+			<soap:operation soapAction="urn:exportTariffDifferentiation"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="TariffAsyncService">
+		<wsdl:documentation>Сервис Ведение тарифов</wsdl:documentation>
+		<wsdl:port name="TariffAsyncPort" binding="tns:TariffAsyncBinding">
+			<soap:address location="https://api.dom.gosuslugi.ru/ext-bus-tariff-service/services/TariffAsync"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

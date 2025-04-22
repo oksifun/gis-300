@@ -1,0 +1,52 @@
+<ds:Signature Id="xmldsig-{signature_id}" xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+    <ds:SignedInfo>
+        <ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+        <ds:SignatureMethod
+                Algorithm="urn:ietf:params:xml:ns:cpxmlsec:algorithms:gostr34102012-gostr34112012-256"/>
+        <ds:Reference Id="xmldsig-{signature_id}-ref0" URI="#{signed_id}">
+            <ds:Transforms>
+                <ds:Transform Algorithm="http://www.w3.org/TR/2002/REC-xmldsig-core-20020212/xmldsig-core-schema.xsd#enveloped-signature"/>
+                <ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+            </ds:Transforms>
+            <ds:DigestMethod Algorithm="urn:ietf:params:xml:ns:cpxmlsec:algorithms:gostr34112012-256"/>
+            <ds:DigestValue>{digest1}</ds:DigestValue>
+        </ds:Reference>
+        <ds:Reference Type="http://uri.etsi.org/01903#SignedProperties"
+                      URI="#xmldsig-{signature_id}-signedprops">
+            <ds:DigestMethod Algorithm="urn:ietf:params:xml:ns:cpxmlsec:algorithms:gostr34112012-256"/>
+            <ds:DigestValue>{digest3}</ds:DigestValue>
+        </ds:Reference>
+    </ds:SignedInfo>
+    <ds:SignatureValue Id="xmldsig-{signature_id}-sigvalue">
+        {signature_value}
+    </ds:SignatureValue>
+    <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+        <ds:X509Data>
+            <ds:X509Certificate>
+                {x590_cert}
+            </ds:X509Certificate>
+        </ds:X509Data>
+    </ds:KeyInfo>
+    <ds:Object>
+        <xades:QualifyingProperties Target="#xmldsig-{signature_id}" xmlns:xades="http://uri.etsi.org/01903/v1.3.2#">
+            <xades:SignedProperties Id="xmldsig-{signature_id}-signedprops">
+                <xades:SignedSignatureProperties>
+                    <xades:SigningTime>{signing_time}</xades:SigningTime>
+                    <xades:SigningCertificate>
+                        <xades:Cert>
+                            <xades:CertDigest>
+                                <ds:DigestMethod
+                                        Algorithm="urn:ietf:params:xml:ns:cpxmlsec:algorithms:gostr34112012-256"/>
+                                <ds:DigestValue>{digest2}</ds:DigestValue>
+                            </xades:CertDigest>
+                            <xades:IssuerSerial>
+                                <ds:X509IssuerName>{x509_issuer_name}</ds:X509IssuerName>
+                                <ds:X509SerialNumber>{x509_sn}</ds:X509SerialNumber>
+                            </xades:IssuerSerial>
+                        </xades:Cert>
+                    </xades:SigningCertificate>
+                </xades:SignedSignatureProperties>
+            </xades:SignedProperties>
+        </xades:QualifyingProperties>
+    </ds:Object>
+</ds:Signature>

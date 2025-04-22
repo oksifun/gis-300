@@ -1,0 +1,14 @@
+{% extends 'worker.html' %}
+
+{% block message %}
+    <p>{{ title }}</p>
+
+    <p>{% raw body %}</p>
+
+    {% if url %}
+        <div style="text-align: center;">
+            <a href="{{ url }}" style="background: #5cb85c; border-radius: 8px; font-size: 16px; text-decoration: none; color: #ffffff; padding: 10px;">Перейти к новостям</a>
+        </div>
+    {% end %}
+
+{% end %}

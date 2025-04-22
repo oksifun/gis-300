@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block header %}
+    <div style="margin: 0 auto; display: inline-block;">
+        <div style="height: 66px; width: 66px; text-align: left; float: left; margin-right: 10px;">
+            <!--<img style="height: 64px; width: 64px;" src="">-->
+        </div>
+        <div style="float: left; text-align: left;">
+            <div style="font-size: 24px; padding-top: 7px; padding-bottom: 5px;">
+                {% if provider['name'] %}{{ provider['str_name'] }}{% else %}&nbsp;{% end %}
+            </div>
+            <div style="font-size: 15px; max-width: 520px;">
+                {{ account['area']['house']['address'] }}, {% if 'str_number_full' in account['area'] %} {{account['area']['str_number_full']}} {% else %} {{ account['area']['str_number'] }} {% end %}
+            </div>
+        </div>
+    </div>
+{% end %}
+
+{% block footer %}
+    {% for phone in account['provider']['phones'] %}
+        {% if phone['type'] == 'dispatcher' %}
+            По всем вопросам работы с личным кабинетом просьба обращаться в диспетчерскую службу по телефону
+            <span style="font-weight: bold;">
+                {{ phone.get_number_str() }}
+                {% break %}
+            </span>
+        {% end %}
+    {% end %}
+{% end %}

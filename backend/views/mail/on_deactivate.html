@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block header %}
+    <div style="margin: 0 auto; display: inline-block;">
+        <div style="height: 66px; width: 66px; text-align: left; float: left; margin-right: 10px;">
+            <!--<img style="height: 64px; width: 64px;" src="">-->
+        </div>
+        <div style="float: left; text-align: left;">
+            <div style="font-size: 24px; padding-top: 7px; padding-bottom: 5px;">
+                {% if provider.name %}{{ provider.str_name }}{% else %}&nbsp;{% end %}
+            </div>
+            <div style="font-size: 15px; max-width: 520px;">
+                {% if 'Tenant' in account._type %}
+                    {{ account.area.house.address }}
+                {% end %}
+            </div>
+        </div>
+    </div>
+{% end %}
+
+
+{% block message %}
+    <p>
+        Работа с вашим лицевым счетом <strong>№{{ account.number }}</strong> была приостановлена.<br/>
+        Для возобновления работы свяжитесь с вашей управляющей организацией.
+    </p>
+{% end %}

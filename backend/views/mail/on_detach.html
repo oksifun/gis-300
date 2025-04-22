@@ -1,0 +1,11 @@
+{% extends 'notice.html' %}
+
+{% block content %}
+    <p>
+        <div style="width: 100%; text-align: center; font-weight: bold;">Уважаемый(ая), {{ name }}!</div>
+    </p>
+	<p>
+		Работа с вашим лицевым счетом №{{ account_number }} была приостановлена.<br/>
+		Для возобновления работы свяжитесь с вашей управляющей организацией.
+	</p>
+{% end %}

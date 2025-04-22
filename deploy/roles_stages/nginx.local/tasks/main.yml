@@ -1,0 +1,85 @@
+---
+
+- name: pull nginx image
+  docker_image:
+    name: hub.eis24.me/nginx
+    tag: "{{ TAG }}"
+    state: present
+    force_source: yes
+    source: pull
+
+- name: Check is attachments dir exists
+  stat: path=/var/www/images.s-c300.com/attachments
+  register: attachments_dir
+
+- name: Create attachments dir
+  file: path=/var/www/images.s-c300.com/attachments state=directory mode=0755
+  when: not attachments_dir.stat.exists
+
+- name: Check is files dir exists
+  stat: path=/opt/files
+  register: files_dir
+
+- name: Create files dir
+  file: path=/opt/files state=directory mode=0755
+  when: not files_dir.stat.exists
+
+- name: Check is dir for nginx configs actually exists
+  stat: path=/opt/conf.d
+  register: config_dir
+
+- name: Create dir for nginx configs
+  file: path=/opt/conf.d state=directory mode=0755
+  when: not config_dir.stat.exists
+
+- name: Check is dir for certs configs actually exists
+  stat: path=/opt/crt
+  register: cert_dir
+
+- name: Create dir for certs
+  file: path=/opt/crt state=directory mode=0755
+  when: not cert_dir.stat.exists
+
+- name: place nginx config
+  template: src=nginx.conf.j2 dest=/opt/nginx.conf
+
+- name: place default nginx config
+  template: src=default.conf.j2 dest=/opt/conf.d/default.conf
+
+- name: place nginx certs
+  copy: src={{ item }} dest=/opt/crt
+  with_fileglob:
+    - roles_stages/nginx.local/files/*.pem
+    - roles_stages/nginx.local/files/*.key
+
+- name: place virtual hosts configs
+  template: "src=customer.conf.j2 dest=/opt/conf.d/{{ item }}.conf"
+  with_items: "{{ customers }}"
+
+- name: create network eis
+  docker_network:
+    name: eis
+
+- name: place file confirming Merchant Domains
+  copy: src=admda.txt dest=/opt/files/apple-developer-merchantid-domain-association.txt
+
+- name: ensure nginx container running
+  docker_container:
+    image: hub.eis24.me/nginx:{{ TAG }}
+    ports:
+      - "0.0.0.0:{{ nginx_http_port }}:80"
+      - "0.0.0.0:{{ nginx_https_port }}:443"
+    recreate: yes
+    name: nginx
+    networks:
+      - name: eis
+    volumes:
+      - "/opt/nginx.conf:/etc/nginx/nginx.conf"
+      - "/opt/conf.d:/etc/nginx/conf.d"
+      - "/opt/crt:/etc/nginx/crt"
+      - "/var/www/images.s-c300.com/attachments:/var/www/attachments"
+      - "/opt/files:/var/www/files"
+    restart_policy: always
+    log_driver: syslog
+    log_options:
+      tag: nginx

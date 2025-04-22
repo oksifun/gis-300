@@ -1,0 +1,49 @@
+version: "3.7"
+
+services:
+  gis_drf:
+    <<: &service_gis
+      image: hub.eis24.me/service_gis:$TAG
+      env_file: ./backend/.env
+      volumes:
+        - "./backend:/var/www"
+      links:
+        - gis_redis
+      depends_on:
+        - gis_redis
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    volumes:
+      - "./frontend/dist:/var/www/static:rw"
+      - "./reports:/var/www/reports:rw"
+    ports:
+      - "8081:8081"
+    command: uwsgi --http :8081 --http-timeout 600 --module config.wsgi --die-on-term --stats :3031 --stats-http
+    tty: true
+    stdin_open: true
+
+  gis_redis:
+    image: hub.eis24.me/redis:3.2.4
+    volumes:
+      - "./deploy/redis.conf:/etc/redis.conf"
+#    включить, чтобы локально был доступен редис
+#    ports:
+#      - "6379:6379"
+    command: /usr/local/bin/redis-server /etc/redis.conf
+
+  gis_celery_tasks:
+    <<: *service_gis
+    command: celery -A app.gis.workers.riddler worker -c 1 -Q gis -n riddler@%h
+
+  gis_celerybeat:
+    <<: *service_gis
+    command: celery -A app.gis.workers.riddler beat -s /tmp/schedule --pidfile=/run/celerybeat.pid
+
+  gis_flower:
+    <<: *service_gis
+    depends_on:
+      - gis_celery_tasks
+    ports:
+      - "5555:5555"
+    command: flower -A app.gis.workers.config --port=5555
